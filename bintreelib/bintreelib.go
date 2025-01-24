@@ -7,3 +7,8 @@ type Node struct {
 	right *Node
 }
 
+// Node's implementation of the fmt.Stringer interface
+func (node Node) String() string {
+	return node.data
+}
+
