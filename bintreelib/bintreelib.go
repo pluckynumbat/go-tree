@@ -12,3 +12,7 @@ func (node Node) String() string {
 	return node.data
 }
 
+type BinaryTree struct {
+	root *Node
+}
+
