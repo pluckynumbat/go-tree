@@ -25,3 +25,54 @@ type BinaryTree struct {
 	root *Node
 }
 
+// AddNodeBFS finds the next free position using a breadth first search and adds a node there
+func (bt *BinaryTree) AddNodeBFS(val string) error {
+	if bt == nil {
+		return treeNilError
+	}
+
+	node := &Node{nil, val, nil}
+
+	if bt.root == nil {
+		//insert as root
+		bt.root = node
+		return nil
+	}
+
+	queue := &sgquezlib.SemiGenericQueue[*Node]{}
+	err := queue.Enqueue(bt.root)
+	if err != nil {
+		return fmt.Errorf("add node (BFS) failed with error: %v", err)
+	}
+
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+		if err2 != nil {
+			return fmt.Errorf("add node (BFS) failed with error: %v", err2)
+		}
+
+		if runner.left == nil {
+			//insert as left child
+			runner.left = node
+			return nil
+		} else {
+			err2 = queue.Enqueue(runner.left)
+			if err2 != nil {
+				return fmt.Errorf("add node (BFS) failed with error: %v", err2)
+			}
+		}
+
+		if runner.right == nil {
+			//insert as right child
+			runner.right = node
+			return nil
+		} else {
+			err2 = queue.Enqueue(runner.right)
+			if err2 != nil {
+				return fmt.Errorf("add node (BFS) failed with error: %v", err2)
+			}
+		}
+	}
+	return nil
+}
+
