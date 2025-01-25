@@ -76,3 +76,16 @@ func (bt *BinaryTree) AddNodeBFS(val string) error {
 	return nil
 }
 
+// ConstructFromValues is a helper function to add all values from the given slice to a tree
+func ConstructFromValues(values ...string) (*BinaryTree, error) {
+	binTree := &BinaryTree{}
+
+	for _, val := range values {
+		err := binTree.AddNodeBFS(val)
+		if err != nil {
+			return nil, fmt.Errorf("construct from values failed with error: %v", err)
+		}
+	}
+	return binTree, nil
+}
+
