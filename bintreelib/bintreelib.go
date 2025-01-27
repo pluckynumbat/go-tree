@@ -17,7 +17,10 @@ type Node struct {
 }
 
 // Node's implementation of the fmt.Stringer interface
-func (node Node) String() string {
+func (node *Node) String() string {
+	if node == nil {
+		return "nil"
+	}
 	return node.data
 }
 
