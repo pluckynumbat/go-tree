@@ -30,3 +30,28 @@ func TestNodeString(t *testing.T) {
 		})
 	}
 }
+
+func TestIsNil(t *testing.T) {
+	var bt1 *BinaryTree
+	bt2 := &BinaryTree{}
+
+	tests := []struct {
+		name string
+		bt   *BinaryTree
+		want bool
+	}{
+		{"nil true", bt1, true},
+		{"nil false", bt2, false},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := test.bt.IsNil()
+			want := test.want
+			if got != want {
+				t.Errorf("IsNil() returned incorrect results, want: %v, got %v", want, got)
+			}
+		})
+	}
+}
+
