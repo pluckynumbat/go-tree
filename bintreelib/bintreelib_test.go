@@ -55,3 +55,31 @@ func TestIsNil(t *testing.T) {
 	}
 }
 
+func TestIsEmpty(t *testing.T) {
+	var bt1 *BinaryTree
+	bt2 := &BinaryTree{}
+
+	root := &Node{}
+	bt3 := &BinaryTree{root}
+
+	tests := []struct {
+		name string
+		bt   *BinaryTree
+		want bool
+	}{
+		{"nil binary tree", bt1, true},
+		{"non nil, empty binary tree", bt2, true},
+		{"non nil, non empty binary tree", bt3, false},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := test.bt.IsEmpty()
+			want := test.want
+			if got != want {
+				t.Errorf("IsEmpty() returned incorrect results, want: %v, got %v", want, got)
+			}
+		})
+	}
+}
+
