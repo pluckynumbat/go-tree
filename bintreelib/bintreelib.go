@@ -28,6 +28,24 @@ type BinaryTree struct {
 	root *Node
 }
 
+// IsNil tells you if this pointer to the Binary Tree is nil
+func (bt *BinaryTree) IsNil() bool {
+	return bt == nil
+}
+
+// IsEmpty checks whether a Binary Tree is empty
+func (bt *BinaryTree) IsEmpty() bool {
+	return bt.IsNil() || bt.root == nil
+}
+
+// Root returns a pointer to the root of the Binary Tree
+func (bt *BinaryTree) Root() *Node {
+	if bt.IsNil() {
+		return nil
+	}
+	return bt.root
+}
+
 // AddNodeBFS finds the next free position using a breadth first search and adds a node there
 func (bt *BinaryTree) AddNodeBFS(val string) error {
 	if bt == nil {
