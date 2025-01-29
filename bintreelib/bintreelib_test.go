@@ -1,6 +1,7 @@
 package bintreelib
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -120,5 +121,15 @@ func TestRoot(t *testing.T) {
 				t.Errorf("Root() returned incorrect results, want: %v, got %v", want, got)
 			}
 		})
+	}
+}
+
+func TestAddNodeBFS(t *testing.T) {
+	var bt *BinaryTree
+	err := bt.AddNodeBFS("a")
+	if err == nil {
+		t.Error("AddNode() on a nil Binary Tree should have returned an error")
+	} else {
+		fmt.Println(err)
 	}
 }
