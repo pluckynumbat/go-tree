@@ -2,6 +2,7 @@ package bintreelib
 
 import (
 	"fmt"
+	"github.com/pluckynumbat/go-quez/sgquezlib"
 	"testing"
 )
 
@@ -131,5 +132,52 @@ func TestAddNodeBFS(t *testing.T) {
 		t.Error("AddNode() on a nil Binary Tree should have returned an error")
 	} else {
 		fmt.Println(err)
+	}
+
+	bt = &BinaryTree{}
+	vals := []string{"a", "b", "c", "d", "e"}
+	for _, str := range vals {
+		err := bt.AddNodeBFS(str)
+		if err != nil {
+			t.Fatalf("AddNode() failed with error: %v", err)
+		}
+	}
+
+	queue := &sgquezlib.SemiGenericQueue[*Node]{}
+	err2 := queue.Enqueue(bt.root)
+	if err2 != nil {
+		t.Fatalf("Enqueue() failed with error: %v", err2)
+	}
+	expVals := []string{"a", "b", "c", "d", "e"}
+
+	strCnt := 0
+	for !queue.IsEmpty() {
+		val, err := queue.Dequeue()
+		if err != nil {
+			t.Fatalf("Dequeue() failed with error: %v", err)
+		}
+
+		got := val.String()
+		want := expVals[strCnt]
+		strCnt++
+
+		// since it is BFS, nodes should be visited in the same order as they were added to the tree
+		if got != want {
+			t.Errorf("AddNode() has incorrect results, want: %v, got: %v", want, got)
+		}
+
+		if val.left != nil {
+			err2 := queue.Enqueue(val.left)
+			if err2 != nil {
+				t.Fatalf("Enqueue() failed with error: %v", err2)
+			}
+		}
+
+		if val.right != nil {
+			err2 := queue.Enqueue(val.right)
+			if err2 != nil {
+				t.Fatalf("Enqueue() failed with error: %v", err2)
+			}
+		}
 	}
 }
