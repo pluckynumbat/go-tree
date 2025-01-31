@@ -8,7 +8,7 @@ import (
 )
 
 var treeNilError = fmt.Errorf("the binary tree is nil")
-var rootNilError = fmt.Errorf("the root is nil")
+var treeEmptyError = fmt.Errorf("the binary tree is empty")
 
 type Node struct {
 	left  *Node
