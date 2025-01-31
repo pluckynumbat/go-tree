@@ -247,63 +247,38 @@ func TestTraverseBFS(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	bt, err = ConstructFromValues("a")
-	if err != nil {
-		t.Errorf("ConstructFromValues() failed with error: %v", err)
-	} else {
-		got, err := bt.TraverseBFS()
-		if err != nil {
-			t.Errorf("TraverseBFS() failed with error: %v", err)
-		} else {
-			want := "-a-"
-			if got != want {
-				t.Errorf("TraverseBFS() returned incorrect results, want: %v, got: %v", want, got)
-			}
-		}
+	strs := make([]string, 0, 6)
+	tests := []struct {
+		name   string
+		newVal string
+		want   string
+	}{
+		{"1 element tree", "a", "-a-"},
+		{"2 element tree", "b", "-a--b-"},
+		{"3 element tree", "c", "-a--b--c-"},
+		{"4 element tree", "d", "-a--b--c--d-"},
+		{"5 element tree", "e", "-a--b--c--d--e-"},
+		{"6 element tree", "f", "-a--b--c--d--e--f-"},
+		{"7 element tree", "g", "-a--b--c--d--e--f--g-"},
 	}
 
-	bt, err = ConstructFromValues("a", "b")
-	if err != nil {
-		t.Errorf("ConstructFromValues() failed with error: %v", err)
-	} else {
-		got, err := bt.TraverseBFS()
-		if err != nil {
-			t.Errorf("TraverseBFS() failed with error: %v", err)
-		} else {
-			want := "-a--b-"
-			if got != want {
-				t.Errorf("TraverseBFS() returned incorrect results, want: %v, got: %v", want, got)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			strs = append(strs, test.newVal)
+			bt, err := ConstructFromValues(strs...)
+			if err != nil {
+				t.Errorf("ConstructFromValues() failed with error: %v", err)
+			} else {
+				got, err2 := bt.TraverseBFS()
+				if err2 != nil {
+					t.Errorf("TraverseBFS() failed with error: %v", err2)
+				} else {
+					want := test.want
+					if got != want {
+						t.Errorf("TraverseBFS() returned incorrect results, want: %v, got: %v", want, got)
+					}
+				}
 			}
-		}
-	}
-
-	bt, err = ConstructFromValues("a", "b", "c")
-	if err != nil {
-		t.Errorf("ConstructFromValues() failed with error: %v", err)
-	} else {
-		got, err := bt.TraverseBFS()
-		if err != nil {
-			t.Errorf("TraverseBFS() failed with error: %v", err)
-		} else {
-			want := "-a--b--c-"
-			if got != want {
-				t.Errorf("TraverseBFS() returned incorrect results, want: %v, got: %v", want, got)
-			}
-		}
-	}
-
-	bt, err = ConstructFromValues("a", "b", "c", "d", "e", "f")
-	if err != nil {
-		t.Errorf("ConstructFromValues() failed with error: %v", err)
-	} else {
-		got, err := bt.TraverseBFS()
-		if err != nil {
-			t.Errorf("TraverseBFS() failed with error: %v", err)
-		} else {
-			want := "-a--b--c--d--e--f-"
-			if got != want {
-				t.Errorf("TraverseBFS() returned incorrect results, want: %v, got: %v", want, got)
-			}
-		}
+		})
 	}
 }
