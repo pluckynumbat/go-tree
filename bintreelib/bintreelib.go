@@ -110,6 +110,7 @@ func ConstructFromValues(values ...string) (*BinaryTree, error) {
 	return binTree, nil
 }
 
+// TraverseBFS returns a string that represents the traversal order of nodes using Breadth First Search
 func (bt *BinaryTree) TraverseBFS() (string, error) {
 	if bt.IsNil() {
 		return "", treeNilError
