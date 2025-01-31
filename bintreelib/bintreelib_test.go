@@ -276,4 +276,34 @@ func TestTraverseBFS(t *testing.T) {
 			}
 		}
 	}
+
+	bt, err = ConstructFromValues("a", "b", "c")
+	if err != nil {
+		t.Errorf("ConstructFromValues() failed with error: %v", err)
+	} else {
+		got, err := bt.TraverseBFS()
+		if err != nil {
+			t.Errorf("TraverseBFS() failed with error: %v", err)
+		} else {
+			want := "-a--b--c-"
+			if got != want {
+				t.Errorf("TraverseBFS() returned incorrect results, want: %v, got: %v", want, got)
+			}
+		}
+	}
+
+	bt, err = ConstructFromValues("a", "b", "c", "d", "e", "f")
+	if err != nil {
+		t.Errorf("ConstructFromValues() failed with error: %v", err)
+	} else {
+		got, err := bt.TraverseBFS()
+		if err != nil {
+			t.Errorf("TraverseBFS() failed with error: %v", err)
+		} else {
+			want := "-a--b--c--d--e--f-"
+			if got != want {
+				t.Errorf("TraverseBFS() returned incorrect results, want: %v, got: %v", want, got)
+			}
+		}
+	}
 }
