@@ -228,3 +228,22 @@ func TestConstructFromValues(t *testing.T) {
 		}
 	}
 }
+
+func TestTraverseBFS(t *testing.T) {
+	var bt *BinaryTree
+
+	_, err := bt.TraverseBFS()
+	if err == nil {
+		t.Error("TraverseBFS() on a nil tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
+	bt = &BinaryTree{}
+	_, err = bt.TraverseBFS()
+	if err == nil {
+		t.Error("TraverseBFS() on an empty tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+}
