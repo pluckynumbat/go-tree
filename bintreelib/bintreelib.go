@@ -8,7 +8,7 @@ import (
 )
 
 var treeNilError = fmt.Errorf("the binary tree is nil")
-var rootNilError = fmt.Errorf("the root is nil")
+var treeEmptyError = fmt.Errorf("the binary tree is empty")
 
 type Node struct {
 	left  *Node
@@ -110,3 +110,46 @@ func ConstructFromValues(values ...string) (*BinaryTree, error) {
 	return binTree, nil
 }
 
+// TraverseBFS returns a string that represents the traversal order of nodes using Breadth First Search
+func (bt *BinaryTree) TraverseBFS() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := ""
+
+	queue := &sgquezlib.SemiGenericQueue[*Node]{}
+	err := queue.Enqueue(bt.root)
+	if err != nil {
+		return "", fmt.Errorf("BFS traversal failed with error: %v", err)
+	}
+
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+		if err2 != nil {
+			return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+		}
+
+		treeStr += fmt.Sprintf("-%v-", runner)
+
+		if runner.left != nil {
+			err2 = queue.Enqueue(runner.left)
+			if err2 != nil {
+				return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+			}
+		}
+
+		if runner.right != nil {
+			err2 = queue.Enqueue(runner.right)
+			if err2 != nil {
+				return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+			}
+		}
+	}
+
+	return treeStr, nil
+}
