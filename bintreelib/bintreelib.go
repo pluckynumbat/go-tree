@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/pluckynumbat/go-quez/sgquezlib"
+	"github.com/pluckynumbat/go-stax/sgstaxlib"
 )
 
 var treeNilError = fmt.Errorf("the binary tree is nil")
@@ -147,6 +148,82 @@ func (bt *BinaryTree) TraverseBFS() (string, error) {
 			err2 = queue.Enqueue(runner.right)
 			if err2 != nil {
 				return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+			}
+		}
+	}
+
+	return treeStr, nil
+}
+
+// TraverseDFSPreOrderRecursive returns a string that represents the traversal order of nodes using Depth First Search
+// In a pre-order manner (visit a node, then its left child, followed by its right child)
+// This method uses recursion
+func (bt *BinaryTree) TraverseDFSPreOrderRecursive() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := dfsPreOrderRecurse(bt.root)
+	return treeStr, nil
+}
+
+func dfsPreOrderRecurse(node *Node) string {
+	if node == nil {
+		return ""
+	}
+
+	result := fmt.Sprintf("-%v-", node)
+	result += dfsPreOrderRecurse(node.left)
+	result += dfsPreOrderRecurse(node.right)
+	return result
+}
+
+// TraverseDFSPreOrderRecursive returns a string that represents the traversal order of nodes using Depth First Search
+// In a pre-order manner (visit a node, then its left child, followed by its right child)
+// This method simulates recursion using the semi generic stack
+func (bt *BinaryTree) TraverseDFSPreOrderIterative() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := ""
+
+	stack := &sgstaxlib.SemiGenericStack[*Node]{}
+	err := stack.Push(bt.root)
+	if err != nil {
+		return "", fmt.Errorf("DFS (pre order) iterative traversal failed with error: %v", err)
+	}
+
+	for !stack.IsEmpty() {
+		runner, err2 := stack.Pop()
+
+		if err2 != nil {
+			return "", fmt.Errorf("DFS (pre order) iterative traversal failed with error: %v", err2)
+		}
+
+		treeStr += fmt.Sprintf("-%v-", runner)
+
+		// first right, then left so that they are popped in the correct order
+
+		if runner.right != nil {
+			err2 = stack.Push(runner.right)
+			if err2 != nil {
+				return "", fmt.Errorf("DFS (pre order) iterative traversal failed with error: %v", err2)
+			}
+		}
+
+		if runner.left != nil {
+			err2 = stack.Push(runner.left)
+			if err2 != nil {
+				return "", fmt.Errorf("DFS (pre order) iterative traversal failed with error: %v", err2)
 			}
 		}
 	}
