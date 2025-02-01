@@ -1,4 +1,6 @@
 github.com/pluckynumbat/go-quez v0.2.0 h1:kuYYTeqXg/u5LgP8BDJzNVQeB/gUY5Mngeh0HMuDnXs=
 github.com/pluckynumbat/go-quez v0.2.0/go.mod h1:pB5PVqwVMQ3KvR2AmmrmvERknxF0i+qfbnfFH/J27uc=
+github.com/pluckynumbat/go-stax v0.2.0 h1:Av4sNbr9V8VuCaFjauvEd8HUTUArTy58XDrRbRjPBJk=
+github.com/pluckynumbat/go-stax v0.2.0/go.mod h1:75DX6MoqbWbzCsE/HdGAIpafNF7cNH/EuN2R7ruF7DQ=
 github.com/pluckynumbat/linked-list-stuff-go v0.6.0 h1:qoeg0ncBWsKCDDCXNSkCC49+6nx9vx0UofxI0bSgp8o=
 github.com/pluckynumbat/linked-list-stuff-go v0.6.0/go.mod h1:CEvCyd9MktIRcRCRhzzcj3oGMpGJccpZW8eyVEAelhk=

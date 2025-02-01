@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/pluckynumbat/go-quez/sgquezlib"
+	"github.com/pluckynumbat/go-stax/sgstaxlib"
 )
 
 var treeNilError = fmt.Errorf("the binary tree is nil")
