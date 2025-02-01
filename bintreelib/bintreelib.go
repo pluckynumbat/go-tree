@@ -153,3 +153,30 @@ func (bt *BinaryTree) TraverseBFS() (string, error) {
 
 	return treeStr, nil
 }
+
+// TraverseDFSPreOrderRecursive returns a string that represents the traversal order of nodes using Depth First Search
+// In a pre-order manner (visit a node, then its left child, followed by its right child)
+// This method uses recursion
+func (bt *BinaryTree) TraverseDFSPreOrderRecursive() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := dfsPreOrderRecurse(bt.root)
+	return treeStr, nil
+}
+
+func dfsPreOrderRecurse(node *Node) string {
+	if node == nil {
+		return ""
+	}
+
+	result := fmt.Sprintf("-%v-", node)
+	result += dfsPreOrderRecurse(node.left)
+	result += dfsPreOrderRecurse(node.right)
+	return result
+}
