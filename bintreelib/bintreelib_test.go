@@ -282,3 +282,57 @@ func TestTraverseBFS(t *testing.T) {
 		})
 	}
 }
+
+func TestTraverseDFSPreOrderRecursive(t *testing.T) {
+	var bt *BinaryTree
+
+	_, err := bt.TraverseDFSPreOrderRecursive()
+	if err == nil {
+		t.Error("TraverseDFSPreOrderRecursive() on a nil tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
+	bt = &BinaryTree{}
+	_, err = bt.TraverseDFSPreOrderRecursive()
+	if err == nil {
+		t.Error("TraverseDFSPreOrderRecursive() on an empty tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
+	strs := make([]string, 0, 6)
+	tests := []struct {
+		name   string
+		newVal string
+		want   string
+	}{
+		{"1 element tree", "a", "-a-"},
+		{"2 element tree", "b", "-a--b-"},
+		{"3 element tree", "c", "-a--b--c-"},
+		{"4 element tree", "d", "-a--b--d--c-"},
+		{"5 element tree", "e", "-a--b--d--e--c-"},
+		{"6 element tree", "f", "-a--b--d--e--c--f-"},
+		{"7 element tree", "g", "-a--b--d--e--c--f--g-"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			strs = append(strs, test.newVal)
+			bt, err := ConstructFromValues(strs...)
+			if err != nil {
+				t.Errorf("ConstructFromValues() failed with error: %v", err)
+			} else {
+				got, err2 := bt.TraverseDFSPreOrderRecursive()
+				if err2 != nil {
+					t.Errorf("TraverseDFSPreOrderRecursive() failed with error: %v", err2)
+				} else {
+					want := test.want
+					if got != want {
+						t.Errorf("TraverseDFSPreOrderRecursive() returned incorrect results, want: %v, got: %v", want, got)
+					}
+				}
+			}
+		})
+	}
+}
