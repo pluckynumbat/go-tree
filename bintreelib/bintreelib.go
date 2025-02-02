@@ -230,3 +230,31 @@ func (bt *BinaryTree) TraverseDFSPreOrderIterative() (string, error) {
 
 	return treeStr, nil
 }
+
+// TraverseDFSInOrderRecursive returns a string that represents the traversal order of nodes using Depth First Search
+// In an in-order manner (visit a node's left subtree, then the node itself, followed by its right subtree)
+// This method uses recursion
+func (bt *BinaryTree) TraverseDFSInOrderRecursive() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := dfsInOrderRecurse(bt.root)
+	return treeStr, nil
+}
+
+func dfsInOrderRecurse(node *Node) string {
+	if node == nil {
+		return ""
+	}
+
+	result := dfsInOrderRecurse(node.left)
+	result += fmt.Sprintf("-%v-", node.data)
+	result += dfsInOrderRecurse(node.right)
+
+	return result
+}
