@@ -230,3 +230,68 @@ func (bt *BinaryTree) TraverseDFSPreOrderIterative() (string, error) {
 
 	return treeStr, nil
 }
+
+// TraverseDFSInOrderRecursive returns a string that represents the traversal order of nodes using Depth First Search
+// In an in-order manner (visit a node's left subtree, then the node itself, followed by its right subtree)
+// This method uses recursion
+func (bt *BinaryTree) TraverseDFSInOrderRecursive() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := dfsInOrderRecurse(bt.root)
+	return treeStr, nil
+}
+
+func dfsInOrderRecurse(node *Node) string {
+	if node == nil {
+		return ""
+	}
+
+	result := dfsInOrderRecurse(node.left)
+	result += fmt.Sprintf("-%v-", node.data)
+	result += dfsInOrderRecurse(node.right)
+
+	return result
+}
+
+// TraverseDFSInOrderIterative returns a string that represents the traversal order of nodes using Depth First Search
+// In an in-order manner (visit a node's left subtree, then the node itself, followed by its right subtree)
+// This method simulates recursion using the semi generic stack
+func (bt *BinaryTree) TraverseDFSInOrderIterative() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	runner := bt.root
+	stack := sgstaxlib.SemiGenericStack[*Node]{}
+	treeStr := ""
+
+	for runner != nil || !stack.IsEmpty() {
+		if runner != nil {
+			err := stack.Push(runner)
+			if err != nil {
+				return "", fmt.Errorf("DFS (in order) iterative traversal failed with error: %v", err)
+			}
+			runner = runner.left
+
+		} else {
+			runner, err := stack.Pop()
+			if err != nil {
+				return "", fmt.Errorf("DFS (in order) iterative traversal failed with error: %v", err)
+			}
+			treeStr += fmt.Sprintf("-%v-", runner.data) // visit step
+			runner = runner.right
+		}
+	}
+
+	return treeStr, nil
+}
