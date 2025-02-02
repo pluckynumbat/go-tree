@@ -182,7 +182,7 @@ func dfsPreOrderRecurse(node *Node) string {
 	return result
 }
 
-// TraverseDFSPreOrderRecursive returns a string that represents the traversal order of nodes using Depth First Search
+// TraverseDFSPreOrderIterative returns a string that represents the traversal order of nodes using Depth First Search
 // In a pre-order manner (visit a node, then its left child, followed by its right child)
 // This method simulates recursion using the semi generic stack
 func (bt *BinaryTree) TraverseDFSPreOrderIterative() (string, error) {
