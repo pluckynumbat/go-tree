@@ -323,3 +323,51 @@ func dfsPostOrderRecurse(node *Node) string {
 
 	return result
 }
+
+// TraverseDFSPostOrderIterative returns a string that represents the traversal order of nodes using Depth First Search
+// In a post-order manner (visit a node's left subtree, then the node's left subtree, finally the node itself)
+// This method simulates recursion using the semi generic stack
+func (bt *BinaryTree) TraverseDFSPostOrderIterative() (string, error) {
+	if bt.IsNil() {
+		return "", treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := ""
+
+	runner := bt.root
+	var lastVisited *Node
+
+	stack := sgstaxlib.SemiGenericStack[*Node]{}
+
+	for runner != nil || !stack.IsEmpty() {
+		if runner != nil {
+			err := stack.Push(runner)
+			if err != nil {
+				return "", fmt.Errorf("DFS (post order) iterative traversal failed with error: %v", err)
+			}
+			runner = runner.left
+		} else {
+			potentialVisit, err := stack.Peek()
+			if err != nil {
+				return "", fmt.Errorf("DFS (post order) iterative traversal failed with error: %v", err)
+			}
+
+			if potentialVisit.right == nil || potentialVisit.right == lastVisited {
+				lastVisited, err = stack.Pop()
+				if err != nil {
+					return "", fmt.Errorf("DFS (post order) iterative traversal failed with error: %v", err)
+				}
+
+				treeStr += fmt.Sprintf("-%v-", lastVisited.data)
+			} else {
+				runner = potentialVisit.right
+			}
+		}
+	}
+
+	return treeStr, nil
+}
