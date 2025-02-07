@@ -8,6 +8,7 @@ import (
 	"github.com/pluckynumbat/go-stax/sgstaxlib"
 )
 
+var nodeNilError error = fmt.Errorf("the node is nil")
 var treeNilError = fmt.Errorf("the binary tree is nil")
 var treeEmptyError = fmt.Errorf("the binary tree is empty")
 
