@@ -10,7 +10,7 @@ func TestNodeString(t *testing.T) {
 	var n1, n2, n3 *Node
 
 	n2 = &Node{}
-	n3 = &Node{nil, "a", nil}
+	n3 = &Node{"a", nil, nil, nil}
 
 	tests := []struct {
 		name string
@@ -62,7 +62,7 @@ func TestIsEmpty(t *testing.T) {
 	bt2 := &BinaryTree{}
 
 	root := &Node{}
-	bt3 := &BinaryTree{root}
+	bt3 := &BinaryTree{root, root}
 
 	tests := []struct {
 		name string
@@ -90,17 +90,22 @@ func TestRoot(t *testing.T) {
 	var bt1, bt2, bt3, bt4, bt5 *BinaryTree
 	bt2 = &BinaryTree{}
 
-	r1 := &Node{nil, "1", nil}
-	bt3 = &BinaryTree{r1}
+	r1 := &Node{"1", nil, nil, nil}
+	bt3 = &BinaryTree{r1, r1}
 
-	n2 := &Node{nil, "b", nil}
-	r2 := &Node{n2, "a", nil}
-	bt4 = &BinaryTree{r2}
+	n2 := &Node{"b", nil, nil, nil}
+	r2 := &Node{"a", nil, n2, nil}
+	n2.parent = r2
 
-	n3 := &Node{nil, "l", nil}
-	n4 := &Node{nil, "r", nil}
-	r3 := &Node{n3, "m", n4}
-	bt5 = &BinaryTree{r3}
+	bt4 = &BinaryTree{r2, n2}
+
+	n3 := &Node{"l", nil, nil, nil}
+	n4 := &Node{"r", nil, nil, nil}
+	r3 := &Node{"m", nil, n3, n4}
+	n3.parent = r3
+	n4.parent = r3
+
+	bt5 = &BinaryTree{r3, n4}
 
 	tests := []struct {
 		name string

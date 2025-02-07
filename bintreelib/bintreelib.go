@@ -88,7 +88,7 @@ func (bt *BinaryTree) AddNodeBFS(val string) error {
 		return treeNilError
 	}
 
-	node := &Node{nil, val, nil}
+	node := &Node{val, nil, nil, nil}
 
 	if bt.root == nil {
 		//insert as root
