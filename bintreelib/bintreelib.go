@@ -93,6 +93,7 @@ func (bt *BinaryTree) AddNodeBFS(val string) error {
 	if bt.root == nil {
 		//insert as root
 		bt.root = node
+		bt.lastLeaf = bt.root
 		return nil
 	}
 
@@ -110,7 +111,9 @@ func (bt *BinaryTree) AddNodeBFS(val string) error {
 
 		if runner.left == nil {
 			//insert as left child
+			node.parent = runner
 			runner.left = node
+			bt.lastLeaf = runner.left
 			return nil
 		} else {
 			err2 = queue.Enqueue(runner.left)
@@ -121,7 +124,9 @@ func (bt *BinaryTree) AddNodeBFS(val string) error {
 
 		if runner.right == nil {
 			//insert as right child
+			node.parent = runner
 			runner.right = node
+			bt.lastLeaf = runner.right
 			return nil
 		} else {
 			err2 = queue.Enqueue(runner.right)
