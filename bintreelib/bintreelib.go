@@ -40,7 +40,7 @@ func (node *Node) GetLeftChild() (*Node, error) {
 	if node == nil {
 		return nil, nodeNilError
 	}
-	return node.parent, nil
+	return node.left, nil
 }
 
 // GetRightChild is used to get a pointer to the right child of a given node
@@ -48,7 +48,7 @@ func (node *Node) GetRightChild() (*Node, error) {
 	if node == nil {
 		return nil, nodeNilError
 	}
-	return node.parent, nil
+	return node.right, nil
 }
 
 type BinaryTree struct {
