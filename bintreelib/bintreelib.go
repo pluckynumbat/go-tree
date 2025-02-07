@@ -26,6 +26,30 @@ func (node *Node) String() string {
 	return node.data
 }
 
+// GetParent is used to get a pointer to the parent node of a given node
+func (node *Node) GetParent() (*Node, error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.parent, nil
+}
+
+// GetLeftChild is used to get a pointer to the left child of a given node
+func (node *Node) GetLeftChild() (*Node, error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.parent, nil
+}
+
+// GetRightChild is used to get a pointer to the right child of a given node
+func (node *Node) GetRightChild() (*Node, error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.parent, nil
+}
+
 type BinaryTree struct {
 	root *Node
 }
