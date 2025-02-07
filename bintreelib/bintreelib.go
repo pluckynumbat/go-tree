@@ -12,9 +12,10 @@ var treeNilError = fmt.Errorf("the binary tree is nil")
 var treeEmptyError = fmt.Errorf("the binary tree is empty")
 
 type Node struct {
-	left  *Node
-	data  string
-	right *Node
+	data   string
+	parent *Node
+	left   *Node
+	right  *Node
 }
 
 // Node's implementation of the fmt.Stringer interface
