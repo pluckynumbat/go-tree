@@ -8,13 +8,15 @@ import (
 	"github.com/pluckynumbat/go-stax/sgstaxlib"
 )
 
+var nodeNilError error = fmt.Errorf("the node is nil")
 var treeNilError = fmt.Errorf("the binary tree is nil")
 var treeEmptyError = fmt.Errorf("the binary tree is empty")
 
 type Node struct {
-	left  *Node
-	data  string
-	right *Node
+	data   string
+	parent *Node
+	left   *Node
+	right  *Node
 }
 
 // Node's implementation of the fmt.Stringer interface
@@ -25,8 +27,33 @@ func (node *Node) String() string {
 	return node.data
 }
 
+// GetParent is used to get a pointer to the parent node of a given node
+func (node *Node) GetParent() (*Node, error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.parent, nil
+}
+
+// GetLeftChild is used to get a pointer to the left child of a given node
+func (node *Node) GetLeftChild() (*Node, error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.left, nil
+}
+
+// GetRightChild is used to get a pointer to the right child of a given node
+func (node *Node) GetRightChild() (*Node, error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.right, nil
+}
+
 type BinaryTree struct {
-	root *Node
+	root     *Node
+	lastLeaf *Node
 }
 
 // IsNil tells you if this pointer to the Binary Tree is nil
@@ -47,17 +74,26 @@ func (bt *BinaryTree) Root() *Node {
 	return bt.root
 }
 
+// LastLeaf returns a pointer to the last leaf of the Binary Tree
+func (bt *BinaryTree) LastLeaf() *Node {
+	if bt.IsNil() {
+		return nil
+	}
+	return bt.lastLeaf
+}
+
 // AddNodeBFS finds the next free position using a breadth first search and adds a node there
 func (bt *BinaryTree) AddNodeBFS(val string) error {
 	if bt == nil {
 		return treeNilError
 	}
 
-	node := &Node{nil, val, nil}
+	node := &Node{val, nil, nil, nil}
 
 	if bt.root == nil {
 		//insert as root
 		bt.root = node
+		bt.lastLeaf = bt.root
 		return nil
 	}
 
@@ -75,7 +111,9 @@ func (bt *BinaryTree) AddNodeBFS(val string) error {
 
 		if runner.left == nil {
 			//insert as left child
+			node.parent = runner
 			runner.left = node
+			bt.lastLeaf = runner.left
 			return nil
 		} else {
 			err2 = queue.Enqueue(runner.left)
@@ -86,7 +124,9 @@ func (bt *BinaryTree) AddNodeBFS(val string) error {
 
 		if runner.right == nil {
 			//insert as right child
+			node.parent = runner
 			runner.right = node
+			bt.lastLeaf = runner.right
 			return nil
 		} else {
 			err2 = queue.Enqueue(runner.right)
