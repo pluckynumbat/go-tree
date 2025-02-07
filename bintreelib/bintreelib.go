@@ -51,7 +51,8 @@ func (node *Node) GetRightChild() (*Node, error) {
 }
 
 type BinaryTree struct {
-	root *Node
+	root     *Node
+	lastLeaf *Node
 }
 
 // IsNil tells you if this pointer to the Binary Tree is nil
