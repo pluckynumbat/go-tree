@@ -73,6 +73,14 @@ func (bt *BinaryTree) Root() *Node {
 	return bt.root
 }
 
+// LastLeaf returns a pointer to the last leaf of the Binary Tree
+func (bt *BinaryTree) LastLeaf() *Node {
+	if bt.IsNil() {
+		return nil
+	}
+	return bt.lastLeaf
+}
+
 // AddNodeBFS finds the next free position using a breadth first search and adds a node there
 func (bt *BinaryTree) AddNodeBFS(val string) error {
 	if bt == nil {
