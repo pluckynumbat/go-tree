@@ -130,6 +130,45 @@ func TestRoot(t *testing.T) {
 	}
 }
 
+func TestLastLeaf(t *testing.T) {
+	var bt *BinaryTree
+
+	node := bt.LastLeaf()
+	if node != nil {
+		t.Fatalf("Last leaf of a nil tree should be nil")
+	}
+
+	bt = &BinaryTree{}
+	node = bt.LastLeaf()
+	if node != nil {
+		t.Fatalf("Last leaf of an empty tree should be nil")
+	}
+
+	tests := []struct {
+		name   string
+		addVal string
+		want   string
+	}{
+		{"1 element binary tree", "a", "a"},
+		{"2 element binary tree", "b", "b"},
+		{"3 element binary tree", "c", "c"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			err := bt.AddNodeBFS(test.addVal)
+			if err != nil {
+				t.Fatalf("AddNodeBFS() failed with error: %v", err)
+			}
+
+			got := bt.LastLeaf().String()
+			if got != test.want {
+				t.Errorf("LastLeaf() returned incorrect results, want: %v, got: %v", test.want, got)
+			}
+		})
+	}
+}
+
 func TestAddNodeBFS(t *testing.T) {
 	var bt *BinaryTree
 	err := bt.AddNodeBFS("a")
