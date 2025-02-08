@@ -130,6 +130,18 @@ func TestRoot(t *testing.T) {
 	}
 }
 
+func TestLastLeaf(t *testing.T) {
+
+	var bt *BinaryTree
+
+	node := bt.LastLeaf()
+
+	if node == nil {
+		t.Fatalf("Last leaf of a nil tree should be nil")
+	}
+
+}
+
 func TestAddNodeBFS(t *testing.T) {
 	var bt *BinaryTree
 	err := bt.AddNodeBFS("a")
