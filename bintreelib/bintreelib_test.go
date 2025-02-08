@@ -144,6 +144,18 @@ func TestLastLeaf(t *testing.T) {
 		t.Fatalf("Last leaf of an empty tree should be nil")
 	}
 
+	err := bt.AddNodeBFS("a")
+	if err != nil {
+		t.Fatalf("AddNodeBFS() failed with error: %v", err)
+	}
+
+	node = bt.LastLeaf()
+	want := "a"
+	got := node.String()
+	if got != want {
+		t.Errorf("LastLeaf() returned incorrect results, want: %v, got: %v", want, got)
+	}
+
 }
 
 func TestAddNodeBFS(t *testing.T) {
