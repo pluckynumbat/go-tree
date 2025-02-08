@@ -144,18 +144,29 @@ func TestLastLeaf(t *testing.T) {
 		t.Fatalf("Last leaf of an empty tree should be nil")
 	}
 
-	err := bt.AddNodeBFS("a")
-	if err != nil {
-		t.Fatalf("AddNodeBFS() failed with error: %v", err)
+	tests := []struct {
+		name   string
+		addVal string
+		want   string
+	}{
+		{"1 element binary tree", "a", "a"},
+		{"2 element binary tree", "b", "b"},
+		{"3 element binary tree", "c", "c"},
 	}
 
-	node = bt.LastLeaf()
-	want := "a"
-	got := node.String()
-	if got != want {
-		t.Errorf("LastLeaf() returned incorrect results, want: %v, got: %v", want, got)
-	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			err := bt.AddNodeBFS(test.addVal)
+			if err != nil {
+				t.Fatalf("AddNodeBFS() failed with error: %v", err)
+			}
 
+			got := bt.LastLeaf().String()
+			if got != test.want {
+				t.Errorf("LastLeaf() returned incorrect results, want: %v, got: %v", test.want, got)
+			}
+		})
+	}
 }
 
 func TestAddNodeBFS(t *testing.T) {
