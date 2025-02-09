@@ -27,24 +27,24 @@ func (node *Node) String() string {
 	return node.data
 }
 
-// GetParent is used to get a pointer to the parent node of a given node
-func (node *Node) GetParent() (*Node, error) {
+// Parent is used to get a pointer to the parent node of a given node
+func (node *Node) Parent() (*Node, error) {
 	if node == nil {
 		return nil, nodeNilError
 	}
 	return node.parent, nil
 }
 
-// GetLeftChild is used to get a pointer to the left child of a given node
-func (node *Node) GetLeftChild() (*Node, error) {
+// LeftChild is used to get a pointer to the left child of a given node
+func (node *Node) LeftChild() (*Node, error) {
 	if node == nil {
 		return nil, nodeNilError
 	}
 	return node.left, nil
 }
 
-// GetRightChild is used to get a pointer to the right child of a given node
-func (node *Node) GetRightChild() (*Node, error) {
+// RightChild is used to get a pointer to the right child of a given node
+func (node *Node) RightChild() (*Node, error) {
 	if node == nil {
 		return nil, nodeNilError
 	}
