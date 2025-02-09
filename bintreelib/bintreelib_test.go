@@ -53,6 +53,20 @@ func TestNodeParent(t *testing.T) {
 		}
 	}
 
+	n2 := &Node{"b", n, nil, nil}
+	p2, err := n2.Parent()
+	if err != nil {
+		t.Fatalf("Parent() failed with error: %v", err)
+	} else {
+		if p2 != n {
+			t.Fatalf("Parent() returned incorrect results, want: %v, got: %v", n, p2)
+		}
+
+		if p2.String() != n.String() {
+			t.Fatalf("Parent() returned incorrect string results, want: %v, got: %v", n.String(), p2.String())
+		}
+	}
+
 }
 
 func TestIsNil(t *testing.T) {
