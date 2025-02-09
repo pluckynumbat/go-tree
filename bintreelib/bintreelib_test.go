@@ -34,39 +34,37 @@ func TestNodeString(t *testing.T) {
 }
 
 func TestNodeParent(t *testing.T) {
-	var n *Node
+	var n1, n2, n3 *Node
 
-	_, err := n.Parent()
-	if err == nil {
-		t.Fatalf("Calling Parent() on a nil node should return an error")
-	} else {
-		fmt.Println(err)
+	n2 = &Node{"a", nil, nil, nil}
+	n3 = &Node{"b", n2, nil, nil}
+
+	tests := []struct {
+		name      string
+		node      *Node
+		expError  error
+		parent    *Node
+		parentStr string
+	}{
+		{"nil node", n1, nodeNilError, nil, "nil"},
+		{"non nil node, nil parent", n2, nil, nil, "nil"},
+		{"non nil node, non nil parent", n3, nil, n2, "a"},
 	}
 
-	n = &Node{"a", nil, nil, nil}
-	p, err := n.Parent()
-	if err != nil {
-		t.Fatalf("Parent() failed with error: %v", err)
-	} else {
-		if p != nil {
-			t.Fatalf("Parent() returned incorrect results, want: %v, got: %v", nil, p)
-		}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			parent, err := test.node.Parent()
+			if err != nil {
+				if !errors.Is(err, test.expError) {
+					t.Fatalf("GetParent() failed with unexpected error: %v", err)
+				}
+			} else if parent != test.parent {
+				t.Errorf("Parent() returned incorrect parent pointer, want: %v, got: %v", test.parent, parent)
+			} else if parent.String() != test.parentStr {
+				t.Errorf("GetParent() returned parent pointer with incorrect string, want: %v, got: %v", test.parentStr, parent.String())
+			}
+		})
 	}
-
-	n2 := &Node{"b", n, nil, nil}
-	p2, err := n2.Parent()
-	if err != nil {
-		t.Fatalf("Parent() failed with error: %v", err)
-	} else {
-		if p2 != n {
-			t.Fatalf("Parent() returned incorrect results, want: %v, got: %v", n, p2)
-		}
-
-		if p2.String() != n.String() {
-			t.Fatalf("Parent() returned incorrect string results, want: %v, got: %v", n.String(), p2.String())
-		}
-	}
-
 }
 
 func TestIsNil(t *testing.T) {
