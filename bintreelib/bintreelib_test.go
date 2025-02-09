@@ -33,6 +33,17 @@ func TestNodeString(t *testing.T) {
 	}
 }
 
+func TestNodeParent(t *testing.T) {
+	var n *Node
+
+	_, err := n.Parent()
+	if err == nil {
+		t.Fatalf("Calling Parent() on a nil node should return an error")
+	} else {
+		fmt.Println(err)
+	}
+}
+
 func TestIsNil(t *testing.T) {
 	var bt1 *BinaryTree
 	bt2 := &BinaryTree{}
