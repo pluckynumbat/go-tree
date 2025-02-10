@@ -1,6 +1,7 @@
 package bintreelib
 
 import (
+	"errors"
 	"fmt"
 	"github.com/pluckynumbat/go-quez/sgquezlib"
 	"testing"
@@ -82,7 +83,7 @@ func TestNodeParent(t *testing.T) {
 			}
 		}
 
-		// Do a breadth first search and check if parent of each node is what we expected
+		// Do a breadth first search and check if the parent of each node is what we expected
 		queue := sgquezlib.SemiGenericQueue[*Node]{}
 		err = queue.Enqueue(bt.root)
 		if err != nil {
@@ -178,7 +179,7 @@ func TestNodeLeftChild(t *testing.T) {
 			}
 		}
 
-		// Do a breadth first search and check if parent of each node is what we expected
+		// Do a breadth first search and check if the left child of each node is what we expected
 		queue := sgquezlib.SemiGenericQueue[*Node]{}
 		err = queue.Enqueue(bt.root)
 		if err != nil {
