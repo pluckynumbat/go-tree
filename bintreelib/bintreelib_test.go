@@ -1,6 +1,7 @@
 package bintreelib
 
 import (
+	"errors"
 	"fmt"
 	"github.com/pluckynumbat/go-quez/sgquezlib"
 	"testing"
@@ -82,7 +83,7 @@ func TestNodeParent(t *testing.T) {
 			}
 		}
 
-		// Do a breadth first search and check if parent of each node is what we expected
+		// Do a breadth first search and check if the parent of each node is what we expected
 		queue := sgquezlib.SemiGenericQueue[*Node]{}
 		err = queue.Enqueue(bt.root)
 		if err != nil {
@@ -109,6 +110,198 @@ func TestNodeParent(t *testing.T) {
 
 			if got != want {
 				t.Fatalf("Parent() returned incorrect results, want: %v, got %v", want, got)
+			}
+
+			if runner.left != nil {
+				err = queue.Enqueue(runner.left)
+				if err != nil {
+					t.Fatalf("Enqueue() failed with error: %v", err)
+				}
+			}
+
+			if runner.right != nil {
+				err = queue.Enqueue(runner.right)
+				if err != nil {
+					t.Fatalf("Enqueue() failed with error: %v", err)
+				}
+			}
+		}
+	})
+}
+
+func TestNodeLeftChild(t *testing.T) {
+	var n1, n2, n3 *Node
+
+	n2 = &Node{"a", nil, nil, nil}
+	n3 = &Node{"b", n2, nil, nil}
+	n2.left = n3
+
+	tests := []struct {
+		name      string
+		node      *Node
+		expError  error
+		leftChild *Node
+		lChildStr string
+	}{
+		{"nil node", n1, nodeNilError, nil, "nil"},
+		{"non nil node, nil left child", n3, nil, nil, "nil"},
+		{"non nil node, non nil left child", n2, nil, n3, "b"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			leftChild, err := test.node.LeftChild()
+			if err != nil {
+				if !errors.Is(err, test.expError) {
+					t.Fatalf("LeftChild() failed with unexpected error: %v", err)
+				}
+			} else if leftChild != test.leftChild {
+				t.Errorf("LeftChild() returned incorrect left pointer, want: %v, got: %v", test.leftChild, leftChild)
+			} else if leftChild.String() != test.lChildStr {
+				t.Errorf("LeftChild() returned left pointer with incorrect string, want: %v, got: %v", test.lChildStr, leftChild.String())
+			}
+		})
+	}
+
+	t.Run("Test Left Child on all nodes in a binary tree", func(t *testing.T) {
+		bt, err := ConstructFromValues("a", "b", "c", "d", "e", "f", "g")
+		if err != nil {
+			t.Fatalf("ConstructFromValues() failed with error: %v", err)
+		}
+
+		// construct an expected left child queue
+		expLChildren := []string{"b", "d", "f", "nil", "nil", "nil", "nil"}
+		qLChildren := sgquezlib.SemiGenericQueue[*Node]{}
+		for _, lc := range expLChildren {
+			err2 := qLChildren.Enqueue(&Node{data: lc})
+			if err2 != nil {
+				t.Fatalf("Enqueue() failed with error: %v", err2)
+			}
+		}
+
+		// Do a breadth first search and check if the left child of each node is what we expected
+		queue := sgquezlib.SemiGenericQueue[*Node]{}
+		err = queue.Enqueue(bt.root)
+		if err != nil {
+			t.Fatalf("Enqueue() failed with error: %v", err)
+		}
+		for !queue.IsEmpty() {
+			runner, err2 := queue.Dequeue()
+			if err2 != nil {
+				t.Fatalf("Dequeue() failed with error: %v", err2)
+			}
+
+			actualLChild, err3 := runner.LeftChild()
+			if err3 != nil {
+				t.Fatalf("LeftChild() failed with error: %v", err3)
+			}
+
+			expectedLChild, err4 := qLChildren.Dequeue()
+			if err4 != nil {
+				t.Fatalf("Peek() failed with error: %v", err4)
+			}
+
+			want := expectedLChild.String()
+			got := actualLChild.String()
+
+			if got != want {
+				t.Fatalf("LeftChild() returned incorrect results, want: %v, got %v", want, got)
+			}
+
+			if runner.left != nil {
+				err = queue.Enqueue(runner.left)
+				if err != nil {
+					t.Fatalf("Enqueue() failed with error: %v", err)
+				}
+			}
+
+			if runner.right != nil {
+				err = queue.Enqueue(runner.right)
+				if err != nil {
+					t.Fatalf("Enqueue() failed with error: %v", err)
+				}
+			}
+		}
+	})
+}
+
+func TestNodeRightChild(t *testing.T) {
+	var n1, n2, n3 *Node
+
+	n2 = &Node{"a", nil, nil, nil}
+	n3 = &Node{"b", n2, nil, nil}
+	n2.right = n3
+
+	tests := []struct {
+		name       string
+		node       *Node
+		expError   error
+		rightChild *Node
+		rChildStr  string
+	}{
+		{"nil node", n1, nodeNilError, nil, "nil"},
+		{"non nil node, nil right child", n3, nil, nil, "nil"},
+		{"non nil node, non nil right child", n2, nil, n3, "b"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			rightChild, err := test.node.RightChild()
+			if err != nil {
+				if !errors.Is(err, test.expError) {
+					t.Fatalf("RightChild() failed with unexpected error: %v", err)
+				}
+			} else if rightChild != test.rightChild {
+				t.Errorf("RightChild() returned incorrect right pointer, want: %v, got: %v", test.rightChild, rightChild)
+			} else if rightChild.String() != test.rChildStr {
+				t.Errorf("RightChild() returned right pointer with incorrect string, want: %v, got: %v", test.rChildStr, rightChild.String())
+			}
+		})
+	}
+
+	t.Run("Test Right Child on all nodes in a binary tree", func(t *testing.T) {
+		bt, err := ConstructFromValues("a", "b", "c", "d", "e", "f", "g")
+		if err != nil {
+			t.Fatalf("ConstructFromValues() failed with error: %v", err)
+		}
+
+		// construct an expected right child queue
+		expRChildren := []string{"c", "e", "g", "nil", "nil", "nil", "nil"}
+		qRChildren := sgquezlib.SemiGenericQueue[*Node]{}
+		for _, lc := range expRChildren {
+			err2 := qRChildren.Enqueue(&Node{data: lc})
+			if err2 != nil {
+				t.Fatalf("Enqueue() failed with error: %v", err2)
+			}
+		}
+
+		// Do a breadth first search and check if the right child of each node is what we expected
+		queue := sgquezlib.SemiGenericQueue[*Node]{}
+		err = queue.Enqueue(bt.root)
+		if err != nil {
+			t.Fatalf("Enqueue() failed with error: %v", err)
+		}
+		for !queue.IsEmpty() {
+			runner, err2 := queue.Dequeue()
+			if err2 != nil {
+				t.Fatalf("Dequeue() failed with error: %v", err2)
+			}
+
+			actualRChild, err3 := runner.RightChild()
+			if err3 != nil {
+				t.Fatalf("RightChild() failed with error: %v", err3)
+			}
+
+			expectedRChild, err4 := qRChildren.Dequeue()
+			if err4 != nil {
+				t.Fatalf("Peek() failed with error: %v", err4)
+			}
+
+			want := expectedRChild.String()
+			got := actualRChild.String()
+
+			if got != want {
+				t.Fatalf("RightChild() returned incorrect results, want: %v, got %v", want, got)
 			}
 
 			if runner.left != nil {
