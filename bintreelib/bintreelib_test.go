@@ -128,6 +128,41 @@ func TestNodeParent(t *testing.T) {
 	})
 }
 
+func TestNodeLeftChild(t *testing.T) {
+	var n1, n2, n3 *Node
+
+	n2 = &Node{"a", nil, nil, nil}
+	n3 = &Node{"b", n2, nil, nil}
+	n2.left = n3
+
+	tests := []struct {
+		name      string
+		node      *Node
+		expError  error
+		leftChild *Node
+		lChildStr string
+	}{
+		{"nil node", n1, nodeNilError, nil, "nil"},
+		{"non nil node, nil left child", n3, nil, nil, "nil"},
+		{"non nil node, non nil left child", n2, nil, n3, "b"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			leftChild, err := test.node.LeftChild()
+			if err != nil {
+				if !errors.Is(err, test.expError) {
+					t.Fatalf("LeftChild() failed with unexpected error: %v", err)
+				}
+			} else if leftChild != test.leftChild {
+				t.Errorf("LeftChild() returned incorrect parent pointer, want: %v, got: %v", test.leftChild, leftChild)
+			} else if leftChild.String() != test.lChildStr {
+				t.Errorf("LeftChild() returned left child pointer with incorrect string, want: %v, got: %v", test.lChildStr, leftChild.String())
+			}
+		})
+	}
+}
+
 func TestIsNil(t *testing.T) {
 	var bt1 *BinaryTree
 	bt2 := &BinaryTree{}
