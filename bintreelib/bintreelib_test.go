@@ -155,9 +155,9 @@ func TestNodeLeftChild(t *testing.T) {
 					t.Fatalf("LeftChild() failed with unexpected error: %v", err)
 				}
 			} else if leftChild != test.leftChild {
-				t.Errorf("LeftChild() returned incorrect parent pointer, want: %v, got: %v", test.leftChild, leftChild)
+				t.Errorf("LeftChild() returned incorrect left pointer, want: %v, got: %v", test.leftChild, leftChild)
 			} else if leftChild.String() != test.lChildStr {
-				t.Errorf("LeftChild() returned left child pointer with incorrect string, want: %v, got: %v", test.lChildStr, leftChild.String())
+				t.Errorf("LeftChild() returned left pointer with incorrect string, want: %v, got: %v", test.lChildStr, leftChild.String())
 			}
 		})
 	}
@@ -251,9 +251,9 @@ func TestNodeRightChild(t *testing.T) {
 					t.Fatalf("RightChild() failed with unexpected error: %v", err)
 				}
 			} else if rightChild != test.rightChild {
-				t.Errorf("RightChild() returned incorrect parent pointer, want: %v, got: %v", test.rightChild, rightChild)
+				t.Errorf("RightChild() returned incorrect right pointer, want: %v, got: %v", test.rightChild, rightChild)
 			} else if rightChild.String() != test.rChildStr {
-				t.Errorf("RightChild() returned left child pointer with incorrect string, want: %v, got: %v", test.rChildStr, rightChild.String())
+				t.Errorf("RightChild() returned right pointer with incorrect string, want: %v, got: %v", test.rChildStr, rightChild.String())
 			}
 		})
 	}
