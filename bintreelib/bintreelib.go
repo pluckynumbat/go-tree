@@ -411,3 +411,46 @@ func (bt *BinaryTree) TraverseDFSPostOrderIterative() (string, error) {
 
 	return treeStr, nil
 }
+
+// Contains performs a BFS on the binary tree and tells you if the binary tree contains a node for the input string
+func (bt *BinaryTree) Contains(val string) (bool, error) {
+	if bt.IsNil() {
+		return false, treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return false, treeEmptyError
+	}
+
+	queue := sgquezlib.SemiGenericQueue[*Node]{}
+	err := queue.Enqueue(bt.root)
+	if err != nil {
+		return false, fmt.Errorf("method Contains() failed with error: %v", err)
+	}
+
+	for !queue.IsEmpty() {
+		front, err2 := queue.Dequeue()
+		if err2 != nil {
+			return false, fmt.Errorf("method Contains() failed with error: %v", err2)
+		}
+
+		if front.data == val {
+			return true, nil
+		}
+
+		if front.left != nil {
+			err2 = queue.Enqueue(front.left)
+			if err2 != nil {
+				return false, fmt.Errorf("method Contains() failed with error: %v", err2)
+			}
+		}
+
+		if front.right != nil {
+			err2 = queue.Enqueue(front.right)
+			if err2 != nil {
+				return false, fmt.Errorf("method Contains() failed with error: %v", err2)
+			}
+		}
+	}
+	return false, nil
+}
