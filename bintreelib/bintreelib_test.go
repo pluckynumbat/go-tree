@@ -938,3 +938,13 @@ func TestTraverseDFSPostOrderIterative(t *testing.T) {
 		})
 	}
 }
+
+func TestContains(t *testing.T) {
+	var bt *BinaryTree
+	_, err := bt.Contains("a")
+	if err == nil {
+		t.Error("Contains() on a nil tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+}
