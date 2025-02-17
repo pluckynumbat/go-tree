@@ -968,5 +968,14 @@ func TestContains(t *testing.T) {
 				t.Errorf("Contains() returned incorrect results, want: %v, got: %v", true, found)
 			}
 		}
+		
+		found, err2 = bt.Contains("b")
+		if err2 != nil {
+			t.Errorf("Contains() failed with error: %v", err2)
+		} else {
+			if found != false {
+				t.Errorf("Contains() returned incorrect results, want: %v, got: %v", false, found)
+			}
+		}
 	}
 }
