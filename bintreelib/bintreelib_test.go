@@ -968,7 +968,7 @@ func TestContains(t *testing.T) {
 				t.Errorf("Contains() returned incorrect results, want: %v, got: %v", true, found)
 			}
 		}
-		
+
 		found, err2 = bt.Contains("b")
 		if err2 != nil {
 			t.Errorf("Contains() failed with error: %v", err2)
@@ -977,5 +977,61 @@ func TestContains(t *testing.T) {
 				t.Errorf("Contains() returned incorrect results, want: %v, got: %v", false, found)
 			}
 		}
+	}
+
+	vowelTree := &BinaryTree{}
+	vowels := []string{"a", "e", "i", "o", "u"}
+
+	for _, vowel := range vowels {
+		addErr := vowelTree.AddNodeBFS(vowel)
+		if addErr != nil {
+			t.Fatalf("AddNodeBFS() failed with error: %v", addErr)
+		}
+	}
+
+	tests := []struct {
+		name   string
+		letter string
+		want   bool
+	}{
+		{"contains a", "a", true},
+		{"contains b", "b", false},
+		{"contains c", "c", false},
+		{"contains d", "d", false},
+		{"contains e", "e", true},
+		{"contains f", "f", false},
+		{"contains g", "g", false},
+		{"contains h", "h", false},
+		{"contains i", "i", true},
+		{"contains j", "j", false},
+		{"contains k", "k", false},
+		{"contains l", "l", false},
+		{"contains m", "m", false},
+		{"contains n", "n", false},
+		{"contains o", "o", true},
+		{"contains p", "p", false},
+		{"contains q", "q", false},
+		{"contains r", "r", false},
+		{"contains s", "s", false},
+		{"contains t", "t", false},
+		{"contains u", "u", true},
+		{"contains v", "v", false},
+		{"contains w", "w", false},
+		{"contains x", "x", false},
+		{"contains y", "y", false},
+		{"contains z", "z", false},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got, err3 := vowelTree.Contains(test.letter)
+			if err3 != nil {
+				t.Errorf("Contains() failed with error: %v", err3)
+			} else {
+				if got != test.want {
+					t.Errorf("Contains() returned incorrect results for letter %v, want: %v, got: %v", test.letter, test.want, got)
+				}
+			}
+		})
 	}
 }
