@@ -947,4 +947,12 @@ func TestContains(t *testing.T) {
 	} else {
 		fmt.Println(err)
 	}
+
+	bt = &BinaryTree{}
+	_, err = bt.Contains("a")
+	if err == nil {
+		t.Error("Contains() on an empty tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
 }
