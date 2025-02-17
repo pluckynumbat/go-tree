@@ -955,4 +955,18 @@ func TestContains(t *testing.T) {
 	} else {
 		fmt.Println(err)
 	}
+
+	addErr := bt.AddNodeBFS("a")
+	if addErr != nil {
+		t.Fatalf("AddNodeBFS() failed with error: %v", addErr)
+	} else {
+		found, err2 := bt.Contains("a")
+		if err2 != nil {
+			t.Errorf("Contains() failed with error: %v", err2)
+		} else {
+			if found != true {
+				t.Errorf("Contains() returned incorrect results, want: %v, got: %v", true, found)
+			}
+		}
+	}
 }
