@@ -454,3 +454,121 @@ func (bt *BinaryTree) Contains(val string) (bool, error) {
 	}
 	return false, nil
 }
+
+// RemoveValue will remove the first instance of the input value, if it exists in the binary tree
+func (bt *BinaryTree) RemoveValue(val string) error {
+	if bt.IsNil() {
+		return treeNilError
+	}
+
+	if bt.IsEmpty() {
+		return treeEmptyError
+	}
+
+	// single node tree
+	if bt.root == bt.lastLeaf {
+		if bt.root.data == val {
+			bt.root = nil
+			bt.lastLeaf = nil
+			return nil
+		} else {
+			return fmt.Errorf("the value %v was not found in the binary tree", val)
+		}
+	}
+
+	// Part 1: check if the value is present and store its node if so
+	queue := sgquezlib.SemiGenericQueue[*Node]{}
+	err := queue.Enqueue(bt.root)
+	if err != nil {
+		return fmt.Errorf("method RemoveValue() failed with error: %v", err)
+	}
+
+	var nodeWithValue *Node
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+		if err2 != nil {
+			return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+		}
+
+		if runner.data == val {
+			nodeWithValue = runner
+			break
+		}
+
+		if runner.left != nil {
+			if runner.left.data == val {
+				nodeWithValue = runner.left
+				break
+			} else {
+				err2 = queue.Enqueue(runner.left)
+				if err2 != nil {
+					return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+				}
+			}
+		}
+
+		if runner.right != nil {
+			if runner.right.data == val {
+				nodeWithValue = runner.right
+				break
+			} else {
+				err2 = queue.Enqueue(runner.right)
+				if err2 != nil {
+					return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+				}
+			}
+		}
+	}
+
+	if nodeWithValue == nil {
+		return fmt.Errorf("the value %v was not found in the binary tree", val)
+	}
+
+	// Part 2: replace value in the node with the value in the last leaf node
+	if nodeWithValue != bt.lastLeaf {
+		nodeWithValue.data = bt.lastLeaf.data
+	}
+
+	// Part 3: remove the node at last leaf
+	if bt.lastLeaf.parent.left == bt.lastLeaf {
+		bt.lastLeaf.parent.left = nil
+	}
+	if bt.lastLeaf.parent.right == bt.lastLeaf {
+		bt.lastLeaf.parent.right = nil
+	}
+	bt.lastLeaf = nil
+
+	// Part 4: assign a new last leaf node
+	queue = sgquezlib.SemiGenericQueue[*Node]{}
+	err = queue.Enqueue(bt.root)
+	if err != nil {
+		return fmt.Errorf("method RemoveValue() failed with error: %v", err)
+	}
+
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+		if err2 != nil {
+			return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+		}
+
+		//update the last leaf pointer
+		bt.lastLeaf = runner
+
+		if runner.left != nil {
+			err2 = queue.Enqueue(runner.left)
+			if err2 != nil {
+				return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+			}
+		}
+
+		if runner.right != nil {
+			err2 = queue.Enqueue(runner.right)
+			if err2 != nil {
+				return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+			}
+		}
+	}
+
+	// at this point, last leaf should be correctly assigned to the last node in a BFS traversal of the binary tree
+	return nil
+}
