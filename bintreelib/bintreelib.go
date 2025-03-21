@@ -455,7 +455,7 @@ func (bt *BinaryTree) Contains(val string) (bool, error) {
 	return false, nil
 }
 
-//RemoveValue will remove the first instance of the input value, if it exists in the binary tree
+// RemoveValue will remove the first instance of the input value, if it exists in the binary tree
 func (bt *BinaryTree) RemoveValue(val string) error {
 	if bt.IsNil() {
 		return treeNilError
@@ -463,6 +463,17 @@ func (bt *BinaryTree) RemoveValue(val string) error {
 
 	if bt.IsEmpty() {
 		return treeEmptyError
+	}
+
+	// single node tree
+	if bt.root == bt.lastLeaf {
+		if bt.root.data == val {
+			bt.root = nil
+			bt.lastLeaf = nil
+			return nil
+		} else {
+			return fmt.Errorf("the value %v was not found in the binary tree", val)
+		}
 	}
 
 	return fmt.Errorf("placeholder error")
