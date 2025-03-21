@@ -476,5 +476,53 @@ func (bt *BinaryTree) RemoveValue(val string) error {
 		}
 	}
 
+	// Part 1: check if the value is present and store its node if so
+	queue := sgquezlib.SemiGenericQueue[*Node]{}
+	err := queue.Enqueue(bt.root)
+	if err != nil {
+		return fmt.Errorf("method RemoveValue() failed with error: %v", err)
+	}
+
+	var nodeWithValue *Node
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+		if err2 != nil {
+			return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+		}
+
+		if runner.data == val {
+			nodeWithValue = runner
+			break
+		}
+
+		if runner.left != nil {
+			if runner.left.data == val {
+				nodeWithValue = runner.left
+				break
+			} else {
+				err2 = queue.Enqueue(runner.left)
+				if err2 != nil {
+					return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+				}
+			}
+		}
+
+		if runner.right != nil {
+			if runner.right.data == val {
+				nodeWithValue = runner.right
+				break
+			} else {
+				err2 = queue.Enqueue(runner.right)
+				if err2 != nil {
+					return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+				}
+			}
+		}
+	}
+
+	if nodeWithValue == nil {
+		return fmt.Errorf("the value %v was not found in the binary tree", val)
+	}
+
 	return fmt.Errorf("placeholder error")
 }
