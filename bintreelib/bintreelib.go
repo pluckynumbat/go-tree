@@ -538,5 +538,37 @@ func (bt *BinaryTree) RemoveValue(val string) error {
 	}
 	bt.lastLeaf = nil
 
-	return fmt.Errorf("placeholder error")
+	// Part 4: assign a new last leaf node
+	queue = sgquezlib.SemiGenericQueue[*Node]{}
+	err = queue.Enqueue(bt.root)
+	if err != nil {
+		return fmt.Errorf("method RemoveValue() failed with error: %v", err)
+	}
+
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+		if err2 != nil {
+			return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+		}
+
+		//update the last leaf pointer
+		bt.lastLeaf = runner
+
+		if runner.left != nil {
+			err2 = queue.Enqueue(runner.left)
+			if err2 != nil {
+				return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+			}
+		}
+
+		if runner.right != nil {
+			err2 = queue.Enqueue(runner.right)
+			if err2 != nil {
+				return fmt.Errorf("method RemoveValue() failed with error: %v", err2)
+			}
+		}
+	}
+
+	// at this point, last leaf should be correctly assigned to the last node in a BFS traversal of the binary tree
+	return nil
 }
