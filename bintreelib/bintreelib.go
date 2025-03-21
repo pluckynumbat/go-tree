@@ -524,5 +524,19 @@ func (bt *BinaryTree) RemoveValue(val string) error {
 		return fmt.Errorf("the value %v was not found in the binary tree", val)
 	}
 
+	// Part 2: replace value in the node with the value in the last leaf node
+	if nodeWithValue != bt.lastLeaf {
+		nodeWithValue.data = bt.lastLeaf.data
+	}
+
+	// Part 3: remove the node at last leaf
+	if bt.lastLeaf.parent.left == bt.lastLeaf {
+		bt.lastLeaf.parent.left = nil
+	}
+	if bt.lastLeaf.parent.right == bt.lastLeaf {
+		bt.lastLeaf.parent.right = nil
+	}
+	bt.lastLeaf = nil
+
 	return fmt.Errorf("placeholder error")
 }
