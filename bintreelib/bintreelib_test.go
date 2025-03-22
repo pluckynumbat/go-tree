@@ -1052,4 +1052,17 @@ func TestRemoveValue(t *testing.T) {
 	} else {
 		fmt.Println(err)
 	}
+
+	err = bt.AddNodeBFS("a")
+	if err != nil {
+		t.Errorf("AddNodeBFS() failed with error: %v", err)
+	}
+
+	err = bt.RemoveValue("b")
+	if err == nil {
+		t.Error("RemoveValue() with non-present value should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
 }
