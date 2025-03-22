@@ -1045,4 +1045,11 @@ func TestRemoveValue(t *testing.T) {
 		fmt.Println(err)
 	}
 
+	bt = &BinaryTree{}
+	err = bt.RemoveValue("a")
+	if err == nil {
+		t.Error("RemoveValue() on an empty tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
 }
