@@ -1035,3 +1035,34 @@ func TestContains(t *testing.T) {
 		})
 	}
 }
+
+func TestRemoveValue(t *testing.T) {
+	var bt *BinaryTree
+	err := bt.RemoveValue("a")
+	if err == nil {
+		t.Error("RemoveValue() on a nil tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
+	bt = &BinaryTree{}
+	err = bt.RemoveValue("a")
+	if err == nil {
+		t.Error("RemoveValue() on an empty tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
+	err = bt.AddNodeBFS("a")
+	if err != nil {
+		t.Errorf("AddNodeBFS() failed with error: %v", err)
+	}
+
+	err = bt.RemoveValue("b")
+	if err == nil {
+		t.Error("RemoveValue() with non-present value should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
+}
