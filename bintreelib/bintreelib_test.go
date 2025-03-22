@@ -1035,3 +1035,7 @@ func TestContains(t *testing.T) {
 		})
 	}
 }
+
+func TestRemoveValue(t *testing.T) {
+
+}
