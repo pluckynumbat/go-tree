@@ -1037,5 +1037,12 @@ func TestContains(t *testing.T) {
 }
 
 func TestRemoveValue(t *testing.T) {
+	var bt *BinaryTree
+	err := bt.RemoveValue("a")
+	if err == nil {
+		t.Error("RemoveValue() on a nil tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
 
 }
