@@ -1065,4 +1065,15 @@ func TestRemoveValue(t *testing.T) {
 		fmt.Println(err)
 	}
 
+	err = bt.RemoveValue("a")
+	if err != nil {
+		t.Errorf("RemoveValue() failed with error: %v", err)
+	} else {
+		got := bt.IsEmpty()
+
+		if got != true {
+			t.Error("Binary Tree should be empty after removing the only element in it")
+		}
+	}
+
 }
