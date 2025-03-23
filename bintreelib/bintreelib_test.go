@@ -1092,19 +1092,41 @@ func TestRemoveValue(t *testing.T) {
 		}
 	}
 
-	err = bt.RemoveValue("a")
-	if err != nil {
-		t.Errorf("RemoveValue() failed with error: %v", err)
-	} else {
-		str, err = bt.TraverseBFS()
-		if err != nil {
-			t.Errorf("TraverseBFS() failed with error: %v", err)
-		} else {
-			want := "-g--b--c--d--e--f-"
-			got := str
-			if got != want {
-				t.Errorf("RemoveValue() gave incorrect results, want: %v, got: %v", want, got)
-			}
+	t.Run("remove values from a binary tree till empty", func(t *testing.T) {
+
+		tests := []struct {
+			name   string
+			letter string
+			want   string
+			expErr error
+		}{
+			{"remove a", "a", "-g--b--c--d--e--f-", nil},
+			{"remove b", "b", "-g--f--c--d--e-", nil},
+			{"remove c", "c", "-g--f--e--d-", nil},
+			{"remove d", "d", "-g--f--e-", nil},
+			{"remove e", "e", "-g--f-", nil},
+			{"remove f", "f", "-g-", nil},
+			{"remove g", "g", "", treeEmptyError},
 		}
-	}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				err = bt.RemoveValue(test.letter)
+				if err != nil {
+					t.Errorf("RemoveValue() failed with error: %v", err)
+				} else {
+					str, err = bt.TraverseBFS()
+					if err != nil && !errors.Is(err, test.expErr) {
+						t.Errorf("TraverseBFS() failed with unexpected error: %v", err)
+					} else {
+						want := test.want
+						got := str
+						if got != want {
+							t.Errorf("RemoveValue() gave incorrect results, want: %v, got: %v", want, got)
+						}
+					}
+				}
+			})
+		}
+	})
 }
