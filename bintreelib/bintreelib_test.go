@@ -1091,4 +1091,20 @@ func TestRemoveValue(t *testing.T) {
 			t.Errorf("TraverseBFS() gave incorrect results, want: %v, got: %v", want, got)
 		}
 	}
+
+	err = bt.RemoveValue("a")
+	if err != nil {
+		t.Errorf("RemoveValue() failed with error: %v", err)
+	} else {
+		str, err = bt.TraverseBFS()
+		if err != nil {
+			t.Errorf("TraverseBFS() failed with error: %v", err)
+		} else {
+			want := "-g--b--c--d--e--f-"
+			got := str
+			if got != want {
+				t.Errorf("RemoveValue() gave incorrect results, want: %v, got: %v", want, got)
+			}
+		}
+	}
 }
