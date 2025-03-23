@@ -1076,4 +1076,19 @@ func TestRemoveValue(t *testing.T) {
 		}
 	}
 
+	bt, err = ConstructFromValues("a", "b", "c", "d", "e", "f", "g")
+	if err != nil {
+		t.Errorf("ConstructFromValues() failed with error: %v", err)
+	}
+
+	str, err := bt.TraverseBFS()
+	if err != nil {
+		t.Errorf("TraverseBFS() failed with error: %v", err)
+	} else {
+		want := "-a--b--c--d--e--f--g-"
+		got := str
+		if got != want {
+			t.Errorf("TraverseBFS() gave incorrect results, want: %v, got: %v", want, got)
+		}
+	}
 }
