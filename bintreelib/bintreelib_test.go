@@ -1129,4 +1129,8 @@ func TestRemoveValue(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("remove values from a binary tree till empty 2", func(t *testing.T) {
+
+	})
 }
