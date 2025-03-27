@@ -1129,4 +1129,79 @@ func TestRemoveValue(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("remove values from a binary tree till empty 2", func(t *testing.T) {
+
+		consonantTree := &BinaryTree{}
+		consonants := []string{"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"}
+
+		for _, consonant := range consonants {
+			addErr := consonantTree.AddNodeBFS(consonant)
+			if addErr != nil {
+				t.Fatalf("AddNodeBFS() failed with error: %v", addErr)
+			}
+		}
+
+		tests := []struct {
+			name         string
+			letter       string
+			wantContains bool
+			wantTree     string
+			expErr       error
+		}{
+			{"remove a", "a", false, "-b--c--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x--y--z-", nil},
+			{"remove b", "b", true, "-z--c--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x--y-", nil},
+			{"remove c", "c", true, "-z--y--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x-", nil},
+			{"remove d", "d", true, "-z--y--x--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w-", nil},
+			{"remove e", "e", false, "-z--y--x--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w-", nil},
+			{"remove f", "f", true, "-z--y--x--w--g--h--j--k--l--m--n--p--q--r--s--t--v-", nil},
+			{"remove g", "g", true, "-z--y--x--w--v--h--j--k--l--m--n--p--q--r--s--t-", nil},
+			{"remove h", "h", true, "-z--y--x--w--v--t--j--k--l--m--n--p--q--r--s-", nil},
+			{"remove i", "i", false, "-z--y--x--w--v--t--j--k--l--m--n--p--q--r--s-", nil},
+			{"remove j", "j", true, "-z--y--x--w--v--t--s--k--l--m--n--p--q--r-", nil},
+			{"remove k", "k", true, "-z--y--x--w--v--t--s--r--l--m--n--p--q-", nil},
+			{"remove l", "l", true, "-z--y--x--w--v--t--s--r--q--m--n--p-", nil},
+			{"remove m", "m", true, "-z--y--x--w--v--t--s--r--q--p--n-", nil},
+			{"remove n", "n", true, "-z--y--x--w--v--t--s--r--q--p-", nil},
+			{"remove o", "o", false, "-z--y--x--w--v--t--s--r--q--p-", nil},
+			{"remove p", "p", true, "-z--y--x--w--v--t--s--r--q-", nil},
+			{"remove q", "q", true, "-z--y--x--w--v--t--s--r-", nil},
+			{"remove r", "r", true, "-z--y--x--w--v--t--s-", nil},
+			{"remove s", "s", true, "-z--y--x--w--v--t-", nil},
+			{"remove t", "t", true, "-z--y--x--w--v-", nil},
+			{"remove u", "u", false, "-z--y--x--w--v-", nil},
+			{"remove v", "v", true, "-z--y--x--w-", nil},
+			{"remove w", "w", true, "-z--y--x-", nil},
+			{"remove x", "x", true, "-z--y-", nil},
+			{"remove y", "y", true, "-z-", nil},
+			{"remove z", "z", true, "", treeEmptyError},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				contains, err := consonantTree.Contains(test.letter)
+				if err != nil {
+					t.Fatalf("Contains() failed with error: %v", err)
+				} else if contains != test.wantContains {
+					t.Errorf("Contains() gave incorrect results, want: %v, got: %v", test.wantContains, contains)
+				} else if contains {
+					err = consonantTree.RemoveValue(test.letter)
+					if err != nil {
+						t.Errorf("RemoveValue() failed with error: %v", err)
+					} else {
+						str, err = consonantTree.TraverseBFS()
+						if err != nil && !errors.Is(err, test.expErr) {
+							t.Errorf("TraverseBFS() failed with unexpected error: %v", err)
+						} else {
+							want := test.wantTree
+							got := str
+							if got != want {
+								t.Errorf("RemoveValue() gave incorrect results, want: %v, got: %v", want, got)
+							}
+						}
+					}
+				}
+			})
+		}
+	})
 }
