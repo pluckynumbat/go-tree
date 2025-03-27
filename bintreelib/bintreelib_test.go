@@ -1141,5 +1141,15 @@ func TestRemoveValue(t *testing.T) {
 				t.Fatalf("AddNodeBFS() failed with error: %v", addErr)
 			}
 		}
+
+		tests := []struct {
+			name         string
+			letter       string
+			wantContains bool
+			wantTree     string
+			expErr       error
+		}{
+			{"remove a", "a", false, "-b--c--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x--y--z-", nil},
+		}
 	})
 }
