@@ -1151,6 +1151,9 @@ func TestRemoveValue(t *testing.T) {
 		}{
 			{"remove a", "a", false, "-b--c--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x--y--z-", nil},
 			{"remove b", "b", true, "-z--c--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x--y-", nil},
+			{"remove c", "c", true, "-z--y--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x-", nil},
+			{"remove d", "d", true, "-z--y--x--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w-", nil},
+			{"remove e", "e", false, "-z--y--x--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w-", nil},
 		}
 
 		for _, test := range tests {
