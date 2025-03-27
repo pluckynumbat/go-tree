@@ -1152,5 +1152,32 @@ func TestRemoveValue(t *testing.T) {
 			{"remove a", "a", false, "-b--c--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x--y--z-", nil},
 			{"remove b", "b", true, "-z--c--d--f--g--h--j--k--l--m--n--p--q--r--s--t--v--w--x--y-", nil},
 		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				contains, err := consonantTree.Contains(test.letter)
+				if err != nil {
+					t.Fatalf("Contains() failed with error: %v", err)
+				} else if contains != test.wantContains {
+					t.Errorf("Contains() gave incorrect results, want: %v, got: %v", test.wantContains, contains)
+				} else if contains {
+					err = consonantTree.RemoveValue(test.letter)
+					if err != nil {
+						t.Errorf("RemoveValue() failed with error: %v", err)
+					} else {
+						str, err = consonantTree.TraverseBFS()
+						if err != nil && !errors.Is(err, test.expErr) {
+							t.Errorf("TraverseBFS() failed with unexpected error: %v", err)
+						} else {
+							want := test.wantTree
+							got := str
+							if got != want {
+								t.Errorf("RemoveValue() gave incorrect results, want: %v, got: %v", want, got)
+							}
+						}
+					}
+				}
+			})
+		}
 	})
 }
