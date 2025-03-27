@@ -1133,7 +1133,7 @@ func TestRemoveValue(t *testing.T) {
 	t.Run("remove values from a binary tree till empty 2", func(t *testing.T) {
 
 		consonantTree := &BinaryTree{}
-		consonants := []string{"b", "c", "d", "f", "g", "h", "j", "i", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"}
+		consonants := []string{"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"}
 
 		for _, consonant := range consonants {
 			addErr := consonantTree.AddNodeBFS(consonant)
