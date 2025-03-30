@@ -23,3 +23,11 @@ type Node[T BinarySearchTreeElement] struct {
 	left   *Node[T]
 	right  *Node[T]
 }
+
+// Node's implementation of the fmt.Stringer interface
+func (node *Node[T]) String() string {
+	if node == nil {
+		return "nil"
+	}
+	return node.data.String()
+}
