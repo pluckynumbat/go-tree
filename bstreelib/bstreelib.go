@@ -16,8 +16,8 @@ type BinarySearchTreeElement interface {
 	fmt.Stringer
 }
 
-// Node is the basic unit of the binary search tree, and contains data which can be anything that implements the comparable interface
-type Node[T comparable] struct {
+// Node is the basic unit of the binary search tree, and contains data which can be anything that implements the BinarySearchTreeElement interface
+type Node[T BinarySearchTreeElement] struct {
 	data   T
 	parent *Node[T]
 	left   *Node[T]
