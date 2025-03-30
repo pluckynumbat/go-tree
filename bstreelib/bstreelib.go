@@ -31,3 +31,11 @@ func (node *Node[T]) String() string {
 	}
 	return node.data.String()
 }
+
+// Parent is used to get a pointer to the parent node of a given node
+func (node *Node[T]) Parent() (*Node[T], error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.parent, nil
+}
