@@ -39,3 +39,19 @@ func (node *Node[T]) Parent() (*Node[T], error) {
 	}
 	return node.parent, nil
 }
+
+// LeftChild is used to get a pointer to the left child of a given node
+func (node *Node[T]) LeftChild() (*Node[T], error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.left, nil
+}
+
+// RightChild is used to get a pointer to the right child of a given node
+func (node *Node[T]) RightChild() (*Node[T], error) {
+	if node == nil {
+		return nil, nodeNilError
+	}
+	return node.right, nil
+}
