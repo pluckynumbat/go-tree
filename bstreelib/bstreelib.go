@@ -2,12 +2,19 @@
 package bstreelib
 
 import (
+	"cmp"
 	"fmt"
 )
 
 var nodeNilError = fmt.Errorf("the node is nil")
 var treeNilError = fmt.Errorf("the binary search tree is nil")
 var treeEmptyError = fmt.Errorf("the binary search tree is empty")
+
+// BinarySearchTreeElement is a custom interface that combines the constraints of the Ordered and Stringer interfaces
+type BinarySearchTreeElement interface {
+	cmp.Ordered
+	fmt.Stringer
+}
 
 // Node is the basic unit of the binary search tree, and contains data which can be anything that implements the comparable interface
 type Node[T comparable] struct {
