@@ -10,6 +10,11 @@ func (p prInt) String() string {
 	return fmt.Sprintf("%v", int(p))
 }
 
+type prString string // printable string
+func (p prString) String() string {
+	return fmt.Sprintf("%v", string(p))
+}
+
 func TestNodeString(t *testing.T) {
 	node := &Node[prInt]{1, nil, nil, nil}
 
