@@ -16,12 +16,26 @@ func (p prString) String() string {
 }
 
 func TestNodeString(t *testing.T) {
-	node := &Node[prInt]{1, nil, nil, nil}
+	t.Run("test node string: prInt", func(t *testing.T) {
+		node := &Node[prInt]{1, nil, nil, nil}
 
-	want := "1"
-	got := node.String()
+		want := "1"
+		got := node.String()
 
-	if got != want {
-		t.Errorf("Node's string returned incorrect results, want: %v, got %v", want, got)
-	}
+		if got != want {
+			t.Errorf("Node's string returned incorrect results, want: %v, got %v", want, got)
+		}
+	})
+
+	t.Run("test node string: prString", func(t *testing.T) {
+		node := &Node[prString]{"a", nil, nil, nil}
+
+		want := "a"
+		got := node.String()
+
+		if got != want {
+			t.Errorf("Node's string returned incorrect results, want: %v, got %v", want, got)
+		}
+	})
+
 }
