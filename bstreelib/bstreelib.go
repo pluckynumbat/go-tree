@@ -60,3 +60,8 @@ func (node *Node[T]) RightChild() (*Node[T], error) {
 type BinarySearchTree[T BinarySearchTreeElement] struct {
 	root *Node[T]
 }
+
+// IsNil tells you if the pointer to the binary search tree is nil
+func (bst *BinarySearchTree[T]) IsNil() bool {
+	return bst == nil
+}
