@@ -55,3 +55,8 @@ func (node *Node[T]) RightChild() (*Node[T], error) {
 	}
 	return node.right, nil
 }
+
+// BinarySearchTree struct will hold the core functionality of this library
+type BinarySearchTree[T BinarySearchTreeElement] struct {
+	root *Node[T]
+}
