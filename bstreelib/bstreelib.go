@@ -70,3 +70,11 @@ func (bst *BinarySearchTree[T]) IsNil() bool {
 func (bst *BinarySearchTree[T]) IsEmpty() bool {
 	return bst.IsNil() || bst.root == nil
 }
+
+// Root returns a pointer to the root of a binary search tree
+func (bst *BinarySearchTree[T]) Root() *Node[T] {
+	if bst.IsNil() {
+		return nil
+	}
+	return bst.root
+}
