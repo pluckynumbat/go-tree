@@ -55,3 +55,26 @@ func (node *Node[T]) RightChild() (*Node[T], error) {
 	}
 	return node.right, nil
 }
+
+// BinarySearchTree struct will hold the core functionality of this library
+type BinarySearchTree[T BinarySearchTreeElement] struct {
+	root *Node[T]
+}
+
+// IsNil tells you if the pointer to the binary search tree is nil
+func (bst *BinarySearchTree[T]) IsNil() bool {
+	return bst == nil
+}
+
+// IsEmpty tells you if the binary search tree is empty
+func (bst *BinarySearchTree[T]) IsEmpty() bool {
+	return bst.IsNil() || bst.root == nil
+}
+
+// Root returns a pointer to the root of a binary search tree
+func (bst *BinarySearchTree[T]) Root() *Node[T] {
+	if bst.IsNil() {
+		return nil
+	}
+	return bst.root
+}
