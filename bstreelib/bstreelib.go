@@ -65,3 +65,8 @@ type BinarySearchTree[T BinarySearchTreeElement] struct {
 func (bst *BinarySearchTree[T]) IsNil() bool {
 	return bst == nil
 }
+
+// IsEmpty tells you if the binary search tree is empty
+func (bst *BinarySearchTree[T]) IsEmpty() bool {
+	return bst.IsNil() || bst.root == nil
+}
