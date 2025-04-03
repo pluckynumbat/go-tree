@@ -73,4 +73,37 @@ func TestNodeParent(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("test node parent: prString", func(t *testing.T) {
+		var n1, n2, n3 *Node[prString]
+		n2 = &Node[prString]{"a", nil, nil, nil}
+		n3 = &Node[prString]{"b", n2, nil, nil}
+
+		tests := []struct {
+			name      string
+			node      *Node[prString]
+			expError  error
+			parent    *Node[prString]
+			parentStr string
+		}{
+			{"nil node", n1, nodeNilError, nil, "nil"},
+			{"non nil node, nil parent", n2, nil, nil, "nil"},
+			{"non nil node, non nil parent", n3, nil, n2, "a"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				parent, err := test.node.Parent()
+				if err != nil {
+					if !errors.Is(err, test.expError) {
+						t.Fatalf("Parent() failed with unexpected error: %v", err)
+					}
+				} else if parent != test.parent {
+					t.Fatalf("Parent() returned incorrect parent pointer, want: %v, got: %v", test.parent, parent)
+				} else if parent.String() != test.parentStr {
+					t.Errorf("Parent() returned parent pointer with incorrect string, want: %v, got: %v", test.parentStr, parent.String())
+				}
+			})
+		}
+	})
 }
