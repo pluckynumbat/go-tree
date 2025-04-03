@@ -41,13 +41,24 @@ func TestNodeString(t *testing.T) {
 
 func TestNodeParent(t *testing.T) {
 	t.Run("test node parent: prInt", func(t *testing.T) {
-		var n1 *Node[prInt]
+		var n1, n2 *Node[prInt]
 
 		_, err := n1.Parent()
 		if err == nil {
 			t.Errorf("calling Parent() on a nil node should have returned an error")
 		} else {
 			fmt.Println(err)
+		}
+
+		n2 = &Node[prInt]{}
+		got, err := n2.Parent()
+		if err != nil {
+			t.Fatalf("Parent() failed with error: %v", err)
+		} else {
+			if got != nil {
+				t.Errorf("Parent() returned incorrect results, want: nil, got: %v", got)
+			}
+
 		}
 	})
 }
