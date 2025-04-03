@@ -37,5 +37,17 @@ func TestNodeString(t *testing.T) {
 			t.Errorf("Node's string returned incorrect results, want: %v, got %v", want, got)
 		}
 	})
+}
 
+func TestNodeParent(t *testing.T) {
+	t.Run("test node parent: prInt", func(t *testing.T) {
+		var n1 *Node[prInt]
+
+		_, err := n1.Parent()
+		if err == nil {
+			t.Errorf("calling Parent() on a nil node should have returned an error")
+		} else {
+			fmt.Println(err)
+		}
+	})
 }
