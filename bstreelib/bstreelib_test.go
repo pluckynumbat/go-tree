@@ -41,7 +41,7 @@ func TestNodeString(t *testing.T) {
 
 func TestNodeParent(t *testing.T) {
 	t.Run("test node parent: prInt", func(t *testing.T) {
-		var n1, n2 *Node[prInt]
+		var n1, n2, n3 *Node[prInt]
 
 		_, err := n1.Parent()
 		if err == nil {
@@ -50,7 +50,7 @@ func TestNodeParent(t *testing.T) {
 			fmt.Println(err)
 		}
 
-		n2 = &Node[prInt]{}
+		n2 = &Node[prInt]{1, nil, nil, nil}
 		got, err := n2.Parent()
 		if err != nil {
 			t.Fatalf("Parent() failed with error: %v", err)
@@ -58,7 +58,21 @@ func TestNodeParent(t *testing.T) {
 			if got != nil {
 				t.Errorf("Parent() returned incorrect results, want: nil, got: %v", got)
 			}
+		}
 
+		n3 = &Node[prInt]{2, n2, nil, nil}
+		parent, err := n3.Parent()
+		if err != nil {
+			t.Fatalf("Parent() failed with error: %v", err)
+		} else if parent == nil {
+			t.Fatalf("Parent() returned unexpected nil value")
+		} else {
+			want := "1"
+			got := parent.String()
+
+			if got != want {
+				t.Errorf("Parent() returned incorrect results, want: %v, got: %v", want, got)
+			}
 		}
 	})
 }
