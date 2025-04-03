@@ -1,6 +1,7 @@
 package bstreelib
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 )
@@ -42,37 +43,34 @@ func TestNodeString(t *testing.T) {
 func TestNodeParent(t *testing.T) {
 	t.Run("test node parent: prInt", func(t *testing.T) {
 		var n1, n2, n3 *Node[prInt]
-
-		_, err := n1.Parent()
-		if err == nil {
-			t.Errorf("calling Parent() on a nil node should have returned an error")
-		} else {
-			fmt.Println(err)
-		}
-
 		n2 = &Node[prInt]{1, nil, nil, nil}
-		got, err := n2.Parent()
-		if err != nil {
-			t.Fatalf("Parent() failed with error: %v", err)
-		} else {
-			if got != nil {
-				t.Errorf("Parent() returned incorrect results, want: nil, got: %v", got)
-			}
+		n3 = &Node[prInt]{2, n2, nil, nil}
+
+		tests := []struct {
+			name      string
+			node      *Node[prInt]
+			expError  error
+			parent    *Node[prInt]
+			parentStr string
+		}{
+			{"nil node", n1, nodeNilError, nil, "nil"},
+			{"non nil node, nil parent", n2, nil, nil, "nil"},
+			{"non nil node, non nil parent", n3, nil, n2, "1"},
 		}
 
-		n3 = &Node[prInt]{2, n2, nil, nil}
-		parent, err := n3.Parent()
-		if err != nil {
-			t.Fatalf("Parent() failed with error: %v", err)
-		} else if parent == nil {
-			t.Fatalf("Parent() returned unexpected nil value")
-		} else {
-			want := "1"
-			got := parent.String()
-
-			if got != want {
-				t.Errorf("Parent() returned incorrect results, want: %v, got: %v", want, got)
-			}
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				parent, err := test.node.Parent()
+				if err != nil {
+					if !errors.Is(err, test.expError) {
+						t.Fatalf("Parent() failed with unexpected error: %v", err)
+					}
+				} else if parent != test.parent {
+					t.Fatalf("Parent() returned incorrect parent pointer, want: %v, got: %v", test.parent, parent)
+				} else if parent.String() != test.parentStr {
+					t.Errorf("Parent() returned parent pointer with incorrect string, want: %v, got: %v", test.parentStr, parent.String())
+				}
+			})
 		}
 	})
 }
