@@ -212,4 +212,38 @@ func TestNodeRightChild(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("test node right child: prString", func(t *testing.T) {
+		var n1, n2, n3 *Node[prString]
+		n2 = &Node[prString]{"a", nil, nil, nil}
+		n3 = &Node[prString]{"b", n2, nil, nil}
+		n2.right = n3
+
+		tests := []struct {
+			name          string
+			node          *Node[prString]
+			expError      error
+			rightChild    *Node[prString]
+			rightChildStr string
+		}{
+			{"nil node", n1, nodeNilError, nil, "nil"},
+			{"non nil node, nil right child", n3, nil, nil, "nil"},
+			{"non nil node, non nil right child", n2, nil, n3, "b"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				rightChild, err := test.node.RightChild()
+				if err != nil {
+					if !errors.Is(err, test.expError) {
+						t.Fatalf("RightChild() failed with unexpected error: %v", err)
+					}
+				} else if rightChild != test.rightChild {
+					t.Fatalf("RightChild() returned incorrect right child pointer, want: %v, got: %v", test.rightChild, rightChild)
+				} else if rightChild.String() != test.rightChildStr {
+					t.Errorf("RightChild() returned right child pointer with incorrect string, want: %v, got: %v", test.rightChildStr, rightChild.String())
+				}
+			})
+		}
+	})
 }
