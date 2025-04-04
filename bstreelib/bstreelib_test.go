@@ -107,3 +107,39 @@ func TestNodeParent(t *testing.T) {
 		}
 	})
 }
+
+func TestNodeLeftChild(t *testing.T) {
+	t.Run("test node left child: prInt", func(t *testing.T) {
+		var n1, n2, n3 *Node[prInt]
+		n2 = &Node[prInt]{1, nil, nil, nil}
+		n3 = &Node[prInt]{2, n2, nil, nil}
+		n2.left = n3
+
+		tests := []struct {
+			name         string
+			node         *Node[prInt]
+			expError     error
+			leftChild    *Node[prInt]
+			leftChildStr string
+		}{
+			{"nil node", n1, nodeNilError, nil, "nil"},
+			{"non nil node, nil left child", n3, nil, nil, "nil"},
+			{"non nil node, non nil left child", n2, nil, n3, "2"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				leftChild, err := test.node.LeftChild()
+				if err != nil {
+					if !errors.Is(err, test.expError) {
+						t.Fatalf("LeftChild() failed with unexpected error: %v", err)
+					}
+				} else if leftChild != test.leftChild {
+					t.Fatalf("LeftChild() returned incorrect left child pointer, want: %v, got: %v", test.leftChild, leftChild)
+				} else if leftChild.String() != test.leftChildStr {
+					t.Errorf("LeftChild() returned left child pointer with incorrect string, want: %v, got: %v", test.leftChildStr, leftChild.String())
+				}
+			})
+		}
+	})
+}
