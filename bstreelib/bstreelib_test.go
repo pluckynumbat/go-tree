@@ -272,10 +272,17 @@ func TestIsNil(t *testing.T) {
 }
 
 func TestIsEmpty(t *testing.T) {
-	var bst1 *BinarySearchTree[prInt]
+	var bst1, bst2 *BinarySearchTree[prInt]
+	bst2 = &BinarySearchTree[prInt]{}
 
 	want := true
 	got := bst1.IsEmpty()
+
+	if got != want {
+		t.Errorf("IsEmpty() returned incorrect results, want: %v, got :%v", want, got)
+	}
+
+	got = bst2.IsEmpty()
 
 	if got != want {
 		t.Errorf("IsEmpty() returned incorrect results, want: %v, got :%v", want, got)
