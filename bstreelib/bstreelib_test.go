@@ -257,4 +257,13 @@ func TestIsNil(t *testing.T) {
 	if got != want {
 		t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", want, got)
 	}
+
+	var bt2 = &BinarySearchTree[prInt]{}
+
+	want = false
+	got = bt2.IsNil()
+
+	if got != want {
+		t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", want, got)
+	}
 }
