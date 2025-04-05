@@ -249,21 +249,24 @@ func TestNodeRightChild(t *testing.T) {
 }
 
 func TestIsNil(t *testing.T) {
-	var bt1 *BinarySearchTree[prInt]
+	var bst1, bst2 *BinarySearchTree[prInt]
+	bst2 = &BinarySearchTree[prInt]{}
 
-	want := true
-	got := bt1.IsNil()
-
-	if got != want {
-		t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", want, got)
+	tests := []struct {
+		name string
+		bst  *BinarySearchTree[prInt]
+		want bool
+	}{
+		{"nil tree", bst1, true},
+		{"non nil tree", bst2, false},
 	}
 
-	var bt2 = &BinarySearchTree[prInt]{}
-
-	want = false
-	got = bt2.IsNil()
-
-	if got != want {
-		t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", want, got)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := test.bst.IsNil()
+			if got != test.want {
+				t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", test.want, got)
+			}
+		})
 	}
 }
