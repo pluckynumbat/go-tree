@@ -277,23 +277,22 @@ func TestIsEmpty(t *testing.T) {
 	root := &Node[prInt]{}
 	bst3 = &BinarySearchTree[prInt]{root}
 
-	want := true
-	got := bst1.IsEmpty()
-
-	if got != want {
-		t.Errorf("IsEmpty() returned incorrect results, want: %v, got :%v", want, got)
+	tests := []struct {
+		name string
+		bst  *BinarySearchTree[prInt]
+		want bool
+	}{
+		{"nil tree", bst1, true},
+		{"non nil, empty tree", bst2, true},
+		{"non nil, non empty tree", bst3, false},
 	}
 
-	got = bst2.IsEmpty()
-
-	if got != want {
-		t.Errorf("IsEmpty() returned incorrect results, want: %v, got :%v", want, got)
-	}
-
-	want = false
-	got = bst3.IsEmpty()
-
-	if got != want {
-		t.Errorf("IsEmpty() returned incorrect results, want: %v, got :%v", want, got)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := test.bst.IsEmpty()
+			if got != test.want {
+				t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", test.want, got)
+			}
+		})
 	}
 }
