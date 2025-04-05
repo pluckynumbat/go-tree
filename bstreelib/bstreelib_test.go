@@ -247,3 +247,52 @@ func TestNodeRightChild(t *testing.T) {
 		}
 	})
 }
+
+func TestIsNil(t *testing.T) {
+	var bst1, bst2 *BinarySearchTree[prInt]
+	bst2 = &BinarySearchTree[prInt]{}
+
+	tests := []struct {
+		name string
+		bst  *BinarySearchTree[prInt]
+		want bool
+	}{
+		{"nil tree", bst1, true},
+		{"non nil tree", bst2, false},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := test.bst.IsNil()
+			if got != test.want {
+				t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", test.want, got)
+			}
+		})
+	}
+}
+
+func TestIsEmpty(t *testing.T) {
+	var bst1, bst2, bst3 *BinarySearchTree[prInt]
+	bst2 = &BinarySearchTree[prInt]{}
+	root := &Node[prInt]{}
+	bst3 = &BinarySearchTree[prInt]{root}
+
+	tests := []struct {
+		name string
+		bst  *BinarySearchTree[prInt]
+		want bool
+	}{
+		{"nil tree", bst1, true},
+		{"non nil, empty tree", bst2, true},
+		{"non nil, non empty tree", bst3, false},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := test.bst.IsEmpty()
+			if got != test.want {
+				t.Errorf("IsNil() returned incorrect results, want: %v, got :%v", test.want, got)
+			}
+		})
+	}
+}
