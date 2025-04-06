@@ -78,3 +78,47 @@ func (bst *BinarySearchTree[T]) Root() *Node[T] {
 	}
 	return bst.root
 }
+
+// Insert will add a new value to the binary search tree at the correct position
+func (bst *BinarySearchTree[T]) Insert(value T) error {
+	if bst.IsNil() {
+		return treeNilError
+	}
+
+	node := &Node[T]{value, nil, nil, nil}
+
+	// empty tree
+	if bst.root == nil {
+		bst.root = node
+		return nil
+	}
+
+	runner := bst.root
+
+	for runner != nil {
+		if runner.data == value { // the value is already present
+			return fmt.Errorf("the binary search tree already has the value attempting to be inserted: %v", value)
+		}
+
+		if runner.data > value {
+			if runner.left == nil { // insert as left child
+				runner.left = node
+				node.parent = runner
+				return nil
+			}
+			runner = runner.left // check left subtree
+			continue
+		}
+
+		if runner.data < value {
+			if runner.right == nil { // insert as right child
+				runner.right = node
+				node.parent = runner
+				return nil
+			}
+			runner = runner.right // check right subtree
+			continue
+		}
+	}
+	return nil
+}
