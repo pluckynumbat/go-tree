@@ -78,3 +78,12 @@ func (bst *BinarySearchTree[T]) Root() *Node[T] {
 	}
 	return bst.root
 }
+
+// Insert will add a new value to the binary search tree at the correct position
+func (bst *BinarySearchTree[T]) Insert(value T) error {
+	if bst.IsNil() {
+		return treeNilError
+	}
+
+	return nil
+}
