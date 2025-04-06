@@ -120,6 +120,5 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 			continue
 		}
 	}
-
 	return nil
 }
