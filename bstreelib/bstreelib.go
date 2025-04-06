@@ -85,5 +85,13 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 		return treeNilError
 	}
 
+	node := &Node[T]{value, nil, nil, nil}
+
+	// empty tree
+	if bst.root == nil {
+		bst.root = node
+		return nil
+	}
+
 	return nil
 }
