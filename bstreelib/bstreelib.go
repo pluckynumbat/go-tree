@@ -4,6 +4,7 @@ package bstreelib
 import (
 	"cmp"
 	"fmt"
+	"github.com/pluckynumbat/go-quez/sgquezlib"
 )
 
 var nodeNilError = fmt.Errorf("the node is nil")
@@ -121,4 +122,48 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 		}
 	}
 	return nil
+}
+
+// TraverseBFS returns a string that represents the traversal order of nodes using Breadth First Search
+func (bst *BinarySearchTree[T]) TraverseBFS() (string, error) {
+	if bst.IsNil() {
+		return "", treeNilError
+	}
+
+	if bst.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	treeStr := ""
+	queue := &sgquezlib.SemiGenericQueue[*Node[T]]{}
+	err := queue.Enqueue(bst.root)
+	if err != nil {
+		return "", fmt.Errorf("BFS traversal failed with error: %v", err)
+	}
+
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+
+		if err2 != nil {
+			return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+		}
+
+		treeStr += fmt.Sprintf("-(%v)-", runner.data)
+
+		if runner.left != nil {
+			err2 = queue.Enqueue(runner.left)
+			if err2 != nil {
+				return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+			}
+		}
+
+		if runner.right != nil {
+			err2 = queue.Enqueue(runner.right)
+			if err2 != nil {
+				return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+			}
+		}
+	}
+
+	return treeStr, nil
 }
