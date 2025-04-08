@@ -133,5 +133,12 @@ func (bst *BinarySearchTree[T]) TraverseBFS() (string, error) {
 		return "", treeEmptyError
 	}
 
-	return "", nil
+	treeStr := ""
+	queue := &sgquezlib.SemiGenericQueue[*Node[T]]{}
+	err := queue.Enqueue(bst.root)
+	if err != nil {
+		return "", fmt.Errorf("BFS traversal failed with error: %v", err)
+	}
+
+	return treeStr, nil
 }
