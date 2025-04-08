@@ -4,6 +4,7 @@ package bstreelib
 import (
 	"cmp"
 	"fmt"
+	"github.com/pluckynumbat/go-quez/sgquezlib"
 )
 
 var nodeNilError = fmt.Errorf("the node is nil")
@@ -138,6 +139,30 @@ func (bst *BinarySearchTree[T]) TraverseBFS() (string, error) {
 	err := queue.Enqueue(bst.root)
 	if err != nil {
 		return "", fmt.Errorf("BFS traversal failed with error: %v", err)
+	}
+
+	for !queue.IsEmpty() {
+		runner, err2 := queue.Dequeue()
+
+		if err2 != nil {
+			return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+		}
+
+		treeStr += fmt.Sprintf("-(%v)-", runner.data)
+
+		if runner.left != nil {
+			err2 = queue.Enqueue(runner.left)
+			if err2 != nil {
+				return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+			}
+		}
+
+		if runner.right != nil {
+			err2 = queue.Enqueue(runner.right)
+			if err2 != nil {
+				return "", fmt.Errorf("BFS traversal failed with error: %v", err2)
+			}
+		}
 	}
 
 	return treeStr, nil
