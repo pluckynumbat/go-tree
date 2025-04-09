@@ -179,3 +179,15 @@ func (bst *BinarySearchTree[T]) TraverseDFSInOrder() (string, error) {
 
 	return "", nil
 }
+
+func recurseDFSInOrder[T BinarySearchTreeElement](node *Node[T]) string {
+	if node == nil {
+		return ""
+	}
+
+	result := recurseDFSInOrder(node.left)
+	result += fmt.Sprintf("-(%v)-", node.data)
+	result += recurseDFSInOrder(node.right)
+
+	return result
+}
