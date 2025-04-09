@@ -169,5 +169,13 @@ func (bst *BinarySearchTree[T]) TraverseBFS() (string, error) {
 }
 
 func (bst *BinarySearchTree[T]) TraverseDFSInOrder() (string, error) {
+	if bst.IsNil() {
+		return "", treeNilError
+	}
+
+	if bst.IsEmpty() {
+		return "", treeEmptyError
+	}
+
 	return "", nil
 }
