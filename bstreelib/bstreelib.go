@@ -177,7 +177,7 @@ func (bst *BinarySearchTree[T]) TraverseDFSInOrder() (string, error) {
 		return "", treeEmptyError
 	}
 
-	return "", nil
+	return recurseDFSInOrder(bst.root), nil
 }
 
 func recurseDFSInOrder[T BinarySearchTreeElement](node *Node[T]) string {
