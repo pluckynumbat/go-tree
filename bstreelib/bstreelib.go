@@ -124,6 +124,10 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 	return nil
 }
 
+func ConstructFromValues[T BinarySearchTreeElement](values ...T) (*BinarySearchTree[T], error) {
+	return nil, nil
+}
+
 // TraverseBFS returns a string that represents the traversal order of nodes using Breadth First Search
 func (bst *BinarySearchTree[T]) TraverseBFS() (string, error) {
 	if bst.IsNil() {
