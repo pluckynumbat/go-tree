@@ -124,6 +124,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 	return nil
 }
 
+// ConstructFromValues is a helper function to add all the given values (in the order that they are provided) to a binary search tree
 func ConstructFromValues[T BinarySearchTreeElement](values ...T) (*BinarySearchTree[T], error) {
 	return nil, nil
 }
