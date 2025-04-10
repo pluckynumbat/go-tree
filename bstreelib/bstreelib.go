@@ -124,6 +124,20 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 	return nil
 }
 
+// ConstructFromValues is a helper function to insert all the given values (in the order that they are provided) into a binary search tree
+func ConstructFromValues[T BinarySearchTreeElement](values ...T) (*BinarySearchTree[T], error) {
+	bstree := &BinarySearchTree[T]{}
+
+	for _, val := range values {
+		err := bstree.Insert(val)
+		if err != nil {
+			return nil, fmt.Errorf("construct from values failed with error: %v", err)
+		}
+	}
+
+	return bstree, nil
+}
+
 // TraverseBFS returns a string that represents the traversal order of nodes using Breadth First Search
 func (bst *BinarySearchTree[T]) TraverseBFS() (string, error) {
 	if bst.IsNil() {
