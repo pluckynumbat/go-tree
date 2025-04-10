@@ -126,6 +126,15 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 
 // ConstructFromValues is a helper function to add all the given values (in the order that they are provided) to a binary search tree
 func ConstructFromValues[T BinarySearchTreeElement](values ...T) (*BinarySearchTree[T], error) {
+	bst := &BinarySearchTree[T]{}
+
+	for _, val := range values {
+		err := bst.Insert(val)
+		if err != nil {
+			return nil, fmt.Errorf("construct from values failed with error: %v", err)
+		}
+	}
+
 	return nil, nil
 }
 
