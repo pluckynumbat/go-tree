@@ -79,6 +79,8 @@ func TestNodeParent(t *testing.T) {
 				t.Fatalf("ConstructFromValues() failed with error: %v", err)
 			}
 
+			// gather expected parent strings
+			expParents := []string{"nil", "1", "3", "3", "5", "5", "7"}
 		})
 	})
 
