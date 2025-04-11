@@ -74,7 +74,11 @@ func TestNodeParent(t *testing.T) {
 		}
 
 		t.Run("test node parent on all nodes of a binary search tree", func(t *testing.T) {
-			
+			bst, err := ConstructFromValues[prInt](1, 3, 5, 7, 2, 4, 6)
+			if err != nil {
+				t.Fatalf("ConstructFromValues() failed with error: %v", err)
+			}
+
 		})
 	})
 
