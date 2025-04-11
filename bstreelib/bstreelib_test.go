@@ -3,6 +3,7 @@ package bstreelib
 import (
 	"errors"
 	"fmt"
+	"github.com/pluckynumbat/go-quez/sgquezlib"
 	"testing"
 )
 
@@ -84,6 +85,16 @@ func TestNodeParent(t *testing.T) {
 			*pr1, *pr3, *pr5, *pr7 = 1, 3, 5, 7
 
 			expParents := []*prInt{nil, pr1, pr3, pr3, pr5, pr5, pr7}
+
+			// construct an expected parent queue from the above pointers
+			qParents := sgquezlib.SemiGenericQueue[*prInt]{}
+			for _, p := range expParents {
+				err = qParents.Enqueue(p)
+				if err != nil {
+					t.Fatalf("Enqueue() failed with error: %v", err)
+				}
+			}
+
 		})
 	})
 
