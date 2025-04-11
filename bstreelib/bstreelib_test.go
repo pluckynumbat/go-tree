@@ -81,10 +81,8 @@ func TestNodeParent(t *testing.T) {
 			}
 
 			// gather expected parent prInt pointers
-			var pr1, pr3, pr5, pr7 *prInt
-			*pr1, *pr3, *pr5, *pr7 = 1, 3, 5, 7
-
-			expParents := []*prInt{nil, pr1, pr3, pr3, pr5, pr5, pr7}
+			var pr1, pr3, pr5, pr7 prInt = 1, 3, 5, 7
+			expParents := []*prInt{nil, &pr1, &pr3, &pr3, &pr5, &pr5, &pr7}
 
 			// construct an expected parent queue from the above pointers
 			qParents := sgquezlib.SemiGenericQueue[*prInt]{}
