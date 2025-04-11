@@ -72,6 +72,10 @@ func TestNodeParent(t *testing.T) {
 				}
 			})
 		}
+
+		t.Run("test node parent on all nodes of a binary search tree", func(t *testing.T) {
+			
+		})
 	})
 
 	t.Run("test node parent: prString", func(t *testing.T) {
