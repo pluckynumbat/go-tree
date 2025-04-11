@@ -95,6 +95,13 @@ func TestNodeParent(t *testing.T) {
 				}
 			}
 
+			// set up queue for a breadth first search traversal of the binary search tree
+			queue := sgquezlib.SemiGenericQueue[*Node[prInt]]{}
+			err = queue.Enqueue(bst.root)
+			if err != nil {
+				t.Fatalf("Enqueue() failed with error: %v", err)
+			}
+
 		})
 	})
 
