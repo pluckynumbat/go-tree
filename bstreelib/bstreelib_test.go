@@ -427,13 +427,13 @@ func TestNodeLeftChild(t *testing.T) {
 					t.Fatalf("Dequeue() failed with error: %v", err2)
 				}
 
-				actuaLeftChild, err2 := runner.LeftChild()
+				actualLeftChild, err2 := runner.LeftChild()
 				if err2 != nil {
 					t.Fatalf("LeftChild() failed with error: %v", err2)
 				}
 				got := "nil"
-				if actuaLeftChild != nil {
-					got = actuaLeftChild.String()
+				if actualLeftChild != nil {
+					got = actualLeftChild.String()
 				}
 
 				expectedLeftChild, err2 := qLChild.Dequeue()
