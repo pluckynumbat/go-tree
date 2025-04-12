@@ -185,7 +185,7 @@ func TestNodeParent(t *testing.T) {
 				t.Fatalf("ConstructFromValues() failed with error: %v", err)
 			}
 
-			// gather expected parent prInt pointers
+			// gather expected parent prString pointers
 			var prB, prD, prF prString = "b", "d", "f"
 			expParents := []*prString{nil, &prB, &prB, &prD, &prD, &prF, &prF}
 
