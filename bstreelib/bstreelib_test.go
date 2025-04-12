@@ -286,6 +286,78 @@ func TestNodeLeftChild(t *testing.T) {
 				}
 			})
 		}
+
+		t.Run("test node left child on all nodes of a binary search tree", func(t *testing.T) {
+			bst, err := ConstructFromValues[prInt](1, 3, 5, 7, 2, 4, 6)
+			if err != nil {
+				t.Fatalf("ConstructFromValues() failed with error: %v", err)
+			}
+
+			// gather expected left child prInt pointers
+			var pr2, pr4, pr6 prInt = 2, 4, 6
+			expLChild := []*prInt{nil, &pr2, nil, &pr4, nil, &pr6, nil}
+
+			// construct an expected left child queue from the above pointers
+			qLChild := sgquezlib.SemiGenericQueue[*prInt]{}
+			for _, p := range expLChild {
+				err = qLChild.Enqueue(p)
+				if err != nil {
+					t.Fatalf("Enqueue() failed with error: %v", err)
+				}
+			}
+
+			// set up queue for a breadth first search traversal of the binary search tree
+			queue := sgquezlib.SemiGenericQueue[*Node[prInt]]{}
+			err = queue.Enqueue(bst.root)
+			if err != nil {
+				t.Fatalf("Enqueue() failed with error: %v", err)
+			}
+
+			// do a BFS traversal of the tree, checking each node's left child against the expected left child
+			for !queue.IsEmpty() {
+
+				runner, err2 := queue.Dequeue()
+				if err2 != nil {
+					t.Fatalf("Dequeue() failed with error: %v", err2)
+				}
+
+				actualLeftChild, err2 := runner.LeftChild()
+				if err2 != nil {
+					t.Fatalf("LeftChild() failed with error: %v", err2)
+				}
+				got := "nil"
+				if actualLeftChild != nil {
+					got = actualLeftChild.String()
+				}
+
+				expectedLeftChild, err2 := qLChild.Dequeue()
+				if err2 != nil {
+					t.Fatalf("Dequeue() failed with error: %v", err2)
+				}
+				want := "nil"
+				if expectedLeftChild != nil {
+					want = expectedLeftChild.String()
+				}
+
+				if got != want {
+					t.Errorf("LeftChild() returned incorrect results, want: %v, got: %v", want, got)
+				}
+
+				if runner.left != nil {
+					err2 = queue.Enqueue(runner.left)
+					if err2 != nil {
+						t.Fatalf("Enqueue() failed with error: %v", err2)
+					}
+				}
+
+				if runner.right != nil {
+					err2 = queue.Enqueue(runner.right)
+					if err2 != nil {
+						t.Fatalf("Enqueue() failed with error: %v", err2)
+					}
+				}
+			}
+		})
 	})
 
 	t.Run("test node left child: prString", func(t *testing.T) {
