@@ -731,5 +731,11 @@ func TestIsEmpty(t *testing.T) {
 }
 
 func TestRoot(t *testing.T) {
-	
+	var bst1 *BinarySearchTree[prInt]
+
+	root := bst1.Root()
+
+	if root != nil {
+		t.Errorf("Root() should return nil for a nil tree")
+	}
 }
