@@ -799,4 +799,37 @@ func TestRoot(t *testing.T) {
 	if got != want {
 		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
 	}
+
+	tests := []struct {
+		name       string
+		bst        *BinarySearchTree[prInt]
+		expRootNil bool
+		expRootStr string
+	}{
+		{"nil tree", bst1, true, "nil"},
+		{"empty tree", bst2, true, "nil"},
+		{"1 element tree", bst3, false, "1"},
+		{"2 element tree", bst4, false, "2"},
+		{"3 element tree", bst5, false, "0"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			root := test.bst.Root()
+
+			gotRootNil := root == nil
+			wantRootNil := test.expRootNil
+
+			if gotRootNil != wantRootNil {
+				t.Fatalf("Unexpected Root() nil status, want: %v, got: %v", wantRootNil, gotRootNil)
+			}
+
+			got := root.String()
+			want := test.expRootStr
+
+			if got != want {
+				t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
+			}
+		})
+	}
 }
