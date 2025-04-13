@@ -731,7 +731,7 @@ func TestIsEmpty(t *testing.T) {
 }
 
 func TestRoot(t *testing.T) {
-	var bst1, bst2, bst3 *BinarySearchTree[prInt]
+	var bst1, bst2, bst3, bst4, bst5 *BinarySearchTree[prInt]
 
 	root := bst1.Root()
 
@@ -775,6 +775,26 @@ func TestRoot(t *testing.T) {
 
 	got = root.String()
 	want = "2"
+
+	if got != want {
+		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
+	}
+
+	r3 := &Node[prInt]{0, nil, nil, nil}
+	n4 := &Node[prInt]{-1, r3, nil, nil}
+	n5 := &Node[prInt]{1, r3, nil, nil}
+	r3.left = n4
+	r3.right = n5
+
+	bst5 = &BinarySearchTree[prInt]{r3}
+
+	root = bst5.Root()
+	if root == nil {
+		t.Fatalf("Root() should not return nil for a non-empty tree")
+	}
+
+	got = root.String()
+	want = "0"
 
 	if got != want {
 		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
