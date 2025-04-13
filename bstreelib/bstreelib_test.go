@@ -733,72 +733,22 @@ func TestIsEmpty(t *testing.T) {
 func TestRoot(t *testing.T) {
 	var bst1, bst2, bst3, bst4, bst5 *BinarySearchTree[prInt]
 
-	root := bst1.Root()
-
-	if root != nil {
-		t.Errorf("Root() should return nil for a nil tree")
-	}
-
 	bst2 = &BinarySearchTree[prInt]{}
-
-	root = bst2.Root()
-
-	if root != nil {
-		t.Errorf("Root() should return nil for an empty tree")
-	}
 
 	r1 := &Node[prInt]{1, nil, nil, nil}
 	bst3 = &BinarySearchTree[prInt]{r1}
 
-	root = bst3.Root()
-	if root == nil {
-		t.Fatalf("Root() should not return nil for a non-empty tree")
-	}
-
-	got := root.String()
-	want := "1"
-
-	if got != want {
-		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
-	}
-
 	r2 := &Node[prInt]{2, nil, nil, nil}
 	n2 := &Node[prInt]{1, r2, nil, nil}
 	r2.left = n2
-
 	bst4 = &BinarySearchTree[prInt]{r2}
-
-	root = bst4.Root()
-	if root == nil {
-		t.Fatalf("Root() should not return nil for a non-empty tree")
-	}
-
-	got = root.String()
-	want = "2"
-
-	if got != want {
-		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
-	}
 
 	r3 := &Node[prInt]{0, nil, nil, nil}
 	n4 := &Node[prInt]{-1, r3, nil, nil}
 	n5 := &Node[prInt]{1, r3, nil, nil}
 	r3.left = n4
 	r3.right = n5
-
 	bst5 = &BinarySearchTree[prInt]{r3}
-
-	root = bst5.Root()
-	if root == nil {
-		t.Fatalf("Root() should not return nil for a non-empty tree")
-	}
-
-	got = root.String()
-	want = "0"
-
-	if got != want {
-		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
-	}
 
 	tests := []struct {
 		name       string
