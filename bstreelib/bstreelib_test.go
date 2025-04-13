@@ -729,3 +729,7 @@ func TestIsEmpty(t *testing.T) {
 		})
 	}
 }
+
+func TestRoot(t *testing.T) {
+	
+}
