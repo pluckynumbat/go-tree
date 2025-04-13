@@ -762,4 +762,21 @@ func TestRoot(t *testing.T) {
 		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
 	}
 
+	r2 := &Node[prInt]{2, nil, nil, nil}
+	n2 := &Node[prInt]{1, r2, nil, nil}
+	r2.left = n2
+
+	bst4 = &BinarySearchTree[prInt]{r2}
+
+	root = bst4.Root()
+	if root == nil {
+		t.Fatalf("Root() should not return nil for a non-empty tree")
+	}
+
+	got = root.String()
+	want = "2"
+
+	if got != want {
+		t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
+	}
 }
