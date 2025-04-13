@@ -729,3 +729,57 @@ func TestIsEmpty(t *testing.T) {
 		})
 	}
 }
+
+func TestRoot(t *testing.T) {
+	var bst1, bst2, bst3, bst4, bst5 *BinarySearchTree[prInt]
+
+	bst2 = &BinarySearchTree[prInt]{}
+
+	r1 := &Node[prInt]{1, nil, nil, nil}
+	bst3 = &BinarySearchTree[prInt]{r1}
+
+	r2 := &Node[prInt]{2, nil, nil, nil}
+	n2 := &Node[prInt]{1, r2, nil, nil}
+	r2.left = n2
+	bst4 = &BinarySearchTree[prInt]{r2}
+
+	r3 := &Node[prInt]{0, nil, nil, nil}
+	n4 := &Node[prInt]{-1, r3, nil, nil}
+	n5 := &Node[prInt]{1, r3, nil, nil}
+	r3.left = n4
+	r3.right = n5
+	bst5 = &BinarySearchTree[prInt]{r3}
+
+	tests := []struct {
+		name       string
+		bst        *BinarySearchTree[prInt]
+		expRootNil bool
+		expRootStr string
+	}{
+		{"nil tree", bst1, true, "nil"},
+		{"empty tree", bst2, true, "nil"},
+		{"1 element tree", bst3, false, "1"},
+		{"2 element tree", bst4, false, "2"},
+		{"3 element tree", bst5, false, "0"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			root := test.bst.Root()
+
+			gotRootNil := root == nil
+			wantRootNil := test.expRootNil
+
+			if gotRootNil != wantRootNil {
+				t.Fatalf("Unexpected Root() nil status, want: %v, got: %v", wantRootNil, gotRootNil)
+			}
+
+			got := root.String()
+			want := test.expRootStr
+
+			if got != want {
+				t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
+			}
+		})
+	}
+}
