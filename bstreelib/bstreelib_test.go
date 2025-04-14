@@ -785,5 +785,10 @@ func TestRoot(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	
+	var bst *BinarySearchTree[prInt]
+
+	err := bst.Insert(1)
+	if err == nil {
+		t.Fatalf("Insert() on a nil tree should return an error")
+	}
 }
