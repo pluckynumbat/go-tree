@@ -783,3 +783,38 @@ func TestRoot(t *testing.T) {
 		})
 	}
 }
+
+func TestInsert(t *testing.T) {
+	var bst *BinarySearchTree[prInt]
+
+	err := bst.Insert(1)
+	if err == nil {
+		t.Fatalf("Insert() on a nil tree should return an error")
+	} else {
+		fmt.Println(err)
+	}
+
+	bst = &BinarySearchTree[prInt]{}
+
+	err = bst.Insert(1)
+	if err != nil {
+		t.Fatalf("Insert() failed with error: %v", err)
+	}
+
+	want := "-(1)-"
+	got, err := bst.TraverseBFS()
+	if err != nil {
+		t.Fatalf("TraverseBFS() failed with error: %v", err)
+	}
+
+	if got != want {
+		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", want, got)
+	}
+
+	err = bst.Insert(1)
+	if err == nil {
+		t.Fatalf("Insert() using a vlaue already present in the tree should have returned an error")
+	} else {
+		fmt.Println(err)
+	}
+}
