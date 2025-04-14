@@ -783,3 +783,7 @@ func TestRoot(t *testing.T) {
 		})
 	}
 }
+
+func TestInsert(t *testing.T) {
+	
+}
