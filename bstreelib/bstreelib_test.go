@@ -791,4 +791,21 @@ func TestInsert(t *testing.T) {
 	if err == nil {
 		t.Fatalf("Insert() on a nil tree should return an error")
 	}
+
+	bst = &BinarySearchTree[prInt]{}
+
+	err = bst.Insert(1)
+	if err != nil {
+		t.Fatalf("Insert() failed with error: %v", err)
+	}
+
+	want := "-(1)-"
+	got, err := bst.TraverseBFS()
+	if err != nil {
+		t.Fatalf("TraverseBFS() failed with error: %v", err)
+	}
+
+	if got != want {
+		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", want, got)
+	}
 }
