@@ -808,4 +808,11 @@ func TestInsert(t *testing.T) {
 	if got != want {
 		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", want, got)
 	}
+
+	err = bst.Insert(1)
+	if err == nil {
+		t.Fatalf("Insert() using a vlaue already present in the tree should have returned an error")
+	} else {
+		fmt.Println(err)
+	}
 }
