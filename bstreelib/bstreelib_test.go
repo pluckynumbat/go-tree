@@ -826,4 +826,14 @@ func TestInsert(t *testing.T) {
 		}
 	}
 
+	gotBFS, err := bst.TraverseBFS()
+	if err != nil {
+		t.Fatalf("TraverseBFS() failed with error: %v", err)
+	}
+	wantBFS := "-(1)--(4)--(2)--(6)--(3)--(5)-"
+
+	if gotBFS != wantBFS {
+		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotBFS)
+	}
+
 }
