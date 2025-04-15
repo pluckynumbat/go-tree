@@ -817,4 +817,13 @@ func TestInsert(t *testing.T) {
 	} else {
 		fmt.Println(err)
 	}
+
+	insertVals := []prInt{4, 6, 2, 5, 3}
+	for _, val := range insertVals {
+		err2 := bst.Insert(val)
+		if err2 != nil {
+			t.Fatalf("Insert() failed with error: %v", err)
+		}
+	}
+
 }
