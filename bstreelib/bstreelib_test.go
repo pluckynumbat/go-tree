@@ -836,4 +836,13 @@ func TestInsert(t *testing.T) {
 		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotBFS)
 	}
 
+	gotDFSInOrder, err := bst.TraverseDFSInOrder()
+	if err != nil {
+		t.Fatalf("TraverseDFSInOrder() failed with error: %v", err)
+	}
+	wantDFSInOrder := "-(1)--(2)--(3)--(4)--(5)--(6)-"
+
+	if gotDFSInOrder != wantDFSInOrder {
+		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotDFSInOrder)
+	}
 }
