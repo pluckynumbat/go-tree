@@ -849,5 +849,20 @@ func TestInsert(t *testing.T) {
 
 	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
 
+		tests := []struct {
+			name             string
+			bstree           *BinarySearchTree[prInt]
+			val              prInt
+			expError         error
+			expBFStr         string
+			expDFSInorderStr string
+		}{
+			{},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+			})
+		}
 	})
 }
