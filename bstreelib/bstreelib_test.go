@@ -785,64 +785,67 @@ func TestRoot(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	var bst *BinarySearchTree[prInt]
 
-	err := bst.Insert(1)
-	if err == nil {
-		t.Fatalf("Insert() on a nil tree should return an error")
-	} else {
-		fmt.Println(err)
-	}
+	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
+		var bst1, bst2 *BinarySearchTree[prInt]
+		bst2 = &BinarySearchTree[prInt]{}
 
-	bst = &BinarySearchTree[prInt]{}
+		tests := []struct {
+			name             string
+			bst              *BinarySearchTree[prInt]
+			val              prInt
+			expError         error
+			expBFStr         string
+			expDFSInorderStr string
+		}{
+			{"nil tree", bst1, 1, treeNilError, "", ""},
+			{"empty tree", bst2, 1, nil, "-(1)-", "-(1)-"},
+			{"1 element tree", bst2, 4, nil, "-(1)--(4)-", "-(1)--(4)-"},
+			{"2 element tree", bst2, 6, nil, "-(1)--(4)--(6)-", "-(1)--(4)--(6)-"},
+			{"3 element tree", bst2, 2, nil, "-(1)--(4)--(2)--(6)-", "-(1)--(2)--(4)--(6)-"},
+			{"4 element tree", bst2, 5, nil, "-(1)--(4)--(2)--(6)--(5)-", "-(1)--(2)--(4)--(5)--(6)-"},
+			{"5 element tree", bst2, 3, nil, "-(1)--(4)--(2)--(6)--(3)--(5)-", "-(1)--(2)--(3)--(4)--(5)--(6)-"},
+		}
 
-	err = bst.Insert(1)
-	if err != nil {
-		t.Fatalf("Insert() failed with error: %v", err)
-	}
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				err := test.bst.Insert(test.val)
+				if err != nil && !errors.Is(err, test.expError) {
+					t.Fatalf("Insert() failed with unexpected error: %v", err)
+				} else if err != nil {
+					fmt.Println(err)
+				} else {
+					gotBFSstr, err2 := test.bst.TraverseBFS()
+					if err2 != nil {
+						t.Fatalf("TraverseBFS() failed with unexpected error: %v", err2)
+					} else if gotBFSstr != test.expBFStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expBFStr, gotBFSstr)
+					}
 
-	want := "-(1)-"
-	got, err := bst.TraverseBFS()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with error: %v", err)
-	}
+					inorderDFSstr, err2 := test.bst.TraverseDFSInOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSInOrder() failed with unexpected error: %v", err2)
+					} else if inorderDFSstr != test.expDFSInorderStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSInorderStr, inorderDFSstr)
+					}
+				}
+			})
+		}
+	})
 
-	if got != want {
-		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", want, got)
-	}
+	t.Run("test inserting a value already present in a Binary Search Tree of prInt nodes", func(t *testing.T) {
+		bst := &BinarySearchTree[prInt]{}
 
-	err = bst.Insert(1)
-	if err == nil {
-		t.Fatalf("Insert() using a value already present in the tree should have returned an error")
-	} else {
-		fmt.Println(err)
-	}
-
-	insertVals := []prInt{4, 6, 2, 5, 3}
-	for _, val := range insertVals {
-		err2 := bst.Insert(val)
-		if err2 != nil {
+		err := bst.Insert(1)
+		if err != nil {
 			t.Fatalf("Insert() failed with error: %v", err)
 		}
-	}
 
-	gotBFS, err := bst.TraverseBFS()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with error: %v", err)
-	}
-	wantBFS := "-(1)--(4)--(2)--(6)--(3)--(5)-"
-
-	if gotBFS != wantBFS {
-		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotBFS)
-	}
-
-	gotDFSInOrder, err := bst.TraverseDFSInOrder()
-	if err != nil {
-		t.Fatalf("TraverseDFSInOrder() failed with error: %v", err)
-	}
-	wantDFSInOrder := "-(1)--(2)--(3)--(4)--(5)--(6)-"
-
-	if gotDFSInOrder != wantDFSInOrder {
-		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotDFSInOrder)
-	}
+		err = bst.Insert(1)
+		if err == nil {
+			t.Fatalf("Insert() using a value already present in the tree should have returned an error")
+		} else {
+			fmt.Println(err)
+		}
+	})
 }
