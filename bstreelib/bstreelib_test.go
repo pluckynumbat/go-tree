@@ -785,6 +785,7 @@ func TestRoot(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
+
 	var bst *BinarySearchTree[prInt]
 
 	err := bst.Insert(1)
@@ -845,4 +846,8 @@ func TestInsert(t *testing.T) {
 	if gotDFSInOrder != wantDFSInOrder {
 		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotDFSInOrder)
 	}
+
+	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
+
+	})
 }
