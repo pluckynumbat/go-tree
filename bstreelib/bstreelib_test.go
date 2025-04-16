@@ -862,17 +862,17 @@ func TestInsert(t *testing.T) {
 				} else if err != nil {
 					fmt.Println(err)
 				} else {
-					gotBFSstr, err2 := bst.TraverseBFS()
+					gotBFSstr, err2 := test.bstree.TraverseBFS()
 					if err2 != nil {
 						t.Fatalf("TraverseBFS() failed with unexpected error: %v", err2)
 					} else if gotBFSstr != test.expBFStr {
 						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expBFStr, gotBFSstr)
 					}
 
-					inorderDFSstr, err2 := bst.TraverseDFSInOrder()
+					inorderDFSstr, err2 := test.bstree.TraverseDFSInOrder()
 					if err2 != nil {
 						t.Fatalf("TraverseDFSInOrder() failed with unexpected error: %v", err2)
-					} else if gotBFSstr != test.expDFSInorderStr {
+					} else if inorderDFSstr != test.expDFSInorderStr {
 						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSInorderStr, inorderDFSstr)
 					}
 				}
