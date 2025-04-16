@@ -862,6 +862,26 @@ func TestInsert(t *testing.T) {
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
+				err := test.bstree.Insert(test.val)
+				if err != nil && !errors.Is(err, test.expError) {
+					t.Fatalf("Insert() failed with unexpected error: %v", err)
+				} else if err != nil {
+					fmt.Println(err)
+				} else {
+					gotBFSstr, err2 := bst.TraverseBFS()
+					if err2 != nil {
+						t.Fatalf("TraverseBFS() failed with unexpected error: %v", err2)
+					} else if gotBFSstr != test.expBFStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expBFStr, gotBFSstr)
+					}
+
+					inorderDFSstr, err2 := bst.TraverseDFSInOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSInOrder() failed with unexpected error: %v", err2)
+					} else if gotBFSstr != test.expDFSInorderStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSInorderStr, inorderDFSstr)
+					}
+				}
 			})
 		}
 	})
