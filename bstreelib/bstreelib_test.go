@@ -788,16 +788,9 @@ func TestInsert(t *testing.T) {
 
 	var bst *BinarySearchTree[prInt]
 
-	err := bst.Insert(1)
-	if err == nil {
-		t.Fatalf("Insert() on a nil tree should return an error")
-	} else {
-		fmt.Println(err)
-	}
-
 	bst = &BinarySearchTree[prInt]{}
 
-	err = bst.Insert(1)
+	err := bst.Insert(1)
 	if err != nil {
 		t.Fatalf("Insert() failed with error: %v", err)
 	}
@@ -848,6 +841,7 @@ func TestInsert(t *testing.T) {
 	}
 
 	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
+		var bst1 *BinarySearchTree[prInt]
 
 		tests := []struct {
 			name             string
@@ -857,7 +851,7 @@ func TestInsert(t *testing.T) {
 			expBFStr         string
 			expDFSInorderStr string
 		}{
-			{},
+			{"nil tree", bst1, 1, treeNilError, "", ""},
 		}
 
 		for _, test := range tests {
