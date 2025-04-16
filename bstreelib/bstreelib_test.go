@@ -786,39 +786,6 @@ func TestRoot(t *testing.T) {
 
 func TestInsert(t *testing.T) {
 
-	var bst *BinarySearchTree[prInt]
-
-	err := bst.Insert(1)
-	if err == nil {
-		t.Fatalf("Insert() on a nil tree should return an error")
-	} else {
-		fmt.Println(err)
-	}
-
-	bst = &BinarySearchTree[prInt]{}
-
-	err = bst.Insert(1)
-	if err != nil {
-		t.Fatalf("Insert() failed with error: %v", err)
-	}
-
-	want := "-(1)-"
-	got, err := bst.TraverseBFS()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with error: %v", err)
-	}
-
-	if got != want {
-		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", want, got)
-	}
-
-	err = bst.Insert(1)
-	if err == nil {
-		t.Fatalf("Insert() using a value already present in the tree should have returned an error")
-	} else {
-		fmt.Println(err)
-	}
-
 	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
 		var bst1, bst2 *BinarySearchTree[prInt]
 		bst2 = &BinarySearchTree[prInt]{}
@@ -863,6 +830,22 @@ func TestInsert(t *testing.T) {
 					}
 				}
 			})
+		}
+	})
+
+	t.Run("test inserting a value already present in a Binary Search Tree of prInt nodes", func(t *testing.T) {
+		bst := &BinarySearchTree[prInt]{}
+
+		err := bst.Insert(1)
+		if err != nil {
+			t.Fatalf("Insert() failed with error: %v", err)
+		}
+
+		err = bst.Insert(1)
+		if err == nil {
+			t.Fatalf("Insert() using a value already present in the tree should have returned an error")
+		} else {
+			fmt.Println(err)
 		}
 	})
 }
