@@ -819,34 +819,6 @@ func TestInsert(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	insertVals := []prInt{4, 6, 2, 5, 3}
-	for _, val := range insertVals {
-		err2 := bst.Insert(val)
-		if err2 != nil {
-			t.Fatalf("Insert() failed with error: %v", err)
-		}
-	}
-
-	gotBFS, err := bst.TraverseBFS()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with error: %v", err)
-	}
-	wantBFS := "-(1)--(4)--(2)--(6)--(3)--(5)-"
-
-	if gotBFS != wantBFS {
-		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotBFS)
-	}
-
-	gotDFSInOrder, err := bst.TraverseDFSInOrder()
-	if err != nil {
-		t.Fatalf("TraverseDFSInOrder() failed with error: %v", err)
-	}
-	wantDFSInOrder := "-(1)--(2)--(3)--(4)--(5)--(6)-"
-
-	if gotDFSInOrder != wantDFSInOrder {
-		t.Errorf("Insert() gave incorrect results, want: %v, got: %v", wantBFS, gotDFSInOrder)
-	}
-
 	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
 		var bst1, bst2 *BinarySearchTree[prInt]
 		bst2 = &BinarySearchTree[prInt]{}
