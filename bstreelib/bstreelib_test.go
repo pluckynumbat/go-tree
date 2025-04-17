@@ -850,5 +850,16 @@ func TestInsert(t *testing.T) {
 	})
 
 	t.Run("test insert on Binary Search Tree of prString nodes", func(t *testing.T) {
+
+		tests := []struct {
+			name             string
+			bst              *BinarySearchTree[prString]
+			val              prString
+			expError         error
+			expBFStr         string
+			expDFSInorderStr string
+		}{
+
+		}
 	})
 }
