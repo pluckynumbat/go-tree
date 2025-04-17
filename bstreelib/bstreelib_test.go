@@ -848,4 +848,7 @@ func TestInsert(t *testing.T) {
 			fmt.Println(err)
 		}
 	})
+
+	t.Run("test insert on Binary Search Tree of prString nodes", func(t *testing.T) {
+	})
 }
