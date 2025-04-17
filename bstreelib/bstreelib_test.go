@@ -863,6 +863,12 @@ func TestInsert(t *testing.T) {
 		}{
 			{"nil tree", bst1, "b", treeNilError, "", ""},
 			{"empty tree", bst2, "b", nil, "-(b)-", "-(b)-"},
+			{"1 element tree", bst2, "d", nil, "-(b)--(d)-", "-(b)--(d)-"},
+			{"2 element tree", bst2, "f", nil, "-(b)--(d)--(f)-", "-(b)--(d)--(f)-"},
+			{"3 element tree", bst2, "a", nil, "-(b)--(a)--(d)--(f)-", "-(a)--(b)--(d)--(f)-"},
+			{"4 element tree", bst2, "c", nil, "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(b)--(c)--(d)--(f)-"},
+			{"5 element tree", bst2, "e", nil, "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(b)--(c)--(d)--(e)--(f)-"},
+			{"6 element tree", bst2, "g", nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-"},
 		}
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
