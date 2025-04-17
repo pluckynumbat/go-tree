@@ -848,4 +848,51 @@ func TestInsert(t *testing.T) {
 			fmt.Println(err)
 		}
 	})
+
+	t.Run("test insert on Binary Search Tree of prString nodes", func(t *testing.T) {
+		var bst1, bst2 *BinarySearchTree[prString]
+		bst2 = &BinarySearchTree[prString]{}
+
+		tests := []struct {
+			name             string
+			bst              *BinarySearchTree[prString]
+			val              prString
+			expError         error
+			expBFStr         string
+			expDFSInorderStr string
+		}{
+			{"nil tree", bst1, "b", treeNilError, "", ""},
+			{"empty tree", bst2, "b", nil, "-(b)-", "-(b)-"},
+			{"1 element tree", bst2, "d", nil, "-(b)--(d)-", "-(b)--(d)-"},
+			{"2 element tree", bst2, "f", nil, "-(b)--(d)--(f)-", "-(b)--(d)--(f)-"},
+			{"3 element tree", bst2, "a", nil, "-(b)--(a)--(d)--(f)-", "-(a)--(b)--(d)--(f)-"},
+			{"4 element tree", bst2, "c", nil, "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(b)--(c)--(d)--(f)-"},
+			{"5 element tree", bst2, "e", nil, "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(b)--(c)--(d)--(e)--(f)-"},
+			{"6 element tree", bst2, "g", nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-"},
+		}
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				err := test.bst.Insert(test.val)
+				if err != nil && !errors.Is(err, test.expError) {
+					t.Fatalf("Insert() failed with unexpected error: %v", err)
+				} else if err != nil {
+					fmt.Println(err)
+				} else {
+					gotBFSstr, err2 := test.bst.TraverseBFS()
+					if err2 != nil {
+						t.Fatalf("TraverseBFS() failed with unexpected error: %v", err2)
+					} else if gotBFSstr != test.expBFStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expBFStr, gotBFSstr)
+					}
+
+					inorderDFSstr, err2 := test.bst.TraverseDFSInOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSInOrder() failed with unexpected error: %v", err2)
+					} else if inorderDFSstr != test.expDFSInorderStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSInorderStr, inorderDFSstr)
+					}
+				}
+			})
+		}
+	})
 }
