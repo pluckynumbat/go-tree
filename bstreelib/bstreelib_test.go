@@ -850,6 +850,8 @@ func TestInsert(t *testing.T) {
 	})
 
 	t.Run("test insert on Binary Search Tree of prString nodes", func(t *testing.T) {
+		var bst1, bst2 *BinarySearchTree[prString]
+		bst2 = &BinarySearchTree[prString]{}
 
 		tests := []struct {
 			name             string
@@ -859,7 +861,8 @@ func TestInsert(t *testing.T) {
 			expBFStr         string
 			expDFSInorderStr string
 		}{
-
+			{"nil tree", bst1, "b", treeNilError, "", ""},
+			{"empty tree", bst2, "b", nil, "-(b)-", "-(b)-"},
 		}
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
