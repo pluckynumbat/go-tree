@@ -898,5 +898,9 @@ func TestInsert(t *testing.T) {
 }
 
 func TestConstructFromValues(t *testing.T) {
-	
+
+	_, err := ConstructFromValues[prInt](2, 4, 6, 7, 5, 3, 1)
+	if err != nil {
+		t.Fatalf("ConstructFromValues failed with error: %v", err)
+	}
 }
