@@ -896,3 +896,33 @@ func TestInsert(t *testing.T) {
 		}
 	})
 }
+
+func TestConstructFromValues(t *testing.T) {
+
+	bst1, err := ConstructFromValues[prInt](2, 4, 6, 7, 5, 3, 1)
+	if err != nil {
+		t.Fatalf("ConstructFromValues() failed with error: %v", err)
+	}
+
+	gotBFSStr, err := bst1.TraverseBFS()
+	if err != nil {
+		t.Fatalf("TraverseBFS() failed with error: %v", err)
+	}
+
+	expBFSStr := "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-"
+
+	if gotBFSStr != expBFSStr {
+		t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", expBFSStr, gotBFSStr)
+	}
+
+	gotDFSInOrderStr, err := bst1.TraverseDFSInOrder()
+	if err != nil {
+		t.Fatalf("TraverseBFS() failed with error: %v", err)
+	}
+
+	expDFSInOrderStr := "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-"
+
+	if gotDFSInOrderStr != expDFSInOrderStr {
+		t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", expDFSInOrderStr, gotDFSInOrderStr)
+	}
+}
