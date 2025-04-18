@@ -896,3 +896,7 @@ func TestInsert(t *testing.T) {
 		}
 	})
 }
+
+func TestConstructFromValues(t *testing.T) {
+	
+}
