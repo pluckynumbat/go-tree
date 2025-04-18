@@ -914,4 +914,15 @@ func TestConstructFromValues(t *testing.T) {
 	if gotBFSStr != expBFSStr {
 		t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", expBFSStr, gotBFSStr)
 	}
+
+	gotDFSInOrderStr, err := bst1.TraverseDFSInOrder()
+	if err != nil {
+		t.Fatalf("TraverseBFS() failed with error: %v", err)
+	}
+
+	expDFSInOrderStr := "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-"
+
+	if gotDFSInOrderStr != expDFSInOrderStr {
+		t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", expDFSInOrderStr, gotDFSInOrderStr)
+	}
 }
