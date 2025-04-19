@@ -913,6 +913,11 @@ func TestConstructFromValues(t *testing.T) {
 			{"empty input", []prInt{}, false, treeEmptyError, "", ""},
 			{"2 elements, identical", []prInt{1, 1}, true, nil, "", ""},
 			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, false, nil, "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, false, nil, "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, false, nil, "-(1)--(-1)--(0)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, false, nil, "-(-1)--(1)--(0)-", "-(-1)--(0)--(1)-"},
 			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, false, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-"},
 		}
 
