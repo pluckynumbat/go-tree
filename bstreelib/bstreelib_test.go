@@ -902,9 +902,10 @@ func TestConstructFromValues(t *testing.T) {
 	t.Run("test construct from values for type prInt", func(t *testing.T) {
 
 		tests := []struct {
+			name             string
 			input            []prInt
 			expErr           error
-			expBFSstr        string
+			expBFSStr        string
 			expDFSInOrderStr string
 		}{}
 	})
