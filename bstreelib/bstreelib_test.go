@@ -909,7 +909,10 @@ func TestConstructFromValues(t *testing.T) {
 			expBFSStr           string
 			expDFSInOrderStr    string
 		}{
-			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-"},
+			{"nil input", nil, false, treeEmptyError, "", ""},
+			{"empty input", []prInt{}, false, treeEmptyError, "", ""},
+			{"2 elements, identical", []prInt{1, 1}, true, nil, "", ""},
+			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, false, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-"},
 		}
 
 		for _, test := range tests {
