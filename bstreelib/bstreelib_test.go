@@ -901,6 +901,12 @@ func TestConstructFromValues(t *testing.T) {
 
 	t.Run("test construct from values for type prInt", func(t *testing.T) {
 
+		tests := []struct {
+			input            []prInt
+			expErr           error
+			expBFSstr        string
+			expDFSInOrderStr string
+		}{}
 	})
 
 	bst1, err := ConstructFromValues[prInt](2, 4, 6, 7, 5, 3, 1)
