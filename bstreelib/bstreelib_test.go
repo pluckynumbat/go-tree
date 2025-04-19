@@ -899,30 +899,60 @@ func TestInsert(t *testing.T) {
 
 func TestConstructFromValues(t *testing.T) {
 
-	bst1, err := ConstructFromValues[prInt](2, 4, 6, 7, 5, 3, 1)
-	if err != nil {
-		t.Fatalf("ConstructFromValues() failed with error: %v", err)
-	}
+	t.Run("test construct from values for type prInt", func(t *testing.T) {
 
-	gotBFSStr, err := bst1.TraverseBFS()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with error: %v", err)
-	}
+		tests := []struct {
+			name                string
+			input               []prInt
+			shouldConstructFail bool
+			expTraverseErr      error
+			expBFSStr           string
+			expDFSInOrderStr    string
+		}{
+			{"nil input", nil, false, treeEmptyError, "", ""},
+			{"empty input", []prInt{}, false, treeEmptyError, "", ""},
+			{"2 elements, identical", []prInt{1, 1}, true, nil, "", ""},
+			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, false, nil, "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, false, nil, "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, false, nil, "-(1)--(-1)--(0)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, false, nil, "-(-1)--(1)--(0)-", "-(-1)--(0)--(1)-"},
+			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, false, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-"},
+		}
 
-	expBFSStr := "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-"
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructFromValues[prInt](test.input...)
 
-	if gotBFSStr != expBFSStr {
-		t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", expBFSStr, gotBFSStr)
-	}
+				if err != nil && !test.shouldConstructFail {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				} else if err != nil {
+					fmt.Println(err)
+				} else {
+					gotBFSStr, err2 := bst.TraverseBFS()
+					if err2 != nil && !errors.Is(err2, test.expTraverseErr) {
+						t.Fatalf("TraverseBFS() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						if gotBFSStr != test.expBFSStr {
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expBFSStr, gotBFSStr)
+						}
+					}
 
-	gotDFSInOrderStr, err := bst1.TraverseDFSInOrder()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with error: %v", err)
-	}
-
-	expDFSInOrderStr := "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-"
-
-	if gotDFSInOrderStr != expDFSInOrderStr {
-		t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", expDFSInOrderStr, gotDFSInOrderStr)
-	}
+					gotDFSInOrderStr, err2 := bst.TraverseDFSInOrder()
+					if err2 != nil && !errors.Is(err2, test.expTraverseErr) {
+						t.Fatalf("TraverseDFSInOrder() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						if gotDFSInOrderStr != test.expDFSInOrderStr {
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSInOrderStr, gotDFSInOrderStr)
+						}
+					}
+				}
+			})
+		}
+	})
 }
