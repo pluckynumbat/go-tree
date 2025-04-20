@@ -965,7 +965,10 @@ func TestConstructFromValues(t *testing.T) {
 			expTraverseErr      error
 			expBFSStr           string
 			expDFSInOrderStr    string
-		}{}
+		}{
+			{"nil input", nil, false, treeEmptyError, "", ""},
+			{"empty input", []prString{}, false, treeEmptyError, "", ""},
+		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
