@@ -955,4 +955,8 @@ func TestConstructFromValues(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("test construct from values for type prString", func(t *testing.T) {
+
+	})
 }
