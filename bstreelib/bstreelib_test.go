@@ -958,5 +958,13 @@ func TestConstructFromValues(t *testing.T) {
 
 	t.Run("test construct from values for type prString", func(t *testing.T) {
 
+		tests := []struct {
+			name                string
+			input               []prString
+			shouldConstructFail bool
+			expTraverseErr      error
+			expBFSStr           string
+			expDFSInOrderStr    string
+		}{}
 	})
 }
