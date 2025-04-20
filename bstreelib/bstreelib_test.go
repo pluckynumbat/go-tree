@@ -973,6 +973,9 @@ func TestConstructFromValues(t *testing.T) {
 			{"3 elements, c, b, a", []prString{"c", "b", "a"}, false, nil, "-(c)--(b)--(a)-", "-(a)--(b)--(c)-"},
 			{"3 elements, b, c, a", []prString{"b", "c", "a"}, false, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-"},
 			{"3 elements, b, a, c", []prString{"b", "a", "c"}, false, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-"},
+			{"3 elements, c, a, b", []prString{"c", "a", "b"}, false, nil, "-(c)--(a)--(b)-", "-(a)--(b)--(c)-"},
+			{"3 elements, a, c, b", []prString{"a", "c", "b"}, false, nil, "-(a)--(c)--(b)-", "-(a)--(b)--(c)-"},
+			{"7 elements", []prString{"b", "d", "f", "g", "e", "c", "a"}, false, nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-"},
 		}
 
 		for _, test := range tests {
