@@ -969,6 +969,8 @@ func TestConstructFromValues(t *testing.T) {
 			{"nil input", nil, false, treeEmptyError, "", ""},
 			{"empty input", []prString{}, false, treeEmptyError, "", ""},
 			{"2 elements, identical", []prString{"a", "a"}, true, nil, "", ""},
+			{"3 elements, a, b, c", []prString{"a", "b", "c"}, false, nil, "-(a)--(b)--(c)-", "-(a)--(b)--(c)-"},
+			{"3 elements, c, b, a", []prString{"c", "b", "a"}, false, nil, "-(c)--(b)--(a)-", "-(a)--(b)--(c)-"},
 		}
 
 		for _, test := range tests {
