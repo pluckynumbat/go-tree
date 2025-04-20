@@ -966,5 +966,39 @@ func TestConstructFromValues(t *testing.T) {
 			expBFSStr           string
 			expDFSInOrderStr    string
 		}{}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructFromValues[prString](test.input...)
+
+				if err != nil && !test.shouldConstructFail {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				} else if err != nil {
+					fmt.Println(err)
+				} else {
+					gotBFSStr, err2 := bst.TraverseBFS()
+					if err2 != nil && !errors.Is(err2, test.expTraverseErr) {
+						t.Fatalf("TraverseBFS() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						if gotBFSStr != test.expBFSStr {
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expBFSStr, gotBFSStr)
+						}
+					}
+
+					gotDFSInOrderStr, err2 := bst.TraverseDFSInOrder()
+					if err2 != nil && !errors.Is(err2, test.expTraverseErr) {
+						t.Fatalf("TraverseDFSInOrder() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						if gotDFSInOrderStr != test.expDFSInOrderStr {
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSInOrderStr, gotDFSInOrderStr)
+						}
+					}
+				}
+			})
+		}
 	})
 }
