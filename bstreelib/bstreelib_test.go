@@ -18,6 +18,7 @@ func (p prString) String() string {
 }
 
 type prFloat float32
+
 func (p prFloat) String() string {
 	return fmt.Sprintf("%v", float32(p))
 }
@@ -38,6 +39,17 @@ func TestNodeString(t *testing.T) {
 		node := &Node[prString]{"a", nil, nil, nil}
 
 		want := "a"
+		got := node.String()
+
+		if got != want {
+			t.Errorf("Node's string returned incorrect results, want: %v, got %v", want, got)
+		}
+	})
+
+	t.Run("test node string: prFloat", func(t *testing.T) {
+		node := &Node[prFloat]{3.14, nil, nil, nil}
+
+		want := "3.14"
 		got := node.String()
 
 		if got != want {
