@@ -17,6 +17,8 @@ func (p prString) String() string {
 	return fmt.Sprintf("%v", string(p))
 }
 
+type prFloat float32
+
 func TestNodeString(t *testing.T) {
 	t.Run("test node string: prInt", func(t *testing.T) {
 		node := &Node[prInt]{1, nil, nil, nil}
