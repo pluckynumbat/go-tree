@@ -268,6 +268,111 @@ func TestNodeParent(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("test node parent: prFloat", func(t *testing.T) {
+		var n1, n2, n3 *Node[prFloat]
+		n2 = &Node[prFloat]{1.9, nil, nil, nil}
+		n3 = &Node[prFloat]{2.1, n2, nil, nil}
+
+		tests := []struct {
+			name      string
+			node      *Node[prFloat]
+			expError  error
+			parent    *Node[prFloat]
+			parentStr string
+		}{
+			{"nil node", n1, nodeNilError, nil, "nil"},
+			{"non nil node, nil parent", n2, nil, nil, "nil"},
+			{"non nil node, non nil parent", n3, nil, n2, "1.9"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				parent, err := test.node.Parent()
+				if err != nil {
+					if !errors.Is(err, test.expError) {
+						t.Fatalf("Parent() failed with unexpected error: %v", err)
+					}
+				} else if parent != test.parent {
+					t.Fatalf("Parent() returned incorrect parent pointer, want: %v, got: %v", test.parent, parent)
+				} else if parent.String() != test.parentStr {
+					t.Errorf("Parent() returned parent pointer with incorrect string, want: %v, got: %v", test.parentStr, parent.String())
+				}
+			})
+		}
+
+		t.Run("test node parent on all nodes of a binary search tree", func(t *testing.T) {
+			bst, err := ConstructFromValues[prFloat](0.1, 0.3, 0.5, 0.7, 0.2, 0.4, 0.6)
+			if err != nil {
+				t.Fatalf("ConstructFromValues() failed with error: %v", err)
+			}
+
+			// gather expected parent prFloat pointers
+			var pr1, pr3, pr5, pr7 prFloat = 0.1, 0.3, 0.5, 0.7
+			expParents := []*prFloat{nil, &pr1, &pr3, &pr3, &pr5, &pr5, &pr7}
+
+			// construct an expected parent queue from the above pointers
+			qParents := sgquezlib.SemiGenericQueue[*prFloat]{}
+			for _, p := range expParents {
+				err = qParents.Enqueue(p)
+				if err != nil {
+					t.Fatalf("Enqueue() failed with error: %v", err)
+				}
+			}
+
+			// set up queue for a breadth first search traversal of the binary search tree
+			queue := sgquezlib.SemiGenericQueue[*Node[prFloat]]{}
+			err = queue.Enqueue(bst.root)
+			if err != nil {
+				t.Fatalf("Enqueue() failed with error: %v", err)
+			}
+
+			// do a BFS traversal of the tree, checking each node's parents against the expected parent
+			for !queue.IsEmpty() {
+
+				runner, err2 := queue.Dequeue()
+				if err2 != nil {
+					t.Fatalf("Dequeue() failed with error: %v", err2)
+				}
+
+				actualParent, err2 := runner.Parent()
+				if err2 != nil {
+					t.Fatalf("Parent() failed with error: %v", err2)
+				}
+				got := "nil"
+				if actualParent != nil {
+					got = actualParent.String()
+				}
+
+				expectedParent, err2 := qParents.Dequeue()
+				if err2 != nil {
+					t.Fatalf("Dequeue() failed with error: %v", err2)
+				}
+				want := "nil"
+				if expectedParent != nil {
+					want = expectedParent.String()
+				}
+
+				if got != want {
+					t.Errorf("Parent() returned incorrect results, want: %v, got: %v", want, got)
+				}
+
+				if runner.left != nil {
+					err2 = queue.Enqueue(runner.left)
+					if err2 != nil {
+						t.Fatalf("Enqueue() failed with error: %v", err2)
+					}
+				}
+
+				if runner.right != nil {
+					err2 = queue.Enqueue(runner.right)
+					if err2 != nil {
+						t.Fatalf("Enqueue() failed with error: %v", err2)
+					}
+				}
+			}
+		})
+	})
 }
 
 func TestNodeLeftChild(t *testing.T) {
