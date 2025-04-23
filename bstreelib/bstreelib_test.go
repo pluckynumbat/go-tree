@@ -302,13 +302,13 @@ func TestNodeParent(t *testing.T) {
 		}
 
 		t.Run("test node parent on all nodes of a binary search tree", func(t *testing.T) {
-			bst, err := ConstructFromValues[prFloat](1.1, 3.3, 5.5, 7.7, 2.2, 4.4, 6.6)
+			bst, err := ConstructFromValues[prFloat](0.1, 0.3, 0.5, 0.7, 0.2, 0.4, 0.6)
 			if err != nil {
 				t.Fatalf("ConstructFromValues() failed with error: %v", err)
 			}
 
 			// gather expected parent prFloat pointers
-			var pr1, pr3, pr5, pr7 prFloat = 1.1, 3.3, 5.5, 7.7
+			var pr1, pr3, pr5, pr7 prFloat = 0.1, 0.3, 0.5, 0.7
 			expParents := []*prFloat{nil, &pr1, &pr3, &pr3, &pr5, &pr5, &pr7}
 
 			// construct an expected parent queue from the above pointers
