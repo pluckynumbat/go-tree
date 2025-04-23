@@ -268,6 +268,9 @@ func TestNodeParent(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("test node parent: prFloat", func(t *testing.T) {
+	})
 }
 
 func TestNodeLeftChild(t *testing.T) {
