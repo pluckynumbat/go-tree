@@ -587,6 +587,10 @@ func TestNodeLeftChild(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("test node left child: prFloat", func(t *testing.T) {
+
+	})
 }
 
 func TestNodeRightChild(t *testing.T) {
