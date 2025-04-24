@@ -907,6 +907,40 @@ func TestNodeRightChild(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("test node right child: prFloat", func(t *testing.T) {
+		var n1, n2, n3 *Node[prFloat]
+		n2 = &Node[prFloat]{1.1, nil, nil, nil}
+		n3 = &Node[prFloat]{1.2, n2, nil, nil}
+		n2.right = n3
+
+		tests := []struct {
+			name          string
+			node          *Node[prFloat]
+			expError      error
+			rightChild    *Node[prFloat]
+			rightChildStr string
+		}{
+			{"nil node", n1, nodeNilError, nil, "nil"},
+			{"non nil node, nil right child", n3, nil, nil, "nil"},
+			{"non nil node, non nil right child", n2, nil, n3, "1.2"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				rightChild, err := test.node.RightChild()
+				if err != nil {
+					if !errors.Is(err, test.expError) {
+						t.Fatalf("RightChild() failed with unexpected error: %v", err)
+					}
+				} else if rightChild != test.rightChild {
+					t.Fatalf("RightChild() returned incorrect right child pointer, want: %v, got: %v", test.rightChild, rightChild)
+				} else if rightChild.String() != test.rightChildStr {
+					t.Errorf("RightChild() returned right child pointer with incorrect string, want: %v, got: %v", test.rightChildStr, rightChild.String())
+				}
+			})
+		}
+	})
 }
 
 func TestIsNil(t *testing.T) {
