@@ -219,5 +219,14 @@ func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 		return false, treeEmptyError
 	}
 
+	runner := bst.root
+
+	for runner != nil {
+
+		if runner.data == val {
+			return true, nil
+		}
+	}
+
 	return false, nil
 }
