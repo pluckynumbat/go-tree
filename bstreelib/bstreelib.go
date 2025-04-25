@@ -215,5 +215,9 @@ func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 		return false, treeNilError
 	}
 
+	if bst.IsEmpty() {
+		return false, treeEmptyError
+	}
+
 	return false, nil
 }
