@@ -208,3 +208,7 @@ func recurseDFSInOrder[T BinarySearchTreeElement](node *Node[T]) string {
 
 	return result
 }
+
+func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
+	
+}
