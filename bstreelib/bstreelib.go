@@ -226,6 +226,12 @@ func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 		if runner.data == val {
 			return true, nil
 		}
+
+		if runner.data > val {
+			runner = runner.left
+		} else {
+			runner = runner.right
+		}
 	}
 
 	return false, nil
