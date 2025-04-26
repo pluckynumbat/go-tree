@@ -1351,7 +1351,16 @@ func TestConstructFromValues(t *testing.T) {
 func TestSearch(t *testing.T) {
 
 	t.Run("Search prInt", func(t *testing.T) {
-		bst, err := ConstructFromValues[prInt](7, 4, 9, 5, 1, 0, 2)
+
+		var bst *BinarySearchTree[prInt]
+		_, err := bst.Search(0)
+		if err == nil {
+			t.Fatalf("Search() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		bst, err = ConstructFromValues[prInt](7, 4, 9, 5, 1, 0, 2)
 
 		if err != nil {
 			t.Fatalf("ConstructFromValues() failed with error: %v", err)
