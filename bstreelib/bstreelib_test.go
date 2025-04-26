@@ -1347,3 +1347,61 @@ func TestConstructFromValues(t *testing.T) {
 		}
 	})
 }
+
+func TestSearch(t *testing.T) {
+
+	t.Run("Search prInt", func(t *testing.T) {
+
+		var bst *BinarySearchTree[prInt]
+		_, err := bst.Search(0)
+		if err == nil {
+			t.Fatalf("Search() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		bst = &BinarySearchTree[prInt]{}
+		_, err = bst.Search(0)
+		if err == nil {
+			t.Fatalf("Search() on an empty tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		bst, err = ConstructFromValues[prInt](7, 4, 9, 5, 1, 0, 2)
+
+		if err != nil {
+			t.Fatalf("ConstructFromValues() failed with error: %v", err)
+		}
+
+		tests := []struct {
+			name      string
+			searchVal prInt
+			want      bool
+		}{
+			{"search for 0", 0, true},
+			{"search for 1", 1, true},
+			{"search for 2", 2, true},
+			{"search for 3", 3, false},
+			{"search for 4", 4, true},
+			{"search for 5", 5, true},
+			{"search for 6", 6, false},
+			{"search for 7", 7, true},
+			{"search for 8", 8, false},
+			{"search for 9", 9, true},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				got, err2 := bst.Search(test.searchVal)
+				if err2 != nil {
+					t.Fatalf("Search() failed with error: %v", err2)
+				}
+
+				if got != test.want {
+					t.Errorf("Search() returned incorrect results, want: %v, got: %v", test.want, got)
+				}
+			})
+		}
+	})
+}
