@@ -1347,3 +1347,7 @@ func TestConstructFromValues(t *testing.T) {
 		}
 	})
 }
+
+func TestSearch(t *testing.T) {
+	
+}
