@@ -1422,5 +1422,11 @@ func TestSearch(t *testing.T) {
 		} else {
 			fmt.Println(err)
 		}
+
+		bst, err = ConstructFromValues[prString]("u", "a", "e", "o", "i")
+
+		if err != nil {
+			t.Fatalf("ConstructFromValues() failed with error: %v", err)
+		}
 	})
 }
