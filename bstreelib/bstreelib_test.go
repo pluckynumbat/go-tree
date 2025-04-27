@@ -1433,7 +1433,34 @@ func TestSearch(t *testing.T) {
 			name      string
 			searchVal prString
 			want      bool
-		}{}
+		}{
+			{"search for a", "a", true},
+			{"search for b", "b", false},
+			{"search for c", "c", false},
+			{"search for d", "d", false},
+			{"search for e", "e", true},
+			{"search for f", "f", false},
+			{"search for g", "g", false},
+			{"search for h", "h", false},
+			{"search for i", "i", true},
+			{"search for j", "j", false},
+			{"search for k", "k", false},
+			{"search for l", "l", false},
+			{"search for m", "m", false},
+			{"search for n", "n", false},
+			{"search for o", "o", true},
+			{"search for p", "p", false},
+			{"search for q", "q", false},
+			{"search for r", "r", false},
+			{"search for s", "s", false},
+			{"search for t", "t", false},
+			{"search for u", "u", true},
+			{"search for v", "v", false},
+			{"search for w", "w", false},
+			{"search for x", "x", false},
+			{"search for y", "y", false},
+			{"search for z", "z", false},
+		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
