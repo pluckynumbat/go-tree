@@ -1428,5 +1428,24 @@ func TestSearch(t *testing.T) {
 		if err != nil {
 			t.Fatalf("ConstructFromValues() failed with error: %v", err)
 		}
+
+		tests := []struct {
+			name      string
+			searchVal prString
+			want      bool
+		}{}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				got, err2 := bst.Search(test.searchVal)
+				if err2 != nil {
+					t.Fatalf("Search() failed with error: %v", err2)
+				}
+
+				if got != test.want {
+					t.Errorf("Search() returned incorrect results, want: %v, got: %v", test.want, got)
+				}
+			})
+		}
 	})
 }
