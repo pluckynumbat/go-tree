@@ -1407,5 +1407,20 @@ func TestSearch(t *testing.T) {
 
 	t.Run("Search prString", func(t *testing.T) {
 
+		var bst *BinarySearchTree[prString]
+		_, err := bst.Search("a")
+		if err == nil {
+			t.Fatalf("Search() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		bst = &BinarySearchTree[prString]{}
+		_, err = bst.Search("a")
+		if err == nil {
+			t.Fatalf("Search() on an empty tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
 	})
 }
