@@ -1404,4 +1404,75 @@ func TestSearch(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("Search prString", func(t *testing.T) {
+
+		var bst *BinarySearchTree[prString]
+		_, err := bst.Search("a")
+		if err == nil {
+			t.Fatalf("Search() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		bst = &BinarySearchTree[prString]{}
+		_, err = bst.Search("a")
+		if err == nil {
+			t.Fatalf("Search() on an empty tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		bst, err = ConstructFromValues[prString]("u", "a", "e", "o", "i")
+
+		if err != nil {
+			t.Fatalf("ConstructFromValues() failed with error: %v", err)
+		}
+
+		tests := []struct {
+			name      string
+			searchVal prString
+			want      bool
+		}{
+			{"search for a", "a", true},
+			{"search for b", "b", false},
+			{"search for c", "c", false},
+			{"search for d", "d", false},
+			{"search for e", "e", true},
+			{"search for f", "f", false},
+			{"search for g", "g", false},
+			{"search for h", "h", false},
+			{"search for i", "i", true},
+			{"search for j", "j", false},
+			{"search for k", "k", false},
+			{"search for l", "l", false},
+			{"search for m", "m", false},
+			{"search for n", "n", false},
+			{"search for o", "o", true},
+			{"search for p", "p", false},
+			{"search for q", "q", false},
+			{"search for r", "r", false},
+			{"search for s", "s", false},
+			{"search for t", "t", false},
+			{"search for u", "u", true},
+			{"search for v", "v", false},
+			{"search for w", "w", false},
+			{"search for x", "x", false},
+			{"search for y", "y", false},
+			{"search for z", "z", false},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				got, err2 := bst.Search(test.searchVal)
+				if err2 != nil {
+					t.Fatalf("Search() failed with error: %v", err2)
+				}
+
+				if got != test.want {
+					t.Errorf("Search() returned incorrect results, want: %v, got: %v", test.want, got)
+				}
+			})
+		}
+	})
 }
