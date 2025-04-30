@@ -1499,5 +1499,11 @@ func TestSearch(t *testing.T) {
 		if err != nil {
 			t.Fatalf("ConstructFromValues() failed with error: %v", err)
 		}
+
+		tests := []struct {
+			name      string
+			searchVal prFloat
+			want      bool
+		}{}
 	})
 }
