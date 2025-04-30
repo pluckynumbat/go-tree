@@ -1477,5 +1477,12 @@ func TestSearch(t *testing.T) {
 	})
 
 	t.Run("Search prFloat", func(t *testing.T) {
+		var bst *BinarySearchTree[prFloat]
+		_, err := bst.Search(0.5)
+		if err == nil {
+			t.Fatalf("Search() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
 	})
 }
