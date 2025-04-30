@@ -1494,7 +1494,7 @@ func TestSearch(t *testing.T) {
 			fmt.Println(err)
 		}
 
-		bst, err = ConstructFromValues[prFloat](0.04, 0.02, 0.00, 0.05, 999, 0.07, 0.09)
+		bst, err = ConstructFromValues[prFloat](0.04, 0.02, 0.00, 0.05, 999, 0.07)
 
 		if err != nil {
 			t.Fatalf("ConstructFromValues() failed with error: %v", err)
@@ -1504,7 +1504,19 @@ func TestSearch(t *testing.T) {
 			name      string
 			searchVal prFloat
 			want      bool
-		}{}
+		}{
+			{"search for 0", 0, true},
+			{"search for 0.01", 0.01, false},
+			{"search for 0.02", 0.02, true},
+			{"search for 0.03", 0.03, false},
+			{"search for 0.04", 0.04, true},
+			{"search for 0.05", 0.05, true},
+			{"search for 0.06", 0.06, false},
+			{"search for 0.07", 0.07, true},
+			{"search for 0.08", 0.08, false},
+			{"search for 0.09", 0.09, false},
+			{"search for 999", 999, true},
+		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
