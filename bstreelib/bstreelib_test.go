@@ -1475,4 +1475,7 @@ func TestSearch(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("Search prFloat", func(t *testing.T) {
+	})
 }
