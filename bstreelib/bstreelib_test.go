@@ -1493,5 +1493,11 @@ func TestSearch(t *testing.T) {
 		} else {
 			fmt.Println(err)
 		}
+
+		bst, err = ConstructFromValues[prFloat](0.04, 0.02, 0.00, 0.05, 999, 0.07, 0.09)
+
+		if err != nil {
+			t.Fatalf("ConstructFromValues() failed with error: %v", err)
+		}
 	})
 }
