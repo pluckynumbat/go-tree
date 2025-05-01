@@ -217,6 +217,8 @@ func (bst *BinarySearchTree[T]) TraverseDFSPreOrder() (string, error) {
 	if bst.IsEmpty() {
 		return "", treeEmptyError
 	}
+
+	return recurseDFSPreOrder(bst.root), nil
 }
 
 func recurseDFSPreOrder[T BinarySearchTreeElement](node *Node[T]) string {
