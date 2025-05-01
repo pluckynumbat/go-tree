@@ -223,6 +223,12 @@ func recurseDFSPreOrder[T BinarySearchTreeElement](node *Node[T]) string {
 	if node == nil {
 		return ""
 	}
+
+	result := fmt.Sprintf("-(%v)-", node.data)
+	result += recurseDFSPreOrder(node.left)
+	result += recurseDFSPreOrder(node.right)
+
+	return result
 }
 
 // Search looks for a given value the binary search tree, and tell you whether that value is present in the tree or not
