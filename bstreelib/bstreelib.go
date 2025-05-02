@@ -233,6 +233,30 @@ func recurseDFSPreOrder[T BinarySearchTreeElement](node *Node[T]) string {
 	return result
 }
 
+func (bst *BinarySearchTree[T]) TraverseDFSPostOrder() (string, error) {
+	if bst.IsNil() {
+		return "", treeNilError
+	}
+
+	if bst.IsEmpty() {
+		return "", treeEmptyError
+	}
+
+	return recurseDFSPostOrder(bst.root), nil
+}
+
+func recurseDFSPostOrder[T BinarySearchTreeElement](node *Node[T]) string {
+	if node == nil {
+		return ""
+	}
+
+	result := recurseDFSPostOrder(node.left)
+	result += recurseDFSPostOrder(node.right)
+	result += fmt.Sprintf("-(%v)-", node.data)
+
+	return result
+}
+
 // Search looks for a given value the binary search tree, and tell you whether that value is present in the tree or not
 func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 
