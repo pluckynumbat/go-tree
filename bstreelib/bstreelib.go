@@ -234,6 +234,13 @@ func recurseDFSPreOrder[T BinarySearchTreeElement](node *Node[T]) string {
 }
 
 func (bst *BinarySearchTree[T]) TraverseDFSPostOrder() (string, error) {
+	if bst.IsNil() {
+		return "", treeNilError
+	}
+
+	if bst.IsEmpty() {
+		return "", treeEmptyError
+	}
 }
 
 // Search looks for a given value the binary search tree, and tell you whether that value is present in the tree or not
