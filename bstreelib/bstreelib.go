@@ -241,6 +241,8 @@ func (bst *BinarySearchTree[T]) TraverseDFSPostOrder() (string, error) {
 	if bst.IsEmpty() {
 		return "", treeEmptyError
 	}
+
+	return recurseDFSPostOrder(bst.root), nil
 }
 
 func recurseDFSPostOrder[T BinarySearchTreeElement](node *Node[T]) string {
