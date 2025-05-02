@@ -243,6 +243,9 @@ func (bst *BinarySearchTree[T]) TraverseDFSPostOrder() (string, error) {
 	}
 }
 
+func recurseDFSPostOrder[T BinarySearchTreeElement](node *Node[T]) string {
+}
+
 // Search looks for a given value the binary search tree, and tell you whether that value is present in the tree or not
 func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 
