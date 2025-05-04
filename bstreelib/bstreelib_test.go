@@ -1310,7 +1310,7 @@ func TestConstructFromValues(t *testing.T) {
 						fmt.Println(err2)
 					} else {
 						if gotDFSPreOrderStr != test.expDFSPreOrderStr {
-							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSInOrderStr, gotDFSPreOrderStr)
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSPreOrderStr, gotDFSPreOrderStr)
 						}
 					}
 				}
