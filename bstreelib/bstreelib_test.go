@@ -1275,17 +1275,18 @@ func TestConstructFromValues(t *testing.T) {
 			expBFSStr           string
 			expDFSInOrderStr    string
 			expDFSPreOrderStr   string
+			expDFSPostOrderStr  string
 		}{
-			{"nil input", nil, false, treeEmptyError, "", "", ""},
-			{"empty input", []prInt{}, false, treeEmptyError, "", "", ""},
-			{"2 elements, identical", []prInt{1, 1}, true, nil, "", "", ""},
-			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, false, nil, "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-"},
-			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, false, nil, "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-", "-(1)--(0)--(-1)-"},
-			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-"},
-			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-"},
-			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, false, nil, "-(1)--(-1)--(0)-", "-(-1)--(0)--(1)-", "-(1)--(-1)--(0)-"},
-			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, false, nil, "-(-1)--(1)--(0)-", "-(-1)--(0)--(1)-", "-(-1)--(1)--(0)-"},
-			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, false, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-", "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-"},
+			{"nil input", nil, false, treeEmptyError, "", "", "", ""},
+			{"empty input", []prInt{}, false, treeEmptyError, "", "", "", ""},
+			{"2 elements, identical", []prInt{1, 1}, true, nil, "", "", "", ""},
+			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, false, nil, "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-", "-(1)--(0)--(-1)-"},
+			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, false, nil, "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-", "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-", "-(-1)--(1)--(0)-"},
+			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-", "-(-1)--(1)--(0)-"},
+			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, false, nil, "-(1)--(-1)--(0)-", "-(-1)--(0)--(1)-", "-(1)--(-1)--(0)-", "-(0)--(-1)--(1)-"},
+			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, false, nil, "-(-1)--(1)--(0)-", "-(-1)--(0)--(1)-", "-(-1)--(1)--(0)-", "-(0)--(1)--(-1)-"},
+			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, false, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-", "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(3)--(5)--(7)--(6)--(4)--(2)-"},
 		}
 
 		for _, test := range tests {
@@ -1327,6 +1328,17 @@ func TestConstructFromValues(t *testing.T) {
 					} else {
 						if gotDFSPreOrderStr != test.expDFSPreOrderStr {
 							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSPreOrderStr, gotDFSPreOrderStr)
+						}
+					}
+
+					gotDFSPostOrderStr, err2 := bst.TraverseDFSPostOrder()
+					if err2 != nil && !errors.Is(err2, test.expTraverseErr) {
+						t.Fatalf("TraverseDFSPostOrder() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						if gotDFSPostOrderStr != test.expDFSPostOrderStr {
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSPostOrderStr, gotDFSPostOrderStr)
 						}
 					}
 				}
