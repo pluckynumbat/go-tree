@@ -1204,22 +1204,23 @@ func TestInsert(t *testing.T) {
 		bst2 = &BinarySearchTree[prString]{}
 
 		tests := []struct {
-			name              string
-			bst               *BinarySearchTree[prString]
-			val               prString
-			expError          error
-			expBFStr          string
-			expDFSInorderStr  string
-			expDFSPreOrderStr string
+			name               string
+			bst                *BinarySearchTree[prString]
+			val                prString
+			expError           error
+			expBFStr           string
+			expDFSInorderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
 		}{
-			{"nil tree", bst1, "b", treeNilError, "", "", ""},
-			{"empty tree", bst2, "b", nil, "-(b)-", "-(b)-", "-(b)-"},
-			{"1 element tree", bst2, "d", nil, "-(b)--(d)-", "-(b)--(d)-", "-(b)--(d)-"},
-			{"2 element tree", bst2, "f", nil, "-(b)--(d)--(f)-", "-(b)--(d)--(f)-", "-(b)--(d)--(f)-"},
-			{"3 element tree", bst2, "a", nil, "-(b)--(a)--(d)--(f)-", "-(a)--(b)--(d)--(f)-", "-(b)--(a)--(d)--(f)-"},
-			{"4 element tree", bst2, "c", nil, "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(b)--(c)--(d)--(f)-", "-(b)--(a)--(d)--(c)--(f)-"},
-			{"5 element tree", bst2, "e", nil, "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(b)--(c)--(d)--(e)--(f)-", "-(b)--(a)--(d)--(c)--(f)--(e)-"},
-			{"6 element tree", bst2, "g", nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-", "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-"},
+			{"nil tree", bst1, "b", treeNilError, "", "", "", ""},
+			{"empty tree", bst2, "b", nil, "-(b)-", "-(b)-", "-(b)-", "-(b)-"},
+			{"1 element tree", bst2, "d", nil, "-(b)--(d)-", "-(b)--(d)-", "-(b)--(d)-", "-(d)--(b)-"},
+			{"2 element tree", bst2, "f", nil, "-(b)--(d)--(f)-", "-(b)--(d)--(f)-", "-(b)--(d)--(f)-", "-(f)--(d)--(b)-"},
+			{"3 element tree", bst2, "a", nil, "-(b)--(a)--(d)--(f)-", "-(a)--(b)--(d)--(f)-", "-(b)--(a)--(d)--(f)-", "-(a)--(f)--(d)--(b)-"},
+			{"4 element tree", bst2, "c", nil, "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(b)--(c)--(d)--(f)-", "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(c)--(f)--(d)--(b)-"},
+			{"5 element tree", bst2, "e", nil, "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(b)--(c)--(d)--(e)--(f)-", "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(c)--(e)--(f)--(d)--(b)-"},
+			{"6 element tree", bst2, "g", nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-", "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(c)--(e)--(g)--(f)--(d)--(b)-"},
 		}
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
@@ -1248,6 +1249,13 @@ func TestInsert(t *testing.T) {
 						t.Fatalf("TraverseDFSPreOrder() failed with unexpected error: %v", err2)
 					} else if preOrderDFSstr != test.expDFSPreOrderStr {
 						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSPreOrderStr, preOrderDFSstr)
+					}
+
+					postOrderDFSstr, err2 := test.bst.TraverseDFSPostOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPostOrder() failed with unexpected error: %v", err2)
+					} else if postOrderDFSstr != test.expDFSPostOrderStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSPostOrderStr, postOrderDFSstr)
 					}
 				}
 			})
