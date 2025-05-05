@@ -1125,21 +1125,22 @@ func TestInsert(t *testing.T) {
 		bst2 = &BinarySearchTree[prInt]{}
 
 		tests := []struct {
-			name              string
-			bst               *BinarySearchTree[prInt]
-			val               prInt
-			expError          error
-			expBFStr          string
-			expDFSInorderStr  string
-			expDFSPreOrderStr string
+			name               string
+			bst                *BinarySearchTree[prInt]
+			val                prInt
+			expError           error
+			expBFStr           string
+			expDFSInorderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
 		}{
-			{"nil tree", bst1, 1, treeNilError, "", "", ""},
-			{"empty tree", bst2, 1, nil, "-(1)-", "-(1)-", "-(1)-"},
-			{"1 element tree", bst2, 4, nil, "-(1)--(4)-", "-(1)--(4)-", "-(1)--(4)-"},
-			{"2 element tree", bst2, 6, nil, "-(1)--(4)--(6)-", "-(1)--(4)--(6)-", "-(1)--(4)--(6)-"},
-			{"3 element tree", bst2, 2, nil, "-(1)--(4)--(2)--(6)-", "-(1)--(2)--(4)--(6)-", "-(1)--(4)--(2)--(6)-"},
-			{"4 element tree", bst2, 5, nil, "-(1)--(4)--(2)--(6)--(5)-", "-(1)--(2)--(4)--(5)--(6)-", "-(1)--(4)--(2)--(6)--(5)-"},
-			{"5 element tree", bst2, 3, nil, "-(1)--(4)--(2)--(6)--(3)--(5)-", "-(1)--(2)--(3)--(4)--(5)--(6)-", "-(1)--(4)--(2)--(3)--(6)--(5)-"},
+			{"nil tree", bst1, 1, treeNilError, "", "", "", ""},
+			{"empty tree", bst2, 1, nil, "-(1)-", "-(1)-", "-(1)-", "-(1)-"},
+			{"1 element tree", bst2, 4, nil, "-(1)--(4)-", "-(1)--(4)-", "-(1)--(4)-", "-(4)--(1)-"},
+			{"2 element tree", bst2, 6, nil, "-(1)--(4)--(6)-", "-(1)--(4)--(6)-", "-(1)--(4)--(6)-", "-(6)--(4)--(1)-"},
+			{"3 element tree", bst2, 2, nil, "-(1)--(4)--(2)--(6)-", "-(1)--(2)--(4)--(6)-", "-(1)--(4)--(2)--(6)-", "-(2)--(6)--(4)--(1)-"},
+			{"4 element tree", bst2, 5, nil, "-(1)--(4)--(2)--(6)--(5)-", "-(1)--(2)--(4)--(5)--(6)-", "-(1)--(4)--(2)--(6)--(5)-", "-(2)--(5)--(6)--(4)--(1)-"},
+			{"5 element tree", bst2, 3, nil, "-(1)--(4)--(2)--(6)--(3)--(5)-", "-(1)--(2)--(3)--(4)--(5)--(6)-", "-(1)--(4)--(2)--(3)--(6)--(5)-", "-(3)--(2)--(5)--(6)--(4)--(1)-"},
 		}
 
 		for _, test := range tests {
@@ -1169,6 +1170,13 @@ func TestInsert(t *testing.T) {
 						t.Fatalf("TraverseDFSPreOrder() failed with unexpected error: %v", err2)
 					} else if preOrderDFSstr != test.expDFSPreOrderStr {
 						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSPreOrderStr, preOrderDFSstr)
+					}
+
+					postOrderDFSstr, err2 := test.bst.TraverseDFSPostOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPostOrder() failed with unexpected error: %v", err2)
+					} else if postOrderDFSstr != test.expDFSPostOrderStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSPostOrderStr, postOrderDFSstr)
 					}
 				}
 			})
@@ -1196,22 +1204,23 @@ func TestInsert(t *testing.T) {
 		bst2 = &BinarySearchTree[prString]{}
 
 		tests := []struct {
-			name              string
-			bst               *BinarySearchTree[prString]
-			val               prString
-			expError          error
-			expBFStr          string
-			expDFSInorderStr  string
-			expDFSPreOrderStr string
+			name               string
+			bst                *BinarySearchTree[prString]
+			val                prString
+			expError           error
+			expBFStr           string
+			expDFSInorderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
 		}{
-			{"nil tree", bst1, "b", treeNilError, "", "", ""},
-			{"empty tree", bst2, "b", nil, "-(b)-", "-(b)-", "-(b)-"},
-			{"1 element tree", bst2, "d", nil, "-(b)--(d)-", "-(b)--(d)-", "-(b)--(d)-"},
-			{"2 element tree", bst2, "f", nil, "-(b)--(d)--(f)-", "-(b)--(d)--(f)-", "-(b)--(d)--(f)-"},
-			{"3 element tree", bst2, "a", nil, "-(b)--(a)--(d)--(f)-", "-(a)--(b)--(d)--(f)-", "-(b)--(a)--(d)--(f)-"},
-			{"4 element tree", bst2, "c", nil, "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(b)--(c)--(d)--(f)-", "-(b)--(a)--(d)--(c)--(f)-"},
-			{"5 element tree", bst2, "e", nil, "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(b)--(c)--(d)--(e)--(f)-", "-(b)--(a)--(d)--(c)--(f)--(e)-"},
-			{"6 element tree", bst2, "g", nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-", "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-"},
+			{"nil tree", bst1, "b", treeNilError, "", "", "", ""},
+			{"empty tree", bst2, "b", nil, "-(b)-", "-(b)-", "-(b)-", "-(b)-"},
+			{"1 element tree", bst2, "d", nil, "-(b)--(d)-", "-(b)--(d)-", "-(b)--(d)-", "-(d)--(b)-"},
+			{"2 element tree", bst2, "f", nil, "-(b)--(d)--(f)-", "-(b)--(d)--(f)-", "-(b)--(d)--(f)-", "-(f)--(d)--(b)-"},
+			{"3 element tree", bst2, "a", nil, "-(b)--(a)--(d)--(f)-", "-(a)--(b)--(d)--(f)-", "-(b)--(a)--(d)--(f)-", "-(a)--(f)--(d)--(b)-"},
+			{"4 element tree", bst2, "c", nil, "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(b)--(c)--(d)--(f)-", "-(b)--(a)--(d)--(c)--(f)-", "-(a)--(c)--(f)--(d)--(b)-"},
+			{"5 element tree", bst2, "e", nil, "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(b)--(c)--(d)--(e)--(f)-", "-(b)--(a)--(d)--(c)--(f)--(e)-", "-(a)--(c)--(e)--(f)--(d)--(b)-"},
+			{"6 element tree", bst2, "g", nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-", "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(c)--(e)--(g)--(f)--(d)--(b)-"},
 		}
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
@@ -1241,6 +1250,13 @@ func TestInsert(t *testing.T) {
 					} else if preOrderDFSstr != test.expDFSPreOrderStr {
 						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSPreOrderStr, preOrderDFSstr)
 					}
+
+					postOrderDFSstr, err2 := test.bst.TraverseDFSPostOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPostOrder() failed with unexpected error: %v", err2)
+					} else if postOrderDFSstr != test.expDFSPostOrderStr {
+						t.Errorf("Insert() gave incorrect results, want: %v, got: %v", test.expDFSPostOrderStr, postOrderDFSstr)
+					}
 				}
 			})
 		}
@@ -1259,17 +1275,18 @@ func TestConstructFromValues(t *testing.T) {
 			expBFSStr           string
 			expDFSInOrderStr    string
 			expDFSPreOrderStr   string
+			expDFSPostOrderStr  string
 		}{
-			{"nil input", nil, false, treeEmptyError, "", "", ""},
-			{"empty input", []prInt{}, false, treeEmptyError, "", "", ""},
-			{"2 elements, identical", []prInt{1, 1}, true, nil, "", "", ""},
-			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, false, nil, "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-"},
-			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, false, nil, "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-", "-(1)--(0)--(-1)-"},
-			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-"},
-			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-"},
-			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, false, nil, "-(1)--(-1)--(0)-", "-(-1)--(0)--(1)-", "-(1)--(-1)--(0)-"},
-			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, false, nil, "-(-1)--(1)--(0)-", "-(-1)--(0)--(1)-", "-(-1)--(1)--(0)-"},
-			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, false, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-", "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-"},
+			{"nil input", nil, false, treeEmptyError, "", "", "", ""},
+			{"empty input", []prInt{}, false, treeEmptyError, "", "", "", ""},
+			{"2 elements, identical", []prInt{1, 1}, true, nil, "", "", "", ""},
+			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, false, nil, "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-", "-(-1)--(0)--(1)-", "-(1)--(0)--(-1)-"},
+			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, false, nil, "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-", "-(1)--(0)--(-1)-", "-(-1)--(0)--(1)-"},
+			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-", "-(-1)--(1)--(0)-"},
+			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, false, nil, "-(0)--(-1)--(1)-", "-(-1)--(0)--(1)-", "-(0)--(-1)--(1)-", "-(-1)--(1)--(0)-"},
+			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, false, nil, "-(1)--(-1)--(0)-", "-(-1)--(0)--(1)-", "-(1)--(-1)--(0)-", "-(0)--(-1)--(1)-"},
+			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, false, nil, "-(-1)--(1)--(0)-", "-(-1)--(0)--(1)-", "-(-1)--(1)--(0)-", "-(0)--(1)--(-1)-"},
+			{"7 elements, all positive", []prInt{2, 4, 6, 7, 5, 3, 1}, false, nil, "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-", "-(2)--(1)--(4)--(3)--(6)--(5)--(7)-", "-(1)--(3)--(5)--(7)--(6)--(4)--(2)-"},
 		}
 
 		for _, test := range tests {
@@ -1313,6 +1330,17 @@ func TestConstructFromValues(t *testing.T) {
 							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSPreOrderStr, gotDFSPreOrderStr)
 						}
 					}
+
+					gotDFSPostOrderStr, err2 := bst.TraverseDFSPostOrder()
+					if err2 != nil && !errors.Is(err2, test.expTraverseErr) {
+						t.Fatalf("TraverseDFSPostOrder() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						if gotDFSPostOrderStr != test.expDFSPostOrderStr {
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSPostOrderStr, gotDFSPostOrderStr)
+						}
+					}
 				}
 			})
 		}
@@ -1328,17 +1356,18 @@ func TestConstructFromValues(t *testing.T) {
 			expBFSStr           string
 			expDFSInOrderStr    string
 			expDFSPreOrderStr   string
+			expDFSPostOrderStr  string
 		}{
-			{"nil input", nil, false, treeEmptyError, "", "", ""},
-			{"empty input", []prString{}, false, treeEmptyError, "", "", ""},
-			{"2 elements, identical", []prString{"a", "a"}, true, nil, "", "", ""},
-			{"3 elements, a, b, c", []prString{"a", "b", "c"}, false, nil, "-(a)--(b)--(c)-", "-(a)--(b)--(c)-", "-(a)--(b)--(c)-"},
-			{"3 elements, c, b, a", []prString{"c", "b", "a"}, false, nil, "-(c)--(b)--(a)-", "-(a)--(b)--(c)-", "-(c)--(b)--(a)-"},
-			{"3 elements, b, c, a", []prString{"b", "c", "a"}, false, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-"},
-			{"3 elements, b, a, c", []prString{"b", "a", "c"}, false, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-"},
-			{"3 elements, c, a, b", []prString{"c", "a", "b"}, false, nil, "-(c)--(a)--(b)-", "-(a)--(b)--(c)-", "-(c)--(a)--(b)-"},
-			{"3 elements, a, c, b", []prString{"a", "c", "b"}, false, nil, "-(a)--(c)--(b)-", "-(a)--(b)--(c)-", "-(a)--(c)--(b)-"},
-			{"7 elements", []prString{"b", "d", "f", "g", "e", "c", "a"}, false, nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-", "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-"},
+			{"nil input", nil, false, treeEmptyError, "", "", "", ""},
+			{"empty input", []prString{}, false, treeEmptyError, "", "", "", ""},
+			{"2 elements, identical", []prString{"a", "a"}, true, nil, "", "", "", ""},
+			{"3 elements, a, b, c", []prString{"a", "b", "c"}, false, nil, "-(a)--(b)--(c)-", "-(a)--(b)--(c)-", "-(a)--(b)--(c)-", "-(c)--(b)--(a)-"},
+			{"3 elements, c, b, a", []prString{"c", "b", "a"}, false, nil, "-(c)--(b)--(a)-", "-(a)--(b)--(c)-", "-(c)--(b)--(a)-", "-(a)--(b)--(c)-"},
+			{"3 elements, b, c, a", []prString{"b", "c", "a"}, false, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-", "-(a)--(c)--(b)-"},
+			{"3 elements, b, a, c", []prString{"b", "a", "c"}, false, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-", "-(a)--(c)--(b)-"},
+			{"3 elements, c, a, b", []prString{"c", "a", "b"}, false, nil, "-(c)--(a)--(b)-", "-(a)--(b)--(c)-", "-(c)--(a)--(b)-", "-(b)--(a)--(c)-"},
+			{"3 elements, a, c, b", []prString{"a", "c", "b"}, false, nil, "-(a)--(c)--(b)-", "-(a)--(b)--(c)-", "-(a)--(c)--(b)-", "-(b)--(c)--(a)-"},
+			{"7 elements", []prString{"b", "d", "f", "g", "e", "c", "a"}, false, nil, "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)-", "-(b)--(a)--(d)--(c)--(f)--(e)--(g)-", "-(a)--(c)--(e)--(g)--(f)--(d)--(b)-"},
 		}
 
 		for _, test := range tests {
@@ -1380,6 +1409,17 @@ func TestConstructFromValues(t *testing.T) {
 					} else {
 						if gotDFSPreOrderStr != test.expDFSPreOrderStr {
 							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSPreOrderStr, gotDFSPreOrderStr)
+						}
+					}
+
+					gotDFSPostOrderStr, err2 := bst.TraverseDFSPostOrder()
+					if err2 != nil && !errors.Is(err2, test.expTraverseErr) {
+						t.Fatalf("TraverseDFSPostOrder() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						if gotDFSPostOrderStr != test.expDFSPostOrderStr {
+							t.Fatalf("ConstructFromValues() gave incorrect results, want: %v, got: %v", test.expDFSPostOrderStr, gotDFSPostOrderStr)
 						}
 					}
 				}
