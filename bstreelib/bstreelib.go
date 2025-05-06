@@ -107,6 +107,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 			if runner.left == nil { // insert as left child
 				runner.left = node
 				node.parent = runner
+				bst.count += 1
 				return nil
 			}
 			runner = runner.left // check left subtree
@@ -117,6 +118,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 			if runner.right == nil { // insert as right child
 				runner.right = node
 				node.parent = runner
+				bst.count += 1
 				return nil
 			}
 			runner = runner.right // check right subtree
