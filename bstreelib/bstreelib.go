@@ -59,7 +59,8 @@ func (node *Node[T]) RightChild() (*Node[T], error) {
 
 // BinarySearchTree struct will hold the core functionality of this library
 type BinarySearchTree[T BinarySearchTreeElement] struct {
-	root *Node[T]
+	root  *Node[T]
+	count int
 }
 
 // IsNil tells you if the pointer to the binary search tree is nil
@@ -91,6 +92,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 	// empty tree
 	if bst.root == nil {
 		bst.root = node
+		bst.count = 1
 		return nil
 	}
 
@@ -105,6 +107,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 			if runner.left == nil { // insert as left child
 				runner.left = node
 				node.parent = runner
+				bst.count += 1
 				return nil
 			}
 			runner = runner.left // check left subtree
@@ -115,6 +118,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 			if runner.right == nil { // insert as right child
 				runner.right = node
 				node.parent = runner
+				bst.count += 1
 				return nil
 			}
 			runner = runner.right // check right subtree
