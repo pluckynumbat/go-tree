@@ -92,6 +92,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 	// empty tree
 	if bst.root == nil {
 		bst.root = node
+		bst.count = 1
 		return nil
 	}
 
