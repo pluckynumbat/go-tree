@@ -83,7 +83,9 @@ func (bst *BinarySearchTree[T]) Root() *Node[T] {
 
 // Count returns the number of elements in a binary search tree
 func (bst *BinarySearchTree[T]) Count() (int, error) {
-
+	if bst.IsNil() {
+		return -1, treeNilError
+	}
 }
 
 // Insert will add a new value to the binary search tree at the correct position
