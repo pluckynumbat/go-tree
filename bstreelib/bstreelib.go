@@ -7,6 +7,8 @@ import (
 	"github.com/pluckynumbat/go-quez/sgquezlib"
 )
 
+const invalidCount = -1
+
 var nodeNilError = fmt.Errorf("the node is nil")
 var treeNilError = fmt.Errorf("the binary search tree is nil")
 var treeEmptyError = fmt.Errorf("the binary search tree is empty")
@@ -79,6 +81,14 @@ func (bst *BinarySearchTree[T]) Root() *Node[T] {
 		return nil
 	}
 	return bst.root
+}
+
+// Count returns the number of elements in a binary search tree
+func (bst *BinarySearchTree[T]) Count() (int, error) {
+	if bst.IsNil() {
+		return invalidCount, treeNilError
+	}
+	return bst.count, nil
 }
 
 // Insert will add a new value to the binary search tree at the correct position
