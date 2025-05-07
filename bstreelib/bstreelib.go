@@ -86,6 +86,7 @@ func (bst *BinarySearchTree[T]) Count() (int, error) {
 	if bst.IsNil() {
 		return -1, treeNilError
 	}
+	return bst.count, nil
 }
 
 // Insert will add a new value to the binary search tree at the correct position
