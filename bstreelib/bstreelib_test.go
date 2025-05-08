@@ -1042,7 +1042,7 @@ func TestIsEmpty(t *testing.T) {
 	var bst1, bst2, bst3 *BinarySearchTree[prInt]
 	bst2 = &BinarySearchTree[prInt]{}
 	root := &Node[prInt]{}
-	bst3 = &BinarySearchTree[prInt]{root}
+	bst3 = &BinarySearchTree[prInt]{root, 1}
 
 	tests := []struct {
 		name string
