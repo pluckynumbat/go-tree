@@ -1119,7 +1119,14 @@ func TestRoot(t *testing.T) {
 }
 
 func TestCount(t *testing.T) {
+	var bst1 *BinarySearchTree[prInt]
 
+	_, err := bst1.Count()
+	if err == nil {
+		t.Fatalf("Count() on a nil tree should have failed")
+	} else {
+		fmt.Println(err)
+	}
 }
 
 func TestInsert(t *testing.T) {
