@@ -1118,6 +1118,10 @@ func TestRoot(t *testing.T) {
 	}
 }
 
+func TestCount(t *testing.T) {
+
+}
+
 func TestInsert(t *testing.T) {
 
 	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
