@@ -1127,6 +1127,17 @@ func TestCount(t *testing.T) {
 	} else {
 		fmt.Println(err)
 	}
+
+	bst2 := &BinarySearchTree[prInt]{}
+
+	cnt, err := bst2.Count()
+	if err != nil {
+		t.Fatalf("Count() failed with unexpected error, %v", err)
+	} else {
+		if cnt != 0 {
+			t.Errorf("Count() returned incorrect results, want: %v, got: %v", 0, cnt)
+		}
+	}
 }
 
 func TestInsert(t *testing.T) {
