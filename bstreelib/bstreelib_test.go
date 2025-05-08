@@ -1042,7 +1042,7 @@ func TestIsEmpty(t *testing.T) {
 	var bst1, bst2, bst3 *BinarySearchTree[prInt]
 	bst2 = &BinarySearchTree[prInt]{}
 	root := &Node[prInt]{}
-	bst3 = &BinarySearchTree[prInt]{root}
+	bst3 = &BinarySearchTree[prInt]{root, 1}
 
 	tests := []struct {
 		name string
@@ -1070,19 +1070,19 @@ func TestRoot(t *testing.T) {
 	bst2 = &BinarySearchTree[prInt]{}
 
 	r1 := &Node[prInt]{1, nil, nil, nil}
-	bst3 = &BinarySearchTree[prInt]{r1}
+	bst3 = &BinarySearchTree[prInt]{r1, 1}
 
 	r2 := &Node[prInt]{2, nil, nil, nil}
 	n2 := &Node[prInt]{1, r2, nil, nil}
 	r2.left = n2
-	bst4 = &BinarySearchTree[prInt]{r2}
+	bst4 = &BinarySearchTree[prInt]{r2, 2}
 
 	r3 := &Node[prInt]{0, nil, nil, nil}
 	n4 := &Node[prInt]{-1, r3, nil, nil}
 	n5 := &Node[prInt]{1, r3, nil, nil}
 	r3.left = n4
 	r3.right = n5
-	bst5 = &BinarySearchTree[prInt]{r3}
+	bst5 = &BinarySearchTree[prInt]{r3, 3}
 
 	tests := []struct {
 		name       string
@@ -1115,6 +1115,28 @@ func TestRoot(t *testing.T) {
 				t.Errorf("Root() returned incorrect results, want: %v, got: %v", want, got)
 			}
 		})
+	}
+}
+
+func TestCount(t *testing.T) {
+	var bst1 *BinarySearchTree[prInt]
+
+	_, err := bst1.Count()
+	if err == nil {
+		t.Fatalf("Count() on a nil tree should have failed")
+	} else {
+		fmt.Println(err)
+	}
+
+	bst2 := &BinarySearchTree[prInt]{}
+
+	cnt, err := bst2.Count()
+	if err != nil {
+		t.Fatalf("Count() failed with unexpected error, %v", err)
+	} else {
+		if cnt != 0 {
+			t.Errorf("Count() returned incorrect results, want: %v, got: %v", 0, cnt)
+		}
 	}
 }
 
