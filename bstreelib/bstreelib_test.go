@@ -1070,19 +1070,19 @@ func TestRoot(t *testing.T) {
 	bst2 = &BinarySearchTree[prInt]{}
 
 	r1 := &Node[prInt]{1, nil, nil, nil}
-	bst3 = &BinarySearchTree[prInt]{r1}
+	bst3 = &BinarySearchTree[prInt]{r1, 1}
 
 	r2 := &Node[prInt]{2, nil, nil, nil}
 	n2 := &Node[prInt]{1, r2, nil, nil}
 	r2.left = n2
-	bst4 = &BinarySearchTree[prInt]{r2}
+	bst4 = &BinarySearchTree[prInt]{r2, 2}
 
 	r3 := &Node[prInt]{0, nil, nil, nil}
 	n4 := &Node[prInt]{-1, r3, nil, nil}
 	n5 := &Node[prInt]{1, r3, nil, nil}
 	r3.left = n4
 	r3.right = n5
-	bst5 = &BinarySearchTree[prInt]{r3}
+	bst5 = &BinarySearchTree[prInt]{r3, 3}
 
 	tests := []struct {
 		name       string
