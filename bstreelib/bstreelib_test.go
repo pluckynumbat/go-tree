@@ -1141,13 +1141,11 @@ func TestCount(t *testing.T) {
 
 	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
 		tests := []struct {
-			name string
-			input []prInt
+			name     string
+			input    []prInt
 			expError error
 			expCount int
-		} {
-
-		}
+		}{}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
@@ -1158,7 +1156,16 @@ func TestCount(t *testing.T) {
 				} else if err2 != nil {
 					fmt.Println(err2)
 				} else {
-					
+					cnt2, err3 := bst.Count()
+					if err3 != nil {
+						t.Fatalf("Count() failed with unexpected error: %v", err2)
+					} else {
+						want := test.expCount
+						got := cnt2
+						if got != want {
+							t.Errorf("Count() returned incorrect results, want: %v, got: %v", want, got)
+						}
+					}
 				}
 			})
 		}
