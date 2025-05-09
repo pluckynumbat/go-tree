@@ -1138,6 +1138,9 @@ func TestCount(t *testing.T) {
 			t.Errorf("Count() returned incorrect results, want: %v, got: %v", 0, cnt)
 		}
 	}
+
+	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
+	})
 }
 
 func TestInsert(t *testing.T) {
