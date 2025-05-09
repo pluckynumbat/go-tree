@@ -1152,6 +1152,14 @@ func TestCount(t *testing.T) {
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
 
+				bst, err2 := ConstructFromValues[prInt](test.input...)
+				if err2 != nil && !errors.Is(err2, test.expError) {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err2)
+				} else if err2 != nil {
+					fmt.Println(err2)
+				} else {
+					
+				}
 			})
 		}
 	})
