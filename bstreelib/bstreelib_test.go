@@ -1145,7 +1145,10 @@ func TestCount(t *testing.T) {
 			input    []prInt
 			expError error
 			expCount int
-		}{}
+		}{
+			{"nil tree", nil, treeNilError, 0},
+			{"empty tree", []prInt{}, nil, 0},
+		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
