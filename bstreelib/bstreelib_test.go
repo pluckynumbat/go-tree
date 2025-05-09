@@ -1140,6 +1140,14 @@ func TestCount(t *testing.T) {
 	}
 
 	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
+		tests := []struct {
+			name string
+			input []prInt
+			expError error
+			expCount int
+		} {
+			
+		}
 	})
 }
 
