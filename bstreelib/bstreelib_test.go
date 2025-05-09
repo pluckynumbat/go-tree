@@ -1148,6 +1148,11 @@ func TestCount(t *testing.T) {
 		}{
 			{"nil tree", nil, treeNilError, 0},
 			{"empty tree", []prInt{}, nil, 0},
+			{"1 element tree", []prInt{3}, nil, 1},
+			{"2 element tree", []prInt{-1, 1}, nil, 2},
+			{"3 element tree", []prInt{20, 40, 60}, nil, 3},
+			{"4 element tree", []prInt{4, 44, -444, -4444}, nil, 4},
+			{"5 element tree", []prInt{5, 4, 3, 2, 1}, nil, 5},
 		}
 
 		for _, test := range tests {
