@@ -1138,6 +1138,46 @@ func TestCount(t *testing.T) {
 			t.Errorf("Count() returned incorrect results, want: %v, got: %v", 0, cnt)
 		}
 	}
+
+	t.Run("test insert on Binary Search Tree of prInt nodes", func(t *testing.T) {
+		tests := []struct {
+			name     string
+			input    []prInt
+			expError error
+			expCount int
+		}{
+			{"nil tree", nil, treeNilError, 0},
+			{"empty tree", []prInt{}, nil, 0},
+			{"1 element tree", []prInt{3}, nil, 1},
+			{"2 element tree", []prInt{-1, 1}, nil, 2},
+			{"3 element tree", []prInt{20, 40, 60}, nil, 3},
+			{"4 element tree", []prInt{4, 44, -444, -4444}, nil, 4},
+			{"5 element tree", []prInt{5, 4, 3, 2, 1}, nil, 5},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+
+				bst, err2 := ConstructFromValues[prInt](test.input...)
+				if err2 != nil && !errors.Is(err2, test.expError) {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err2)
+				} else if err2 != nil {
+					fmt.Println(err2)
+				} else {
+					cnt2, err3 := bst.Count()
+					if err3 != nil {
+						t.Fatalf("Count() failed with unexpected error: %v", err2)
+					} else {
+						want := test.expCount
+						got := cnt2
+						if got != want {
+							t.Errorf("Count() returned incorrect results, want: %v, got: %v", want, got)
+						}
+					}
+				}
+			})
+		}
+	})
 }
 
 func TestInsert(t *testing.T) {
