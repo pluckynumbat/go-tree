@@ -313,10 +313,9 @@ func (bst *BinarySearchTree[T]) ConstructOrderedSlice() ([]T, error) {
 	}
 
 	result := make([]T, 0, cnt)
-
 	recurseCollectInOrder(result, bst.root)
 
-	return nil, nil
+	return result, nil
 }
 
 func recurseCollectInOrder[T BinarySearchTreeElement](slice []T, node *Node[T]) {
