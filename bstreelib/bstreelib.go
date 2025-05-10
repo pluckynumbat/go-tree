@@ -299,3 +299,6 @@ func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 
 	return false, nil
 }
+
+func (bst *BinarySearchTree[T]) ConstructOrderedSlice() ([]T, error) {
+}
