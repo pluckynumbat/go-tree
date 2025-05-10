@@ -300,5 +300,6 @@ func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 	return false, nil
 }
 
+// ConstructOrderedSlice collects all the elements in the binary search tree in an ordered manner, and returns them in a slice
 func (bst *BinarySearchTree[T]) ConstructOrderedSlice() ([]T, error) {
 }
