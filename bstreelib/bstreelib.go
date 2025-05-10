@@ -306,6 +306,13 @@ func (bst *BinarySearchTree[T]) ConstructOrderedSlice() ([]T, error) {
 	if bst.IsNil() {
 		return nil, treeNilError
 	}
-	
+
+	cnt, cntErr := bst.Count()
+	if cntErr != nil {
+		return nil, cntErr
+	}
+
+
+
 	return nil, nil
 }
