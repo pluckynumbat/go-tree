@@ -318,13 +318,13 @@ func (bst *BinarySearchTree[T]) ConstructOrderedSlice() ([]T, error) {
 	return result, nil
 }
 
-func recurseCollectInOrder[T BinarySearchTreeElement](slice []T, node *Node[T]) {
+func recurseCollectInOrder[T BinarySearchTreeElement](slicePtr *[]T, node *Node[T]) {
 
 	if node == nil {
 		return
 	}
 
-	recurseCollectInOrder(slice, node.left)
-	slice = append(slice, node.data)
-	recurseCollectInOrder(slice, node.right)
+	recurseCollectInOrder(slicePtr, node.left)
+	*slicePtr = append(*slicePtr, node.data)
+	recurseCollectInOrder(slicePtr, node.right)
 }
