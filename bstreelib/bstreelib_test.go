@@ -1674,3 +1674,7 @@ func TestSearch(t *testing.T) {
 		}
 	})
 }
+
+func TestConstructOrderedSlice(t *testing.T) {
+	
+}
