@@ -1715,4 +1715,15 @@ func TestConstructOrderedSlice(t *testing.T) {
 		t.Errorf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLen, gotLen)
 	}
 
+	expSlice := []prInt{1, 2, 3}
+
+	for i := 0; i < len(sl); i++ {
+		want := expSlice[i]
+		got := sl[i]
+
+		if got != want {
+			t.Errorf("ConstructOrderedSlice() returned a slice with an incorrect value at index: %v, want: %v, got: %v", i, want, got)
+		}
+	}
+
 }
