@@ -1678,12 +1678,24 @@ func TestSearch(t *testing.T) {
 func TestConstructOrderedSlice(t *testing.T) {
 
 	var bst1 *BinarySearchTree[prInt]
-
 	_, err := bst1.ConstructOrderedSlice()
 
 	if err == nil {
 		t.Fatalf("ConstructOrderedSlice() on a nil tree should have failed")
 	} else {
 		fmt.Println(err)
+	}
+
+	bst1 = &BinarySearchTree[prInt]{}
+	sl, err := bst1.ConstructOrderedSlice()
+	if err != nil {
+		t.Fatalf("ConstructOrderedSlice() encountered an unexpected error: %v", err)
+	}
+
+	wantLen := 0
+	gotLen := len(sl)
+
+	if gotLen != wantLen {
+		t.Errorf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLen, gotLen)
 	}
 }
