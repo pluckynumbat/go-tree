@@ -1698,4 +1698,21 @@ func TestConstructOrderedSlice(t *testing.T) {
 	if gotLen != wantLen {
 		t.Errorf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLen, gotLen)
 	}
+
+	bst1, err = ConstructFromValues[prInt]([]prInt{3, 2, 1}...)
+	if err != nil {
+		t.Fatalf("ConstructFromValues() encountered an unexpected error: %v", err)
+	}
+	sl, err = bst1.ConstructOrderedSlice()
+	if err != nil {
+		t.Fatalf("ConstructOrderedSlice() encountered an unexpected error: %v", err)
+	}
+
+	wantLen = 3
+	gotLen = len(sl)
+
+	if gotLen != wantLen {
+		t.Errorf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLen, gotLen)
+	}
+
 }
