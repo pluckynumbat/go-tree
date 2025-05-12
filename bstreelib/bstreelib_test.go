@@ -1761,7 +1761,11 @@ func TestConstructOrderedSlice(t *testing.T) {
 			expError2 error
 			expLen    int
 			expSlice  []prInt
-		}{}
+		}{
+			{"nil input", nil, nil, nil, 0, []prInt{}},
+			{"empty input", []prInt{}, nil, nil, 0, []prInt{}},
+			{"2 elements", []prInt{99999, 1}, nil, nil, 2, []prInt{1, 99999}},
+		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
