@@ -1778,7 +1778,13 @@ func TestConstructOrderedSlice(t *testing.T) {
 					} else if err2 != nil {
 						fmt.Println(err2)
 					} else {
-						
+
+						wantLength := test.expLen
+						gotLength := len(sl)
+
+						if gotLength != wantLength {
+							t.Errorf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLength, gotLength)
+						}
 					}
 				}
 			})
