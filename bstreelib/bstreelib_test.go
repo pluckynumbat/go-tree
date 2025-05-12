@@ -1755,41 +1755,35 @@ func TestConstructOrderedSlice(t *testing.T) {
 
 	t.Run("ConstructOrderedSlice prInt", func(t *testing.T) {
 		tests := []struct {
-			name      string
-			input     []prInt
-			expError1 error
-			expError2 error
-			expLen    int
-			expSlice  []prInt
+			name     string
+			input    []prInt
+			expLen   int
+			expSlice []prInt
 		}{
-			{"nil input", nil, nil, nil, 0, []prInt{}},
-			{"empty input", []prInt{}, nil, nil, 0, []prInt{}},
-			{"2 elements", []prInt{99999, 1}, nil, nil, 2, []prInt{1, 99999}},
-			{"3 elements", []prInt{3, 2, 1}, nil, nil, 3, []prInt{1, 2, 3}},
-			{"4 elements", []prInt{4444, -44, 4, -444}, nil, nil, 4, []prInt{-444, -44, 4, 4444}},
+			{"nil input", nil, 0, []prInt{}},
+			{"empty input", []prInt{}, 0, []prInt{}},
+			{"2 elements", []prInt{99999, 1}, 2, []prInt{1, 99999}},
+			{"3 elements", []prInt{3, 2, 1}, 3, []prInt{1, 2, 3}},
+			{"4 elements", []prInt{4444, -44, 4, -444}, 4, []prInt{-444, -44, 4, 4444}},
 
-			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, nil, nil, 3, []prInt{-1, 0, 1}},
-			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, nil, nil, 3, []prInt{-1, 0, 1}},
-			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, nil, nil, 3, []prInt{-1, 0, 1}},
-			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, nil, nil, 3, []prInt{-1, 0, 1}},
-			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, nil, nil, 3, []prInt{-1, 0, 1}},
-			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, nil, nil, 3, []prInt{-1, 0, 1}},
+			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, 3, []prInt{-1, 0, 1}},
 		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
 
 				bst, err1 := ConstructFromValues[prInt](test.input...)
-				if err1 != nil && !errors.Is(err1, test.expError1) {
+				if err1 != nil {
 					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err1)
-				} else if err1 != nil {
-					fmt.Println(err1)
 				} else {
 					sl, err2 := bst.ConstructOrderedSlice()
-					if err2 != nil && !errors.Is(err2, test.expError2) {
+					if err2 != nil {
 						t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err2)
-					} else if err2 != nil {
-						fmt.Println(err2)
 					} else {
 
 						wantLength := test.expLen
