@@ -1790,7 +1790,7 @@ func TestConstructOrderedSlice(t *testing.T) {
 						gotLength := len(sl)
 
 						if gotLength != wantLength {
-							t.Errorf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLength, gotLength)
+							t.Fatalf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLength, gotLength)
 						}
 
 						for i := 0; i < test.expLen; i++ {
