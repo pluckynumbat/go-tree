@@ -1754,7 +1754,15 @@ func TestConstructOrderedSlice(t *testing.T) {
 	}
 
 	t.Run("ConstructOrderedSlice prInt", func(t *testing.T){
-		
+		tests := []struct{
+			name string
+			input []prInt
+			expError error
+			expLen int
+			expSlice []prInt
+		} {
+
+		}
 	})
 
 }
