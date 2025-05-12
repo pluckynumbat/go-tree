@@ -1755,23 +1755,31 @@ func TestConstructOrderedSlice(t *testing.T) {
 
 	t.Run("ConstructOrderedSlice prInt", func(t *testing.T) {
 		tests := []struct {
-			name     string
-			input    []prInt
-			expError error
-			expLen   int
-			expSlice []prInt
+			name      string
+			input     []prInt
+			expError1 error
+			expError2 error
+			expLen    int
+			expSlice  []prInt
 		}{}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
 
-				bst, err2 := ConstructFromValues[prInt](test.input...)
-				if err2 != nil && !errors.Is(err2, test.expError) {
-					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err2)
-				} else if err2 != nil {
-					fmt.Println(err2)
+				bst, err1 := ConstructFromValues[prInt](test.input...)
+				if err1 != nil && !errors.Is(err1, test.expError1) {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err1)
+				} else if err1 != nil {
+					fmt.Println(err1)
 				} else {
-
+					sl, err2 := bst.ConstructOrderedSlice()
+					if err2 != nil && !errors.Is(err2, test.expError2) {
+						t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err2)
+					} else if err2 != nil {
+						fmt.Println(err2)
+					} else {
+						
+					}
 				}
 			})
 		}
