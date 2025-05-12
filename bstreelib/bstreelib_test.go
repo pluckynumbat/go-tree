@@ -1765,6 +1765,15 @@ func TestConstructOrderedSlice(t *testing.T) {
 			{"nil input", nil, nil, nil, 0, []prInt{}},
 			{"empty input", []prInt{}, nil, nil, 0, []prInt{}},
 			{"2 elements", []prInt{99999, 1}, nil, nil, 2, []prInt{1, 99999}},
+			{"3 elements", []prInt{3, 2, 1}, nil, nil, 3, []prInt{1, 2, 3}},
+			{"4 elements", []prInt{4444, -44, 4, -444}, nil, nil, 4, []prInt{-444, -44, 4, 4444}},
+
+			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, nil, nil, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, nil, nil, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, nil, nil, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, nil, nil, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, nil, nil, 3, []prInt{-1, 0, 1}},
+			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, nil, nil, 3, []prInt{-1, 0, 1}},
 		}
 
 		for _, test := range tests {
