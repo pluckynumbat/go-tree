@@ -1806,5 +1806,4 @@ func TestConstructOrderedSlice(t *testing.T) {
 			})
 		}
 	})
-
 }
