@@ -1763,6 +1763,13 @@ func TestConstructOrderedSlice(t *testing.T) {
 			{"2 elements", []prString{"hello", "a"}, 2, []prString{"a", "hello"}},
 			{"3 elements", []prString{"z", "y", "x"}, 3, []prString{"x", "y", "z"}},
 			{"4 elements", []prString{"bye", "off", "by", "of"}, 4, []prString{"by", "bye", "of", "off"}},
+
+			{"3 elements, their, there, they're", []prString{"their", "there", "they're"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, their, they're, there", []prString{"their", "they're", "there"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, there, their, they're", []prString{"there", "their", "they're"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, there, they're, their", []prString{"there", "they're", "their"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, they're, there, their", []prString{"they're", "there", "their"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, they're, their, there", []prString{"they're", "their", "there"}, 3, []prString{"their", "there", "they're"}},
 		}
 
 		for _, test := range tests {
