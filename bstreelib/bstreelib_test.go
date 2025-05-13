@@ -1677,16 +1677,17 @@ func TestSearch(t *testing.T) {
 
 func TestConstructOrderedSlice(t *testing.T) {
 
-	var bst1 *BinarySearchTree[prInt]
-	_, err := bst1.ConstructOrderedSlice()
-
-	if err == nil {
-		t.Fatalf("ConstructOrderedSlice() on a nil tree should have failed")
-	} else {
-		fmt.Println(err)
-	}
-
 	t.Run("ConstructOrderedSlice prInt", func(t *testing.T) {
+
+		var nilBst *BinarySearchTree[prInt]
+		_, err := nilBst.ConstructOrderedSlice()
+
+		if err == nil {
+			t.Fatalf("ConstructOrderedSlice() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
 		tests := []struct {
 			name     string
 			input    []prInt
