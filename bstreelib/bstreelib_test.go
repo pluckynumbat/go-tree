@@ -1762,7 +1762,7 @@ func TestConstructOrderedSlice(t *testing.T) {
 			{"empty input", []prString{}, 0, []prString{}},
 			{"2 elements", []prString{"hello", "a"}, 2, []prString{"a", "hello"}},
 			{"3 elements", []prString{"z", "y", "x"}, 3, []prString{"x", "y", "z"}},
-			{"4 elements", []prString{"bye", "off", "by", "of"}, 4, []prString{"by", "bye", "of", "off"}},
+			{"5 elements", []prString{"bye", "off", "by", "of", "buy"}, 5, []prString{"buy", "by", "bye", "of", "off", "oof"}},
 
 			{"3 elements, their, there, they're", []prString{"their", "there", "they're"}, 3, []prString{"their", "there", "they're"}},
 			{"3 elements, their, they're, there", []prString{"their", "they're", "there"}, 3, []prString{"their", "there", "they're"}},
