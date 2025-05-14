@@ -1815,5 +1815,47 @@ func TestConstructOrderedSlice(t *testing.T) {
 		} else {
 			fmt.Println(err)
 		}
+
+		tests := []struct {
+			name     string
+			input    []prFloat
+			expLen   int
+			expSlice []prFloat
+		}{
+			{"nil input", nil, 0, []prFloat{}},
+			{"empty input", []prFloat{}, 0, []prFloat{}},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+
+				bst, err1 := ConstructFromValues[prFloat](test.input...)
+				if err1 != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err1)
+				} else {
+					sl, err2 := bst.ConstructOrderedSlice()
+					if err2 != nil {
+						t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err2)
+					} else {
+
+						wantLength := test.expLen
+						gotLength := len(sl)
+
+						if gotLength != wantLength {
+							t.Fatalf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLength, gotLength)
+						}
+
+						for i := 0; i < test.expLen; i++ {
+							want := test.expSlice[i]
+							got := sl[i]
+
+							if got != want {
+								t.Errorf("ConstructOrderedSlice() returned a slice with an incorrect value at index: %v, want: %v, got: %v", i, want, got)
+							}
+						}
+					}
+				}
+			})
+		}
 	})
 }
