@@ -1824,6 +1824,9 @@ func TestConstructOrderedSlice(t *testing.T) {
 		}{
 			{"nil input", nil, 0, []prFloat{}},
 			{"empty input", []prFloat{}, 0, []prFloat{}},
+			{"2 elements", []prFloat{1, .99999}, 2, []prFloat{.99999, 1}},
+			{"3 elements", []prFloat{.3, .2, .1}, 3, []prFloat{.1, .2, .3}},
+			{"4 elements", []prFloat{.4444, -.44, .4, -.444}, 4, []prFloat{-.444, -.44, .4, .4444}},
 		}
 
 		for _, test := range tests {
