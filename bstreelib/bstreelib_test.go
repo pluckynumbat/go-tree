@@ -1804,4 +1804,8 @@ func TestConstructOrderedSlice(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("ConstructOrderedSlice prFloat", func(t *testing.T) {
+
+	})
 }
