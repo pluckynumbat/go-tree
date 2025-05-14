@@ -299,3 +299,32 @@ func (bst *BinarySearchTree[T]) Search(val T) (bool, error) {
 
 	return false, nil
 }
+
+// ConstructOrderedSlice collects all the elements in the binary search tree in an ordered manner, and returns them in a slice
+func (bst *BinarySearchTree[T]) ConstructOrderedSlice() ([]T, error) {
+
+	if bst.IsNil() {
+		return nil, treeNilError
+	}
+
+	cnt, cntErr := bst.Count()
+	if cntErr != nil {
+		return nil, cntErr
+	}
+
+	result := make([]T, 0, cnt)
+	recurseCollectInOrder(&result, bst.root)
+
+	return result, nil
+}
+
+func recurseCollectInOrder[T BinarySearchTreeElement](slicePtr *[]T, node *Node[T]) {
+
+	if node == nil {
+		return
+	}
+
+	recurseCollectInOrder(slicePtr, node.left)
+	*slicePtr = append(*slicePtr, node.data)
+	recurseCollectInOrder(slicePtr, node.right)
+}

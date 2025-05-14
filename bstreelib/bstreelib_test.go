@@ -1674,3 +1674,198 @@ func TestSearch(t *testing.T) {
 		}
 	})
 }
+
+func TestConstructOrderedSlice(t *testing.T) {
+
+	t.Run("ConstructOrderedSlice prInt", func(t *testing.T) {
+
+		var nilBst *BinarySearchTree[prInt]
+		_, err := nilBst.ConstructOrderedSlice()
+
+		if err == nil {
+			t.Fatalf("ConstructOrderedSlice() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		tests := []struct {
+			name     string
+			input    []prInt
+			expLen   int
+			expSlice []prInt
+		}{
+			{"nil input", nil, 0, []prInt{}},
+			{"empty input", []prInt{}, 0, []prInt{}},
+			{"2 elements", []prInt{99999, 1}, 2, []prInt{1, 99999}},
+			{"3 elements", []prInt{3, 2, 1}, 3, []prInt{1, 2, 3}},
+			{"4 elements", []prInt{4444, -44, 4, -444}, 4, []prInt{-444, -44, 4, 4444}},
+
+			{"3 elements, -1, 0, 1", []prInt{-1, 0, 1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 1, 0, -1", []prInt{1, 0, -1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 0, 1, -1", []prInt{0, 1, -1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 0, -1, 1", []prInt{0, -1, 1}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, 1, -1, 0", []prInt{1, -1, 0}, 3, []prInt{-1, 0, 1}},
+			{"3 elements, -1, 1, 0", []prInt{-1, 1, 0}, 3, []prInt{-1, 0, 1}},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+
+				bst, err1 := ConstructFromValues[prInt](test.input...)
+				if err1 != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err1)
+				} else {
+					sl, err2 := bst.ConstructOrderedSlice()
+					if err2 != nil {
+						t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err2)
+					} else {
+
+						wantLength := test.expLen
+						gotLength := len(sl)
+
+						if gotLength != wantLength {
+							t.Fatalf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLength, gotLength)
+						}
+
+						for i := 0; i < test.expLen; i++ {
+							want := test.expSlice[i]
+							got := sl[i]
+
+							if got != want {
+								t.Errorf("ConstructOrderedSlice() returned a slice with an incorrect value at index: %v, want: %v, got: %v", i, want, got)
+							}
+						}
+					}
+				}
+			})
+		}
+	})
+
+	t.Run("ConstructOrderedSlice prString", func(t *testing.T) {
+
+		var nilBst *BinarySearchTree[prString]
+		_, err := nilBst.ConstructOrderedSlice()
+
+		if err == nil {
+			t.Fatalf("ConstructOrderedSlice() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		tests := []struct {
+			name     string
+			input    []prString
+			expLen   int
+			expSlice []prString
+		}{
+			{"nil input", nil, 0, []prString{}},
+			{"empty input", []prString{}, 0, []prString{}},
+			{"2 elements", []prString{"hello", "a"}, 2, []prString{"a", "hello"}},
+			{"3 elements", []prString{"z", "y", "x"}, 3, []prString{"x", "y", "z"}},
+			{"5 elements", []prString{"bye", "off", "by", "of", "buy"}, 5, []prString{"buy", "by", "bye", "of", "off", "oof"}},
+
+			{"3 elements, their, there, they're", []prString{"their", "there", "they're"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, their, they're, there", []prString{"their", "they're", "there"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, there, their, they're", []prString{"there", "their", "they're"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, there, they're, their", []prString{"there", "they're", "their"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, they're, there, their", []prString{"they're", "there", "their"}, 3, []prString{"their", "there", "they're"}},
+			{"3 elements, they're, their, there", []prString{"they're", "their", "there"}, 3, []prString{"their", "there", "they're"}},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+
+				bst, err1 := ConstructFromValues[prString](test.input...)
+				if err1 != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err1)
+				} else {
+					sl, err2 := bst.ConstructOrderedSlice()
+					if err2 != nil {
+						t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err2)
+					} else {
+
+						wantLength := test.expLen
+						gotLength := len(sl)
+
+						if gotLength != wantLength {
+							t.Fatalf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLength, gotLength)
+						}
+
+						for i := 0; i < test.expLen; i++ {
+							want := test.expSlice[i]
+							got := sl[i]
+
+							if got != want {
+								t.Errorf("ConstructOrderedSlice() returned a slice with an incorrect value at index: %v, want: %v, got: %v", i, want, got)
+							}
+						}
+					}
+				}
+			})
+		}
+	})
+
+	t.Run("ConstructOrderedSlice prFloat", func(t *testing.T) {
+
+		var nilBst *BinarySearchTree[prFloat]
+		_, err := nilBst.ConstructOrderedSlice()
+
+		if err == nil {
+			t.Fatalf("ConstructOrderedSlice() on a nil tree should have failed")
+		} else {
+			fmt.Println(err)
+		}
+
+		tests := []struct {
+			name     string
+			input    []prFloat
+			expLen   int
+			expSlice []prFloat
+		}{
+			{"nil input", nil, 0, []prFloat{}},
+			{"empty input", []prFloat{}, 0, []prFloat{}},
+			{"2 elements", []prFloat{1, .99999}, 2, []prFloat{.99999, 1}},
+			{"3 elements", []prFloat{.3, .2, .1}, 3, []prFloat{.1, .2, .3}},
+			{"4 elements", []prFloat{.4444, -.44, .4, -.444}, 4, []prFloat{-.444, -.44, .4, .4444}},
+
+			{"3 elements, 0.01, 0.0, 0.1", []prFloat{0.01, 0.0, 0.1}, 3, []prFloat{0.0, 0.01, 0.1}},
+			{"3 elements, 0.01, 0.1, 0.0", []prFloat{0.01, 0.1, 0.0}, 3, []prFloat{0.0, 0.01, 0.1}},
+			{"3 elements, 0.0, 0.01, 0.1", []prFloat{0.0, 0.01, 0.1}, 3, []prFloat{0.0, 0.01, 0.1}},
+			{"3 elements, 0.0, 0.1, 0.01", []prFloat{0.0, 0.1, 0.01}, 3, []prFloat{0.0, 0.01, 0.1}},
+			{"3 elements, 0.1, 0.01, 0.0", []prFloat{0.1, 0.01, 0.0}, 3, []prFloat{0.0, 0.01, 0.1}},
+			{"3 elements, 0.1, 0.0, 0.01", []prFloat{0.1, 0.0, 0.01}, 3, []prFloat{0.0, 0.01, 0.1}},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+
+				bst, err1 := ConstructFromValues[prFloat](test.input...)
+				if err1 != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err1)
+				} else {
+					sl, err2 := bst.ConstructOrderedSlice()
+					if err2 != nil {
+						t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err2)
+					} else {
+
+						wantLength := test.expLen
+						gotLength := len(sl)
+
+						if gotLength != wantLength {
+							t.Fatalf("ConstructOrderedSlice() returned a slice of incorrect length, want: %v, got: %v", wantLength, gotLength)
+						}
+
+						for i := 0; i < test.expLen; i++ {
+							want := test.expSlice[i]
+							got := sl[i]
+
+							if got != want {
+								t.Errorf("ConstructOrderedSlice() returned a slice with an incorrect value at index: %v, want: %v, got: %v", i, want, got)
+							}
+						}
+					}
+				}
+			})
+		}
+	})
+}
