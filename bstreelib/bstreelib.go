@@ -345,11 +345,15 @@ func (bst *BinarySearchTree[T]) BalanceTree() error {
 	if cnt < 2 {
 		return nil
 	}
-	
+
 	sl, sliceErr := bst.ConstructOrderedSlice()
 	if sliceErr != nil {
 		return sliceErr
 	}
+
+	// re-initialize the tree to an empty one
+	bst.root = nil
+	bst.count = 0
 
 	return nil
 }
