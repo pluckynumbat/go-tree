@@ -329,6 +329,7 @@ func recurseCollectInOrder[T BinarySearchTreeElement](slicePtr *[]T, node *Node[
 	recurseCollectInOrder(slicePtr, node.right)
 }
 
+// BalanceTree will re-arrange the binary tree into its most balanced form
 func (bst *BinarySearchTree[T]) BalanceTree() error {
 
 	if bst.IsNil() {
