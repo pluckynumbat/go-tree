@@ -334,6 +334,11 @@ func (bst *BinarySearchTree[T]) BalanceTree() error {
 	if bst.IsNil() {
 		return treeNilError
 	}
+	
+	cnt, cntErr := bst.Count()
+	if cntErr != nil {
+		return cntErr
+	}
 
 	return nil
 }
