@@ -331,4 +331,9 @@ func recurseCollectInOrder[T BinarySearchTreeElement](slicePtr *[]T, node *Node[
 
 func (bst *BinarySearchTree[T]) BalanceTree() error {
 
+	if bst.IsNil() {
+		return treeNilError
+	}
+
+	return nil
 }
