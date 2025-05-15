@@ -328,3 +328,7 @@ func recurseCollectInOrder[T BinarySearchTreeElement](slicePtr *[]T, node *Node[
 	*slicePtr = append(*slicePtr, node.data)
 	recurseCollectInOrder(slicePtr, node.right)
 }
+
+func (bst *BinarySearchTree[T]) BalanceTree() error {
+
+}
