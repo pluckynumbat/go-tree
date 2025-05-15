@@ -335,10 +335,15 @@ func (bst *BinarySearchTree[T]) BalanceTree() error {
 	if bst.IsNil() {
 		return treeNilError
 	}
-	
+
 	cnt, cntErr := bst.Count()
 	if cntErr != nil {
 		return cntErr
+	}
+
+	// no need to balance if there are less than 2 nodes in the tree
+	if cnt < 2 {
+		return nil
 	}
 
 	return nil
