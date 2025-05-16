@@ -357,3 +357,7 @@ func (bst *BinarySearchTree[T]) BalanceTree() error {
 
 	return nil
 }
+
+func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slice []T, min, max int) error {
+	
+}
