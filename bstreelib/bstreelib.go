@@ -364,5 +364,13 @@ func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slic
 		return nil
 	}
 
+	// insert the element present in the middle of the given range
+	mid := (min + max) / 2
+
+	err := bst.Insert(slice[mid])
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
