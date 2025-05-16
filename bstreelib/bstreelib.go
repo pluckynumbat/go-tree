@@ -355,6 +355,12 @@ func (bst *BinarySearchTree[T]) BalanceTree() error {
 	bst.root = nil
 	bst.count = 0
 
+	// recursively insert elements from the slice into the binary search tree
+	insertErr := recurseInsertNode(bst, sl, 0, cnt-1)
+	if insertErr != nil {
+		return insertErr
+	}
+
 	return nil
 }
 
