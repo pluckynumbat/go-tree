@@ -364,6 +364,8 @@ func (bst *BinarySearchTree[T]) BalanceTree() error {
 	return nil
 }
 
+// recurseInsertNode is used to insert the element present in the middle of the given range into the binary search tree
+// and then recursively do this on the 2 new ranges created on each side of the middle element
 func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slice []T, min, max int) error {
 
 	if max < min {
