@@ -372,5 +372,16 @@ func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slic
 		return err
 	}
 
+	// recursive calls
+	err = recurseInsertNode[T](bst, slice, min, mid-1)
+	if err != nil {
+		return err
+	}
+
+	err = recurseInsertNode[T](bst, slice, mid+1, max)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
