@@ -1886,8 +1886,16 @@ func TestBalanceTree(t *testing.T) {
 	if expErr == nil {
 		t.Fatalf("TraverseBFS() on an empty tree should have failed")
 	}
+
 	err = bst1.BalanceTree()
 	if err != nil {
 		t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err)
+	} else {
+		_, gotErr := bst1.TraverseBFS()
+		if gotErr == nil {
+			t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		} else {
+
+		}
 	}
 }
