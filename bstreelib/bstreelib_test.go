@@ -1894,8 +1894,10 @@ func TestBalanceTree(t *testing.T) {
 		_, gotErr := bst1.TraverseBFS()
 		if gotErr == nil {
 			t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		} else if !errors.Is(gotErr, expErr) {
+			t.Fatalf("TraverseBFS() failed with an unexpected error, want: %v, got : %v", expErr, gotErr)
 		} else {
-
+			fmt.Println(gotErr)
 		}
 	}
 }
