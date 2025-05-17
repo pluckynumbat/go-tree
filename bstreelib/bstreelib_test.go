@@ -1880,4 +1880,10 @@ func TestBalanceTree(t *testing.T) {
 	} else {
 		fmt.Println(err)
 	}
+
+	bst1 = &BinarySearchTree[prInt]{}
+	err = bst1.BalanceTree()
+	if err != nil {
+		t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err)
+	}
 }
