@@ -1869,3 +1869,7 @@ func TestConstructOrderedSlice(t *testing.T) {
 		}
 	})
 }
+
+func TestBalanceTree(t *testing.T) {
+
+}
