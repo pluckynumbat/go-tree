@@ -1889,7 +1889,7 @@ func TestBalanceTree(t *testing.T) {
 
 	err = bst1.BalanceTree()
 	if err != nil {
-		t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err)
+		t.Fatalf("BalanceTree() failed with unexpected error: %v", err)
 	} else {
 		_, gotErr := bst1.TraverseBFS()
 		if gotErr == nil {
