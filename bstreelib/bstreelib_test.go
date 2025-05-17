@@ -1882,6 +1882,10 @@ func TestBalanceTree(t *testing.T) {
 	}
 
 	bst1 = &BinarySearchTree[prInt]{}
+	_, expErr := bst1.TraverseBFS()
+	if expErr == nil {
+		t.Fatalf("TraverseBFS() on an empty tree should have failed")
+	}
 	err = bst1.BalanceTree()
 	if err != nil {
 		t.Fatalf("ConstructOrderedSlice() failed with unexpected error: %v", err)
