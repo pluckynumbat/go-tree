@@ -1908,13 +1908,13 @@ func TestBalanceTree(t *testing.T) {
 
 	unbalancedBFS, err := bst1.TraverseBFS()
 	if err != nil {
-		t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
 	}
 	fmt.Printf("BFS traversal of the tree before balancing: %v \n", unbalancedBFS)
 
 	unbalancedInOrderDFS, err := bst1.TraverseDFSInOrder()
 	if err != nil {
-		t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
 	}
 	fmt.Printf("DFS In Order traversal of the tree before balancing: %v \n", unbalancedInOrderDFS)
 }
