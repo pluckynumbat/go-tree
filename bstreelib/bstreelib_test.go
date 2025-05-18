@@ -1900,4 +1900,9 @@ func TestBalanceTree(t *testing.T) {
 			fmt.Println(gotErr)
 		}
 	}
+
+	bst1, err = ConstructFromValues[prInt](1, 2, 3)
+	if err != nil {
+		t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+	}
 }
