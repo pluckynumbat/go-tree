@@ -1983,6 +1983,21 @@ func TestBalanceTree(t *testing.T) {
 				if err != nil {
 					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
 				}
+
+				wantBFS := test.wantBFS
+				gotBFS, err := bst.TraverseBFS()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				} else if gotBFS != wantBFS {
+					t.Errorf("Post balance BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
+				}
+
+				gotDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err)
+				} else if gotDFSInOrder != unbalancedDFSInOrder {
+					t.Errorf("DFS inorder tree traversal should return same results before and after balancing, want: %v, got %v", unbalancedDFSInOrder, gotDFSInOrder)
+				}
 			})
 		}
 	})
