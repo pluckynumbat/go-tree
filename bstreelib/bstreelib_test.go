@@ -1965,7 +1965,9 @@ func TestBalanceTree(t *testing.T) {
 			name    string
 			input   []prInt
 			wantBFS string
-		}{}
+		}{
+			{"3 element tree", []prInt{1, 2, 3}, "-(2)--(1)--(3)-"},
+		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
