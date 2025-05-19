@@ -1960,5 +1960,11 @@ func TestBalanceTree(t *testing.T) {
 				fmt.Println(gotErr)
 			}
 		}
+
+		tests := []struct {
+			name    string
+			input   []prInt
+			wantBFS string
+		}{}
 	})
 }
