@@ -1872,73 +1872,14 @@ func TestConstructOrderedSlice(t *testing.T) {
 
 func TestBalanceTree(t *testing.T) {
 
-	var bst1 *BinarySearchTree[prInt]
-
-	err := bst1.BalanceTree()
-	if err == nil {
-		t.Fatalf("BalanceTree() on a nil tree should have failed")
-	} else {
-		fmt.Println(err)
-	}
-
-	bst1 = &BinarySearchTree[prInt]{}
-	_, expErr := bst1.TraverseBFS()
-	if expErr == nil {
-		t.Fatalf("TraverseBFS() on an empty tree should have failed")
-	}
-
-	err = bst1.BalanceTree()
-	if err != nil {
-		t.Fatalf("BalanceTree() failed with unexpected error: %v", err)
-	} else {
-		_, gotErr := bst1.TraverseBFS()
-		if gotErr == nil {
-			t.Fatalf("TraverseBFS() on an empty tree should have failed")
-		} else if !errors.Is(gotErr, expErr) {
-			t.Fatalf("TraverseBFS() failed with an unexpected error, want: %v, got : %v", expErr, gotErr)
-		} else {
-			fmt.Println(gotErr)
-		}
-	}
-
-	bst1, err = ConstructFromValues[prInt](1, 2, 3)
-	if err != nil {
-		t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
-	}
-
-	unbalancedDFSInOrder, err := bst1.TraverseDFSInOrder()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
-	}
-
-	err = bst1.BalanceTree()
-	if err != nil {
-		t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
-	}
-
-	wantBFS := "-(2)--(1)--(3)-"
-	gotBFS, err := bst1.TraverseBFS()
-	if err != nil {
-		t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
-	} else if gotBFS != wantBFS {
-		t.Errorf("Post balance BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
-	}
-
-	gotDFSInOrder, err := bst1.TraverseDFSInOrder()
-	if err != nil {
-		t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err)
-	} else if gotDFSInOrder != unbalancedDFSInOrder {
-		t.Errorf("DFS inorder tree traversal should return same results before and after balancing, want: %v, got %v", unbalancedDFSInOrder, gotDFSInOrder)
-	}
-
 	t.Run("BalanceTree prInt", func(t *testing.T) {
 		var bst1 *BinarySearchTree[prInt]
 
-		err := bst1.BalanceTree()
-		if err == nil {
+		err1 := bst1.BalanceTree()
+		if err1 == nil {
 			t.Fatalf("BalanceTree() on a nil tree should have failed")
 		} else {
-			fmt.Println(err)
+			fmt.Println(err1)
 		}
 
 		bst1 = &BinarySearchTree[prInt]{}
@@ -1947,9 +1888,9 @@ func TestBalanceTree(t *testing.T) {
 			t.Fatalf("TraverseBFS() on an empty tree should have failed")
 		}
 
-		err = bst1.BalanceTree()
-		if err != nil {
-			t.Fatalf("BalanceTree() failed with unexpected error: %v", err)
+		err1 = bst1.BalanceTree()
+		if err1 != nil {
+			t.Fatalf("BalanceTree() failed with unexpected error: %v", err1)
 		} else {
 			_, gotErr := bst1.TraverseBFS()
 			if gotErr == nil {
