@@ -1966,5 +1966,24 @@ func TestBalanceTree(t *testing.T) {
 			input   []prInt
 			wantBFS string
 		}{}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructFromValues[prInt](test.input...)
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				unbalancedDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				}
+
+				err = bst.BalanceTree()
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+			})
+		}
 	})
 }
