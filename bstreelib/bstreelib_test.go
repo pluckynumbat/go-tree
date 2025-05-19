@@ -1930,4 +1930,8 @@ func TestBalanceTree(t *testing.T) {
 	} else if gotDFSInOrder != unbalancedDFSInOrder {
 		t.Errorf("DFS inorder tree traversal should return same results before and after balancing, want: %v, got %v", unbalancedDFSInOrder, gotDFSInOrder)
 	}
+
+	t.Run("BalanceTree prInt", func(t *testing.T) {
+		
+	})
 }
