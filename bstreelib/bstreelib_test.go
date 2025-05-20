@@ -1908,6 +1908,8 @@ func TestBalanceTree(t *testing.T) {
 			wantBFS string
 		}{
 			{"3 element tree", []prInt{1, 2, 3}, "-(2)--(1)--(3)-"},
+			{"4 element tree", []prInt{1, 2, 3, 4}, "-(2)--(1)--(3)--(4)-"},
+			{"5 element tree", []prInt{1, 2, 3, 4, 5}, "-(3)--(1)--(4)--(2)--(5)-"},
 		}
 
 		for _, test := range tests {
