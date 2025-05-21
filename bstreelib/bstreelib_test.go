@@ -1974,5 +1974,25 @@ func TestBalanceTree(t *testing.T) {
 		} else {
 			fmt.Println(err1)
 		}
+
+		bst1 = &BinarySearchTree[prFloat]{}
+		_, expErr := bst1.TraverseBFS()
+		if expErr == nil {
+			t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		}
+
+		err1 = bst1.BalanceTree()
+		if err1 != nil {
+			t.Fatalf("BalanceTree() failed with unexpected error: %v", err1)
+		} else {
+			_, gotErr := bst1.TraverseBFS()
+			if gotErr == nil {
+				t.Fatalf("TraverseBFS() on an empty tree should have failed")
+			} else if !errors.Is(gotErr, expErr) {
+				t.Fatalf("TraverseBFS() failed with an unexpected error, want: %v, got : %v", expErr, gotErr)
+			} else {
+				fmt.Println(gotErr)
+			}
+		}
 	})
 }
