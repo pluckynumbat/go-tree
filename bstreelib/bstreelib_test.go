@@ -1965,6 +1965,14 @@ func TestBalanceTree(t *testing.T) {
 	})
 
 	t.Run("BalanceTree prFloat", func(t *testing.T) {
-		
+
+		var bst1 *BinarySearchTree[prFloat]
+
+		err1 := bst1.BalanceTree()
+		if err1 == nil {
+			t.Fatalf("BalanceTree() on a nil tree should have failed")
+		} else {
+			fmt.Println(err1)
+		}
 	})
 }
