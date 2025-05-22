@@ -2001,6 +2001,8 @@ func TestBalanceTree(t *testing.T) {
 			wantBFS string
 		}{
 			{"3 elements", []prFloat{0.99999, 1.00001, 1}, "-(1)--(0.99999)--(1.00001)-"},
+
+			{"3 elements 0.01, 0.1, 1", []prFloat{0.01, 0.1, 1}, "-(0.1)--(0.01)--(1)-"},
 		}
 
 		for _, test := range tests {
