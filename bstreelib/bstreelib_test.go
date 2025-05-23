@@ -2103,5 +2103,39 @@ func TestBalanceTree(t *testing.T) {
 		}{
 
 		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructFromValues[prString](test.input...)
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				unbalancedDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				}
+
+				err = bst.BalanceTree()
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				wantBFS := test.wantBFS
+				gotBFS, err := bst.TraverseBFS()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				} else if gotBFS != wantBFS {
+					t.Errorf("Post balance BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
+				}
+
+				gotDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err)
+				} else if gotDFSInOrder != unbalancedDFSInOrder {
+					t.Errorf("DFS inorder tree traversal should return same results before and after balancing, want: %v, got %v", unbalancedDFSInOrder, gotDFSInOrder)
+				}
+			})
+		}
 	})
 }
