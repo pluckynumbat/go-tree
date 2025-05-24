@@ -2102,6 +2102,9 @@ func TestBalanceTree(t *testing.T) {
 			wantBFS string
 		}{
 			{"basic test case", []prString{"a", "b", "c"}, "-(b)--(a)--(c)-"},
+
+			{"3 elements: I, me, myself", []prString{"I", "me", "myself"}, "-(me)--(I)--(myself)-"},
+			
 		}
 
 		for _, test := range tests {
