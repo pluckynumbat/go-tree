@@ -2105,6 +2105,8 @@ func TestBalanceTree(t *testing.T) {
 
 			{"3 elements: I, me, myself", []prString{"I", "me", "myself"}, "-(me)--(I)--(myself)-"},
 			{"3 elements: I, myself, me", []prString{"I", "myself", "me"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: me, I, myself", []prString{"me", "myself", "I"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: me, myself, I", []prString{"me", "myself", "I"}, "-(me)--(I)--(myself)-"},
 		}
 
 		for _, test := range tests {
