@@ -2105,7 +2105,7 @@ func TestBalanceTree(t *testing.T) {
 
 			{"3 elements: I, me, myself", []prString{"I", "me", "myself"}, "-(me)--(I)--(myself)-"},
 			{"3 elements: I, myself, me", []prString{"I", "myself", "me"}, "-(me)--(I)--(myself)-"},
-			{"3 elements: me, I, myself", []prString{"me", "myself", "I"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: me, I, myself", []prString{"me", "I", "myself"}, "-(me)--(I)--(myself)-"},
 			{"3 elements: me, myself, I", []prString{"me", "myself", "I"}, "-(me)--(I)--(myself)-"},
 			{"3 elements: myself, I, me", []prString{"myself", "I", "me"}, "-(me)--(I)--(myself)-"},
 			{"3 elements: myself, me, I", []prString{"myself", "me", "I"}, "-(me)--(I)--(myself)-"},
