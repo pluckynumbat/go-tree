@@ -2115,7 +2115,8 @@ func TestBalanceTree(t *testing.T) {
 			{"5 element tree", []prString{"a", "an", "any", "ain't", "aren't"}, "-(an)--(a)--(any)--(ain't)--(aren't)-"},
 			{"6 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not"}, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-"},
 			{"7 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least"}, "-(any)--(ain't)--(aren't)--(a)--(an)--(are not)--(at least)-"},
-			{"8 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "all though"}, "-(an)--(ain't)--(are not)--(a)--(all though)--(any)--(aren't)--(at least)-"},
+			{"8 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although"}, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-"},
+			{"8 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although"}, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-"},
 		}
 
 		for _, test := range tests {
