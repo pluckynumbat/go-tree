@@ -2118,6 +2118,15 @@ func TestBalanceTree(t *testing.T) {
 			{"8 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although"}, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-"},
 			{"9 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although", "along with"}, "-(an)--(ain't)--(are not)--(a)--(along with)--(any)--(aren't)--(although)--(at least)-"},
 			{"10 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although", "along with", "altogether"}, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-"},
+
+			{"3 element tree, reversed", []prString{"any", "an", "a"}, "-(an)--(a)--(any)-"},
+			{"4 element tree, reversed", []prString{"ain't", "any", "an", "a"}, "-(ain't)--(a)--(an)--(any)-"},
+			{"5 element tree, reversed", []prString{"aren't", "ain't", "any", "an", "a"}, "-(an)--(a)--(any)--(ain't)--(aren't)-"},
+			{"6 element tree, reversed", []prString{"are not", "aren't", "ain't", "any", "an", "a"}, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-"},
+			{"7 element tree, reversed", []prString{"at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(any)--(ain't)--(aren't)--(a)--(an)--(are not)--(at least)-"},
+			{"8 element tree, reversed", []prString{"although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-"},
+			{"9 element tree, reversed", []prString{"along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(an)--(ain't)--(are not)--(a)--(along with)--(any)--(aren't)--(although)--(at least)-"},
+			{"10 element tree, reversed", []prString{"altogether", "along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-"},
 		}
 
 		for _, test := range tests {
