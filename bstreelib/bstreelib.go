@@ -328,3 +328,68 @@ func recurseCollectInOrder[T BinarySearchTreeElement](slicePtr *[]T, node *Node[
 	*slicePtr = append(*slicePtr, node.data)
 	recurseCollectInOrder(slicePtr, node.right)
 }
+
+// BalanceTree will re-arrange the binary tree into its most balanced form
+func (bst *BinarySearchTree[T]) BalanceTree() error {
+
+	if bst.IsNil() {
+		return treeNilError
+	}
+
+	cnt, cntErr := bst.Count()
+	if cntErr != nil {
+		return cntErr
+	}
+
+	// no need to balance if there are less than 2 nodes in the tree
+	if cnt < 2 {
+		return nil
+	}
+
+	sl, sliceErr := bst.ConstructOrderedSlice()
+	if sliceErr != nil {
+		return sliceErr
+	}
+
+	// re-initialize the tree to an empty one
+	bst.root = nil
+	bst.count = 0
+
+	// recursively insert elements from the slice into the binary search tree
+	insertErr := recurseInsertNode(bst, sl, 0, cnt-1)
+	if insertErr != nil {
+		return insertErr
+	}
+
+	return nil
+}
+
+// recurseInsertNode is used to insert the element present in the middle of the given range into the binary search tree
+// and then recursively do this on the 2 new ranges created on each side of the middle element
+func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slice []T, min, max int) error {
+
+	if max < min {
+		return nil
+	}
+
+	// insert the element present in the middle of the given range
+	mid := (min + max) / 2
+
+	err := bst.Insert(slice[mid])
+	if err != nil {
+		return err
+	}
+
+	// recursive calls
+	err = recurseInsertNode[T](bst, slice, min, mid-1)
+	if err != nil {
+		return err
+	}
+
+	err = recurseInsertNode[T](bst, slice, mid+1, max)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

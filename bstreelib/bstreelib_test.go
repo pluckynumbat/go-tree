@@ -1869,3 +1869,301 @@ func TestConstructOrderedSlice(t *testing.T) {
 		}
 	})
 }
+
+func TestBalanceTree(t *testing.T) {
+
+	t.Run("BalanceTree prInt", func(t *testing.T) {
+		var bst1 *BinarySearchTree[prInt]
+
+		err1 := bst1.BalanceTree()
+		if err1 == nil {
+			t.Fatalf("BalanceTree() on a nil tree should have failed")
+		} else {
+			fmt.Println(err1)
+		}
+
+		bst1 = &BinarySearchTree[prInt]{}
+		_, expErr := bst1.TraverseBFS()
+		if expErr == nil {
+			t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		}
+
+		err1 = bst1.BalanceTree()
+		if err1 != nil {
+			t.Fatalf("BalanceTree() failed with unexpected error: %v", err1)
+		} else {
+			_, gotErr := bst1.TraverseBFS()
+			if gotErr == nil {
+				t.Fatalf("TraverseBFS() on an empty tree should have failed")
+			} else if !errors.Is(gotErr, expErr) {
+				t.Fatalf("TraverseBFS() failed with an unexpected error, want: %v, got : %v", expErr, gotErr)
+			} else {
+				fmt.Println(gotErr)
+			}
+		}
+
+		tests := []struct {
+			name    string
+			input   []prInt
+			wantBFS string
+		}{
+			{"3 element tree", []prInt{1, 2, 3}, "-(2)--(1)--(3)-"},
+			{"4 element tree", []prInt{1, 2, 3, 4}, "-(2)--(1)--(3)--(4)-"},
+			{"5 element tree", []prInt{1, 2, 3, 4, 5}, "-(3)--(1)--(4)--(2)--(5)-"},
+			{"6 element tree", []prInt{1, 2, 3, 4, 5, 6}, "-(3)--(1)--(5)--(2)--(4)--(6)-"},
+			{"7 element tree", []prInt{1, 2, 3, 4, 5, 6, 7}, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)-"},
+			{"8 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8}, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)--(8)-"},
+			{"9 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8, 9}, "-(5)--(2)--(7)--(1)--(3)--(6)--(8)--(4)--(9)-"},
+			{"10 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, "-(5)--(2)--(8)--(1)--(3)--(6)--(9)--(4)--(7)--(10)-"},
+
+			{"3 element tree, reversed", []prInt{3, 2, 1}, "-(2)--(1)--(3)-"},
+			{"4 element tree, reversed", []prInt{4, 3, 2, 1}, "-(2)--(1)--(3)--(4)-"},
+			{"5 element tree, reversed", []prInt{5, 4, 3, 2, 1}, "-(3)--(1)--(4)--(2)--(5)-"},
+			{"6 element tree, reversed", []prInt{6, 5, 4, 3, 2, 1}, "-(3)--(1)--(5)--(2)--(4)--(6)-"},
+			{"7 element tree, reversed", []prInt{7, 6, 5, 4, 3, 2, 1}, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)-"},
+			{"8 element tree, reversed", []prInt{8, 7, 6, 5, 4, 3, 2, 1}, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)--(8)-"},
+			{"9 element tree, reversed", []prInt{9, 8, 7, 6, 5, 4, 3, 2, 1}, "-(5)--(2)--(7)--(1)--(3)--(6)--(8)--(4)--(9)-"},
+			{"10 element tree, reversed", []prInt{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, "-(5)--(2)--(8)--(1)--(3)--(6)--(9)--(4)--(7)--(10)-"},
+
+			{"15 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}, "-(8)--(4)--(12)--(2)--(6)--(10)--(14)--(1)--(3)--(5)--(7)--(9)--(11)--(13)--(15)-"},
+			{"15 element tree, reversed", []prInt{15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, "-(8)--(4)--(12)--(2)--(6)--(10)--(14)--(1)--(3)--(5)--(7)--(9)--(11)--(13)--(15)-"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructFromValues[prInt](test.input...)
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				unbalancedDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				}
+
+				err = bst.BalanceTree()
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				wantBFS := test.wantBFS
+				gotBFS, err := bst.TraverseBFS()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				} else if gotBFS != wantBFS {
+					t.Errorf("Post balance BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
+				}
+
+				gotDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err)
+				} else if gotDFSInOrder != unbalancedDFSInOrder {
+					t.Errorf("DFS inorder tree traversal should return same results before and after balancing, want: %v, got %v", unbalancedDFSInOrder, gotDFSInOrder)
+				}
+			})
+		}
+	})
+
+	t.Run("BalanceTree prFloat", func(t *testing.T) {
+
+		var bst1 *BinarySearchTree[prFloat]
+
+		err1 := bst1.BalanceTree()
+		if err1 == nil {
+			t.Fatalf("BalanceTree() on a nil tree should have failed")
+		} else {
+			fmt.Println(err1)
+		}
+
+		bst1 = &BinarySearchTree[prFloat]{}
+		_, expErr := bst1.TraverseBFS()
+		if expErr == nil {
+			t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		}
+
+		err1 = bst1.BalanceTree()
+		if err1 != nil {
+			t.Fatalf("BalanceTree() failed with unexpected error: %v", err1)
+		} else {
+			_, gotErr := bst1.TraverseBFS()
+			if gotErr == nil {
+				t.Fatalf("TraverseBFS() on an empty tree should have failed")
+			} else if !errors.Is(gotErr, expErr) {
+				t.Fatalf("TraverseBFS() failed with an unexpected error, want: %v, got : %v", expErr, gotErr)
+			} else {
+				fmt.Println(gotErr)
+			}
+		}
+
+		tests := []struct {
+			name    string
+			input   []prFloat
+			wantBFS string
+		}{
+			{"3 elements", []prFloat{0.99999, 1.00001, 1}, "-(1)--(0.99999)--(1.00001)-"},
+
+			{"3 elements 0.01, 0.1, 1", []prFloat{0.01, 0.1, 1}, "-(0.1)--(0.01)--(1)-"},
+			{"3 elements 0.01, 1, 0.1", []prFloat{0.01, 1, 0.1}, "-(0.1)--(0.01)--(1)-"},
+			{"3 elements 0.1, 0.01, 1", []prFloat{0.1, 0.01, 1}, "-(0.1)--(0.01)--(1)-"},
+			{"3 elements 0.1, 1, 0.01", []prFloat{0.1, 1, 0.01}, "-(0.1)--(0.01)--(1)-"},
+			{"3 elements 1, 0.01, 0.1", []prFloat{1, 0.01, 0.1}, "-(0.1)--(0.01)--(1)-"},
+			{"3 elements 1, 0.1, 0.01", []prFloat{1, 0.1, 0.01}, "-(0.1)--(0.01)--(1)-"},
+
+			{"3 element tree", []prFloat{0.01, 0.02, 0.03}, "-(0.02)--(0.01)--(0.03)-"},
+			{"4 element tree", []prFloat{0.01, 0.02, 0.03, 0.04}, "-(0.02)--(0.01)--(0.03)--(0.04)-"},
+			{"5 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05}, "-(0.03)--(0.01)--(0.04)--(0.02)--(0.05)-"},
+			{"6 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06}, "-(0.03)--(0.01)--(0.05)--(0.02)--(0.04)--(0.06)-"},
+			{"7 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07}, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)-"},
+			{"8 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08}, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)--(0.08)-"},
+			{"9 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09}, "-(0.05)--(0.02)--(0.07)--(0.01)--(0.03)--(0.06)--(0.08)--(0.04)--(0.09)-"},
+			{"10 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1}, "-(0.05)--(0.02)--(0.08)--(0.01)--(0.03)--(0.06)--(0.09)--(0.04)--(0.07)--(0.1)-"},
+
+			{"3 element tree, reversed", []prFloat{0.03, 0.02, 0.01}, "-(0.02)--(0.01)--(0.03)-"},
+			{"4 element tree, reversed", []prFloat{0.04, 0.03, 0.02, 0.01}, "-(0.02)--(0.01)--(0.03)--(0.04)-"},
+			{"5 element tree, reversed", []prFloat{0.05, 0.04, 0.03, 0.02, 0.01}, "-(0.03)--(0.01)--(0.04)--(0.02)--(0.05)-"},
+			{"6 element tree, reversed", []prFloat{0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, "-(0.03)--(0.01)--(0.05)--(0.02)--(0.04)--(0.06)-"},
+			{"7 element tree, reversed", []prFloat{0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)-"},
+			{"8 element tree, reversed", []prFloat{0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)--(0.08)-"},
+			{"9 element tree, reversed", []prFloat{0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, "-(0.05)--(0.02)--(0.07)--(0.01)--(0.03)--(0.06)--(0.08)--(0.04)--(0.09)-"},
+			{"10 element tree, reversed", []prFloat{0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, "-(0.05)--(0.02)--(0.08)--(0.01)--(0.03)--(0.06)--(0.09)--(0.04)--(0.07)--(0.1)-"},
+
+			{"15 element tree", []prFloat{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5}, "-(0.8)--(0.4)--(1.2)--(0.2)--(0.6)--(1)--(1.4)--(0.1)--(0.3)--(0.5)--(0.7)--(0.9)--(1.1)--(1.3)--(1.5)-"},
+			{"15 element tree, reversed", []prFloat{1.5, 1.4, 1.3, 1.2, 1.1, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1}, "-(0.8)--(0.4)--(1.2)--(0.2)--(0.6)--(1)--(1.4)--(0.1)--(0.3)--(0.5)--(0.7)--(0.9)--(1.1)--(1.3)--(1.5)-"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructFromValues[prFloat](test.input...)
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				unbalancedDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				}
+
+				err = bst.BalanceTree()
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				wantBFS := test.wantBFS
+				gotBFS, err := bst.TraverseBFS()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				} else if gotBFS != wantBFS {
+					t.Errorf("Post balance BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
+				}
+
+				gotDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err)
+				} else if gotDFSInOrder != unbalancedDFSInOrder {
+					t.Errorf("DFS inorder tree traversal should return same results before and after balancing, want: %v, got %v", unbalancedDFSInOrder, gotDFSInOrder)
+				}
+			})
+		}
+	})
+
+	t.Run("BalanceTree prString", func(t *testing.T) {
+		var bst1 *BinarySearchTree[prString]
+
+		err1 := bst1.BalanceTree()
+		if err1 == nil {
+			t.Fatalf("BalanceTree() on a nil tree should have failed")
+		} else {
+			fmt.Println(err1)
+		}
+
+		bst1 = &BinarySearchTree[prString]{}
+		_, expErr := bst1.TraverseBFS()
+		if expErr == nil {
+			t.Fatalf("TraverseBFS() on an empty tree should have failed")
+		}
+
+		err1 = bst1.BalanceTree()
+		if err1 != nil {
+			t.Fatalf("BalanceTree() failed with unexpected error: %v", err1)
+		} else {
+			_, gotErr := bst1.TraverseBFS()
+			if gotErr == nil {
+				t.Fatalf("TraverseBFS() on an empty tree should have failed")
+			} else if !errors.Is(gotErr, expErr) {
+				t.Fatalf("TraverseBFS() failed with an unexpected error, want: %v, got : %v", expErr, gotErr)
+			} else {
+				fmt.Println(gotErr)
+			}
+		}
+
+		tests := []struct {
+			name    string
+			input   []prString
+			wantBFS string
+		}{
+			{"basic test case", []prString{"a", "b", "c"}, "-(b)--(a)--(c)-"},
+
+			{"3 elements: I, me, myself", []prString{"I", "me", "myself"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: I, myself, me", []prString{"I", "myself", "me"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: me, I, myself", []prString{"me", "I", "myself"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: me, myself, I", []prString{"me", "myself", "I"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: myself, I, me", []prString{"myself", "I", "me"}, "-(me)--(I)--(myself)-"},
+			{"3 elements: myself, me, I", []prString{"myself", "me", "I"}, "-(me)--(I)--(myself)-"},
+
+			{"3 element tree", []prString{"a", "an", "any"}, "-(an)--(a)--(any)-"},
+			{"4 element tree", []prString{"a", "an", "any", "ain't"}, "-(ain't)--(a)--(an)--(any)-"},
+			{"5 element tree", []prString{"a", "an", "any", "ain't", "aren't"}, "-(an)--(a)--(any)--(ain't)--(aren't)-"},
+			{"6 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not"}, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-"},
+			{"7 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least"}, "-(any)--(ain't)--(aren't)--(a)--(an)--(are not)--(at least)-"},
+			{"8 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although"}, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-"},
+			{"9 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although", "along with"}, "-(an)--(ain't)--(are not)--(a)--(along with)--(any)--(aren't)--(although)--(at least)-"},
+			{"10 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although", "along with", "altogether"}, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-"},
+
+			{"3 element tree, reversed", []prString{"any", "an", "a"}, "-(an)--(a)--(any)-"},
+			{"4 element tree, reversed", []prString{"ain't", "any", "an", "a"}, "-(ain't)--(a)--(an)--(any)-"},
+			{"5 element tree, reversed", []prString{"aren't", "ain't", "any", "an", "a"}, "-(an)--(a)--(any)--(ain't)--(aren't)-"},
+			{"6 element tree, reversed", []prString{"are not", "aren't", "ain't", "any", "an", "a"}, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-"},
+			{"7 element tree, reversed", []prString{"at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(any)--(ain't)--(aren't)--(a)--(an)--(are not)--(at least)-"},
+			{"8 element tree, reversed", []prString{"although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-"},
+			{"9 element tree, reversed", []prString{"along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(an)--(ain't)--(are not)--(a)--(along with)--(any)--(aren't)--(although)--(at least)-"},
+			{"10 element tree, reversed", []prString{"altogether", "along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-"},
+
+			{"15 element tree", []prString{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"}, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-"},
+			{"15 element tree", []prString{"o", "n", "m", "l", "k", "j", "i", "h", "g", "f", "e", "d", "c", "b", "a"}, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructFromValues[prString](test.input...)
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				unbalancedDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				}
+
+				err = bst.BalanceTree()
+				if err != nil {
+					t.Fatalf("ConstructFromValues() failed with unexpected error: %v", err)
+				}
+
+				wantBFS := test.wantBFS
+				gotBFS, err := bst.TraverseBFS()
+				if err != nil {
+					t.Fatalf("TraverseBFS() failed with an unexpected error, %v", err)
+				} else if gotBFS != wantBFS {
+					t.Errorf("Post balance BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
+				}
+
+				gotDFSInOrder, err := bst.TraverseDFSInOrder()
+				if err != nil {
+					t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err)
+				} else if gotDFSInOrder != unbalancedDFSInOrder {
+					t.Errorf("DFS inorder tree traversal should return same results before and after balancing, want: %v, got %v", unbalancedDFSInOrder, gotDFSInOrder)
+				}
+			})
+		}
+	})
+}
