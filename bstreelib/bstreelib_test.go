@@ -2129,6 +2129,7 @@ func TestBalanceTree(t *testing.T) {
 			{"10 element tree, reversed", []prString{"altogether", "along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-"},
 
 			{"15 element tree", []prString{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"}, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-"},
+			{"15 element tree", []prString{"o", "n", "m", "l", "k", "j", "i", "h", "g", "f", "e", "d", "c", "b", "a"}, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-"},
 		}
 
 		for _, test := range tests {
