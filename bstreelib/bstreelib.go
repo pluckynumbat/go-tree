@@ -413,4 +413,5 @@ func ConstructBalancedTree[T BinarySearchTreeElement](values ...T) (*BinarySearc
 		return nil, insertErr
 	}
 
+	return bst, nil
 }
