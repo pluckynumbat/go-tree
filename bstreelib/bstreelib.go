@@ -400,4 +400,6 @@ func ConstructBalancedTree[T BinarySearchTreeElement](values ...T) (*BinarySearc
 	if len(values) == 0 {
 		return nil, noValuesError
 	}
+
+	slices.Sort(values)
 }
