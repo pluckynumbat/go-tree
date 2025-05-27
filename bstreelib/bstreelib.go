@@ -407,5 +407,10 @@ func ConstructBalancedTree[T BinarySearchTreeElement](values ...T) (*BinarySearc
 
 	bst := &BinarySearchTree[T]{}
 
+	// recursively insert elements from the input values into the binary search tree
+	insertErr := recurseInsertNode(bst, values, 0, cnt-1)
+	if insertErr != nil {
+		return nil, insertErr
+	}
 
 }
