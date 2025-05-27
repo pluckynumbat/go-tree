@@ -393,3 +393,7 @@ func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slic
 
 	return nil
 }
+
+func ConstructBalancedTree[T BinarySearchTreeElement](values ...T) (*BinarySearchTree[T], error) {
+
+}
