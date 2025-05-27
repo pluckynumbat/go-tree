@@ -12,6 +12,7 @@ const invalidCount = -1
 var nodeNilError = fmt.Errorf("the node is nil")
 var treeNilError = fmt.Errorf("the binary search tree is nil")
 var treeEmptyError = fmt.Errorf("the binary search tree is empty")
+var noValuesError = fmt.Errorf("there are no given values")
 
 // BinarySearchTreeElement is a custom interface that combines the constraints of the Ordered and Stringer interfaces
 type BinarySearchTreeElement interface {
