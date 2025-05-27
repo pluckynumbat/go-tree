@@ -403,4 +403,8 @@ func ConstructBalancedTree[T BinarySearchTreeElement](values ...T) (*BinarySearc
 	}
 
 	slices.Sort(values)
+
+	bst := &BinarySearchTree[T]{}
+
+
 }
