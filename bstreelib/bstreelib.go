@@ -5,6 +5,7 @@ import (
 	"cmp"
 	"fmt"
 	"github.com/pluckynumbat/go-quez/sgquezlib"
+	"slices"
 )
 
 const invalidCount = -1
