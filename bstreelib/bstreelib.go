@@ -396,6 +396,7 @@ func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slic
 	return nil
 }
 
+// ConstructBalancedTree is a helper function to insert all the given values into a binary search tree, in a manner which creates a balanced tree
 func ConstructBalancedTree[T BinarySearchTreeElement](values ...T) (*BinarySearchTree[T], error) {
 
 	cnt := len(values)
