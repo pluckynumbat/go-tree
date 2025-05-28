@@ -2170,4 +2170,10 @@ func TestBalanceTree(t *testing.T) {
 
 func TestConstructBalancedTree(t *testing.T) {
 
+	_, err1 := ConstructBalancedTree[prInt]()
+	if err1 == nil {
+		t.Fatalf("ConstructBalancedTree() should have failed on empty input")
+	} else {
+		fmt.Println(err1)
+	}
 }
