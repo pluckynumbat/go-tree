@@ -2167,3 +2167,7 @@ func TestBalanceTree(t *testing.T) {
 		}
 	})
 }
+
+func TestConstructBalancedTree(t *testing.T) {
+
+}
