@@ -2188,5 +2188,13 @@ func TestConstructBalancedTree(t *testing.T) {
 		} else if gotBFS != wantBFS {
 			t.Errorf("BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
 		}
+
+		wantDFSInOrder := "-(1)--(2)--(3)-"
+		gotDFSInOrder, err2 := bst1.TraverseDFSInOrder()
+		if err2 != nil {
+			t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err2)
+		} else if gotDFSInOrder != wantDFSInOrder {
+			t.Errorf("BFS tree traversal results are incorrect, want: %v, got %v", wantDFSInOrder, gotDFSInOrder)
+		}
 	}
 }
