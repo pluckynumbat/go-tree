@@ -2204,5 +2204,13 @@ func TestConstructBalancedTree(t *testing.T) {
 		} else if gotDFSPreOrder != wantDFSPreOrder {
 			t.Errorf("DFS Pre Order tree traversal results are incorrect, want: %v, got %v", wantDFSPreOrder, gotDFSPreOrder)
 		}
+
+		wantDFSPostOrder := "-(1)--(3)--(2)-"
+		gotDFSPostOrder, err2 := bst1.TraverseDFSPostOrder()
+		if err2 != nil {
+			t.Fatalf("TraverseDFSPostOrder() failed with an unexpected error, %v", err2)
+		} else if gotDFSPostOrder != wantDFSPostOrder {
+			t.Errorf("DFS Post Order tree traversal results are incorrect, want: %v, got %v", wantDFSPostOrder, gotDFSPostOrder)
+		}
 	}
 }
