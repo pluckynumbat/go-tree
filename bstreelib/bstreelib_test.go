@@ -2176,4 +2176,17 @@ func TestConstructBalancedTree(t *testing.T) {
 	} else {
 		fmt.Println(err1)
 	}
+
+	bst1, err1 := ConstructBalancedTree[prInt](1, 2, 3)
+	if err1 != nil {
+		t.Fatalf("ConstructBalancedTree() failed with an unexpected error, %v", err1)
+	} else {
+		wantBFS := "-(2)--(1)--(3)-"
+		gotBFS, err2 := bst1.TraverseBFS()
+		if err2 != nil {
+			t.Fatalf("TraverseDBFS() failed with an unexpected error, %v", err2)
+		} else if gotBFS != wantBFS {
+			t.Errorf("BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
+		}
+	}
 }
