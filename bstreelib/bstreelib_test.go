@@ -2224,6 +2224,21 @@ func TestConstructBalancedTree(t *testing.T) {
 			expDFSInOrderStr   string
 			expDFSPreOrderStr  string
 			expDFSPostOrderStr string
-		}{}
+		}{
+
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructBalancedTree[prInt](test.input...)
+				if err != nil {
+					if errors.Is(err, test.expError) {
+						fmt.Println(err)
+					} else {
+						t.Fatalf("ConstructBalancedTree() failed with an unexpected error, %v", err)
+					}
+				}
+			})
+		}
 	})
 }
