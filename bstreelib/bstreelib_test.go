@@ -2216,5 +2216,14 @@ func TestConstructBalancedTree(t *testing.T) {
 
 	t.Run("ConstructBalancedTree() prInt", func(t *testing.T) {
 
+		tests := []struct {
+			name               string
+			input              []prInt
+			expError           error
+			expBFSStr          string
+			expDFSInOrderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
+		}{}
 	})
 }
