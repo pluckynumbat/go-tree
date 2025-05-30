@@ -2224,9 +2224,7 @@ func TestConstructBalancedTree(t *testing.T) {
 			expDFSInOrderStr   string
 			expDFSPreOrderStr  string
 			expDFSPostOrderStr string
-		}{
-
-		}
+		}{}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
@@ -2250,6 +2248,20 @@ func TestConstructBalancedTree(t *testing.T) {
 						t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err2)
 					} else if gotDFSInOrder != test.expDFSInOrderStr {
 						t.Errorf("DFS In Order traversal results are incorrect, want: %v, got %v", test.expDFSInOrderStr, gotDFSInOrder)
+					}
+
+					gotDFSPreOrder, err2 := bst1.TraverseDFSPreOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPreOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPreOrder != test.expDFSPreOrderStr {
+						t.Errorf("DFS Pre Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPreOrderStr, gotDFSPreOrder)
+					}
+
+					gotDFSPostOrder, err2 := bst1.TraverseDFSPostOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPostOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPostOrder != test.expDFSPostOrderStr {
+						t.Errorf("DFS Post Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPostOrderStr, gotDFSPostOrder)
 					}
 				}
 			})
