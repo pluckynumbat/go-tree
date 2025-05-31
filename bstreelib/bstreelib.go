@@ -18,6 +18,11 @@ type duplicateElementError[T BinarySearchTreeElement] struct {
 	value T
 }
 
+// duplicateElementError's implementation of the Error interface
+func (err *duplicateElementError[T]) Error() string {
+	return fmt.Sprintf("the binary search tree already has the value attempting to be inserted: %v", err.value)
+}
+
 // BinarySearchTreeElement is a custom interface that combines the constraints of the Ordered and Stringer interfaces
 type BinarySearchTreeElement interface {
 	cmp.Ordered
