@@ -120,7 +120,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 
 	for runner != nil {
 		if runner.data == value { // the value is already present
-			return fmt.Errorf("the binary search tree already has the value attempting to be inserted: %v", value)
+			return &duplicateElementError[T]{value}
 		}
 
 		if runner.data > value {
