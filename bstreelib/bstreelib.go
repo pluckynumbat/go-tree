@@ -13,6 +13,11 @@ var nodeNilError = fmt.Errorf("the node is nil")
 var treeNilError = fmt.Errorf("the binary search tree is nil")
 var treeEmptyError = fmt.Errorf("the binary search tree is empty")
 
+// duplicateElementError is a custom error raised when an element already present in the tree is attempted to be inserted
+type duplicateElementError[T BinarySearchTreeElement] struct {
+	value T
+}
+
 // BinarySearchTreeElement is a custom interface that combines the constraints of the Ordered and Stringer interfaces
 type BinarySearchTreeElement interface {
 	cmp.Ordered
