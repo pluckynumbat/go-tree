@@ -21,7 +21,7 @@ type duplicateElementError[T BinarySearchTreeElement] struct {
 }
 
 // duplicateElementError's implementation of the Error interface
-func (err *duplicateElementError[T]) Error() string {
+func (err duplicateElementError[T]) Error() string {
 	return fmt.Sprintf("the binary search tree already has the value attempting to be inserted: %v", err.value)
 }
 
@@ -122,7 +122,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 
 	for runner != nil {
 		if runner.data == value { // the value is already present
-			return &duplicateElementError[T]{value}
+			return duplicateElementError[T]{value}
 		}
 
 		if runner.data > value {
