@@ -2169,7 +2169,7 @@ func TestBalanceTree(t *testing.T) {
 }
 
 func TestConstructBalancedTree(t *testing.T) {
-	
+
 	t.Run("ConstructBalancedTree() prInt", func(t *testing.T) {
 
 		tests := []struct {
