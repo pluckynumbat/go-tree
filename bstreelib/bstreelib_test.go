@@ -2169,51 +2169,7 @@ func TestBalanceTree(t *testing.T) {
 }
 
 func TestConstructBalancedTree(t *testing.T) {
-
-	_, err1 := ConstructBalancedTree[prInt]()
-	if err1 == nil {
-		t.Fatalf("ConstructBalancedTree() should have failed on empty input")
-	} else {
-		fmt.Println(err1)
-	}
-
-	bst1, err1 := ConstructBalancedTree[prInt](1, 2, 3)
-	if err1 != nil {
-		t.Fatalf("ConstructBalancedTree() failed with an unexpected error, %v", err1)
-	} else {
-		wantBFS := "-(2)--(1)--(3)-"
-		gotBFS, err2 := bst1.TraverseBFS()
-		if err2 != nil {
-			t.Fatalf("TraverseDBFS() failed with an unexpected error, %v", err2)
-		} else if gotBFS != wantBFS {
-			t.Errorf("BFS tree traversal results are incorrect, want: %v, got %v", wantBFS, gotBFS)
-		}
-
-		wantDFSInOrder := "-(1)--(2)--(3)-"
-		gotDFSInOrder, err2 := bst1.TraverseDFSInOrder()
-		if err2 != nil {
-			t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err2)
-		} else if gotDFSInOrder != wantDFSInOrder {
-			t.Errorf("DFS In Order traversal results are incorrect, want: %v, got %v", wantDFSInOrder, gotDFSInOrder)
-		}
-
-		wantDFSPreOrder := "-(2)--(1)--(3)-"
-		gotDFSPreOrder, err2 := bst1.TraverseDFSPreOrder()
-		if err2 != nil {
-			t.Fatalf("TraverseDFSPreOrder() failed with an unexpected error, %v", err2)
-		} else if gotDFSPreOrder != wantDFSPreOrder {
-			t.Errorf("DFS Pre Order tree traversal results are incorrect, want: %v, got %v", wantDFSPreOrder, gotDFSPreOrder)
-		}
-
-		wantDFSPostOrder := "-(1)--(3)--(2)-"
-		gotDFSPostOrder, err2 := bst1.TraverseDFSPostOrder()
-		if err2 != nil {
-			t.Fatalf("TraverseDFSPostOrder() failed with an unexpected error, %v", err2)
-		} else if gotDFSPostOrder != wantDFSPostOrder {
-			t.Errorf("DFS Post Order tree traversal results are incorrect, want: %v, got %v", wantDFSPostOrder, gotDFSPostOrder)
-		}
-	}
-
+	
 	t.Run("ConstructBalancedTree() prInt", func(t *testing.T) {
 
 		tests := []struct {
