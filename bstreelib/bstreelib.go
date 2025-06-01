@@ -15,6 +15,16 @@ var treeNilError = fmt.Errorf("the binary search tree is nil")
 var treeEmptyError = fmt.Errorf("the binary search tree is empty")
 var noValuesError = fmt.Errorf("there are no values in the input")
 
+// duplicateElementError is a custom error raised when an element already present in the tree is attempted to be inserted
+type duplicateElementError[T BinarySearchTreeElement] struct {
+	value T
+}
+
+// duplicateElementError's implementation of the Error interface
+func (err *duplicateElementError[T]) Error() string {
+	return fmt.Sprintf("the binary search tree already has the value attempting to be inserted: %v", err.value)
+}
+
 // BinarySearchTreeElement is a custom interface that combines the constraints of the Ordered and Stringer interfaces
 type BinarySearchTreeElement interface {
 	cmp.Ordered
@@ -112,7 +122,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 
 	for runner != nil {
 		if runner.data == value { // the value is already present
-			return fmt.Errorf("the binary search tree already has the value attempting to be inserted: %v", value)
+			return &duplicateElementError[T]{value}
 		}
 
 		if runner.data > value {
