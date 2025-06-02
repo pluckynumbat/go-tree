@@ -2183,7 +2183,10 @@ func TestConstructBalancedTree(t *testing.T) {
 		}{
 			{"empty test case", []prInt{}, noValuesError, "", "", "", ""},
 			{"duplicate element error case", []prInt{1, 1}, duplicateElementError[prInt]{1}, "", "", "", ""},
-			{"basic test case", []prInt{1, 2, 3}, nil, "-(2)--(1)--(3)-", "-(1)--(2)--(3)-", "-(2)--(1)--(3)-", "-(1)--(3)--(2)-"},
+
+			{"3 element tree", []prInt{1, 2, 3}, nil, "-(2)--(1)--(3)-", "-(1)--(2)--(3)-", "-(2)--(1)--(3)-", "-(1)--(3)--(2)-"},
+			{"4 element tree", []prInt{1, 2, 3, 4}, nil, "-(2)--(1)--(3)--(4)-", "-(1)--(2)--(3)--(4)-", "-(2)--(1)--(3)--(4)-", "-(1)--(4)--(3)--(2)-"},
+			{"5 element tree", []prInt{1, 2, 3, 4, 5}, nil, "-(3)--(1)--(4)--(2)--(5)-", "-(1)--(2)--(3)--(4)--(5)-", "-(3)--(1)--(2)--(4)--(5)-", "-(2)--(1)--(5)--(4)--(3)-"},
 		}
 
 		for _, test := range tests {
