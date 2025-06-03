@@ -2259,7 +2259,7 @@ func TestConstructBalancedTree(t *testing.T) {
 			expDFSPreOrderStr  string
 			expDFSPostOrderStr string
 		}{
-
+			{"basic test case", []prFloat{0.99999, 1.00001, 1}, nil, "-(1)--(0.99999)--(1.00001)-", "-(0.99999)--(1)--(1.00001)-", "-(1)--(0.99999)--(1.00001)-", "-(0.99999)--(1.00001)--(1)-"},
 		}
 
 		for _, test := range tests {
