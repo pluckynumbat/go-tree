@@ -2250,5 +2250,14 @@ func TestConstructBalancedTree(t *testing.T) {
 
 	t.Run("ConstructBalancedTree() prFloat", func(t *testing.T) {
 
+		tests := []struct {
+			name               string
+			input              []prFloat
+			expError           error
+			expBFSStr          string
+			expDFSInOrderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
+		}{}
 	})
 }
