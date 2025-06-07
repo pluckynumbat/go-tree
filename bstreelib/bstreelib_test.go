@@ -2345,7 +2345,9 @@ func TestConstructBalancedTree(t *testing.T) {
 			expDFSInOrderStr   string
 			expDFSPreOrderStr  string
 			expDFSPostOrderStr string
-		}{}
+		}{
+			{"basic test case", []prString{"a", "b", "c"}, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-", "-(a)--(c)--(b)-"},
+		}
 
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
