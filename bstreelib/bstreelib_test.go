@@ -2346,6 +2346,8 @@ func TestConstructBalancedTree(t *testing.T) {
 			expDFSPreOrderStr  string
 			expDFSPostOrderStr string
 		}{
+			{"empty test case", []prString{}, noValuesError, "", "", "", ""},
+
 			{"basic test case", []prString{"a", "b", "c"}, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-", "-(a)--(c)--(b)-"},
 		}
 
