@@ -2352,6 +2352,7 @@ func TestConstructBalancedTree(t *testing.T) {
 			{"basic test case", []prString{"a", "b", "c"}, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-", "-(a)--(c)--(b)-"},
 
 			{"3 elements: I, me, myself", []prString{"I", "me", "myself"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+			{"3 elements: I, myself, me", []prString{"I", "myself", "me"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
 		}
 
 		for _, test := range tests {
