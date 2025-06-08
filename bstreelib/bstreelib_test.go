@@ -2347,6 +2347,7 @@ func TestConstructBalancedTree(t *testing.T) {
 			expDFSPostOrderStr string
 		}{
 			{"empty test case", []prString{}, noValuesError, "", "", "", ""},
+			{"duplicate element error case", []prString{"I", "I"}, duplicateElementError[prString]{"I"}, "", "", "", ""},
 
 			{"basic test case", []prString{"a", "b", "c"}, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-", "-(a)--(c)--(b)-"},
 		}
