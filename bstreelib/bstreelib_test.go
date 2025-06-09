@@ -2362,6 +2362,8 @@ func TestConstructBalancedTree(t *testing.T) {
 			{"4 element tree", []prString{"a", "an", "any", "ain't"}, nil, "-(ain't)--(a)--(an)--(any)-", "-(a)--(ain't)--(an)--(any)-", "-(ain't)--(a)--(an)--(any)-", "-(a)--(any)--(an)--(ain't)-"},
 			{"5 element tree", []prString{"a", "an", "any", "ain't", "aren't"}, nil, "-(an)--(a)--(any)--(ain't)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(aren't)-", "-(an)--(a)--(ain't)--(any)--(aren't)-", "-(ain't)--(a)--(aren't)--(any)--(an)-"},
 			{"6 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not"}, nil, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(are not)--(aren't)-", "-(an)--(a)--(ain't)--(are not)--(any)--(aren't)-", "-(ain't)--(a)--(any)--(aren't)--(are not)--(an)-"},
+			{"7 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least"}, nil, "-(any)--(ain't)--(aren't)--(a)--(an)--(are not)--(at least)-", "-(a)--(ain't)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(any)--(ain't)--(a)--(an)--(aren't)--(are not)--(at least)-", "-(a)--(an)--(ain't)--(are not)--(at least)--(aren't)--(any)-"},
+			{"8 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although"}, nil, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-", "-(a)--(ain't)--(although)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(an)--(ain't)--(a)--(although)--(are not)--(any)--(aren't)--(at least)-", "-(a)--(although)--(ain't)--(any)--(at least)--(aren't)--(are not)--(an)-"},
 		}
 
 		for _, test := range tests {
