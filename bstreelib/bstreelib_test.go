@@ -2360,6 +2360,8 @@ func TestConstructBalancedTree(t *testing.T) {
 
 			{"3 element tree", []prString{"a", "an", "any"}, nil, "-(an)--(a)--(any)-", "-(a)--(an)--(any)-", "-(an)--(a)--(any)-", "-(a)--(any)--(an)-"},
 			{"4 element tree", []prString{"a", "an", "any", "ain't"}, nil, "-(ain't)--(a)--(an)--(any)-", "-(a)--(ain't)--(an)--(any)-", "-(ain't)--(a)--(an)--(any)-", "-(a)--(any)--(an)--(ain't)-"},
+			{"5 element tree", []prString{"a", "an", "any", "ain't", "aren't"}, nil, "-(an)--(a)--(any)--(ain't)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(aren't)-", "-(an)--(a)--(ain't)--(any)--(aren't)-", "-(ain't)--(a)--(aren't)--(any)--(an)-"},
+			{"6 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not"}, nil, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(are not)--(aren't)-", "-(an)--(a)--(ain't)--(are not)--(any)--(aren't)-", "-(ain't)--(a)--(any)--(aren't)--(are not)--(an)-"},
 		}
 
 		for _, test := range tests {
