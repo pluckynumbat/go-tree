@@ -2357,6 +2357,9 @@ func TestConstructBalancedTree(t *testing.T) {
 			{"3 elements: me, myself, I", []prString{"me", "myself", "I"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
 			{"3 elements: myself, I, me", []prString{"myself", "I", "me"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
 			{"3 elements: myself, me, I", []prString{"myself", "me", "I"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+
+			{"3 element tree", []prString{"a", "an", "any"}, nil, "-(an)--(a)--(any)-", "-(a)--(an)--(any)-", "-(an)--(a)--(any)-", "-(a)--(any)--(an)-"},
+			{"4 element tree", []prString{"a", "an", "any", "ain't"}, nil, "-(ain't)--(a)--(an)--(any)-", "-(a)--(ain't)--(an)--(any)-", "-(ain't)--(a)--(an)--(any)-", "-(a)--(any)--(an)--(ain't)-"},
 		}
 
 		for _, test := range tests {
