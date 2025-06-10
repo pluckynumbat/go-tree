@@ -2167,3 +2167,258 @@ func TestBalanceTree(t *testing.T) {
 		}
 	})
 }
+
+func TestConstructBalancedTree(t *testing.T) {
+
+	t.Run("ConstructBalancedTree() prInt", func(t *testing.T) {
+
+		tests := []struct {
+			name               string
+			input              []prInt
+			expError           error
+			expBFSStr          string
+			expDFSInOrderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
+		}{
+			{"empty test case", []prInt{}, noValuesError, "", "", "", ""},
+			{"duplicate element error case", []prInt{1, 1}, duplicateElementError[prInt]{1}, "", "", "", ""},
+
+			{"3 element tree", []prInt{1, 2, 3}, nil, "-(2)--(1)--(3)-", "-(1)--(2)--(3)-", "-(2)--(1)--(3)-", "-(1)--(3)--(2)-"},
+			{"4 element tree", []prInt{1, 2, 3, 4}, nil, "-(2)--(1)--(3)--(4)-", "-(1)--(2)--(3)--(4)-", "-(2)--(1)--(3)--(4)-", "-(1)--(4)--(3)--(2)-"},
+			{"5 element tree", []prInt{1, 2, 3, 4, 5}, nil, "-(3)--(1)--(4)--(2)--(5)-", "-(1)--(2)--(3)--(4)--(5)-", "-(3)--(1)--(2)--(4)--(5)-", "-(2)--(1)--(5)--(4)--(3)-"},
+			{"6 element tree", []prInt{1, 2, 3, 4, 5, 6}, nil, "-(3)--(1)--(5)--(2)--(4)--(6)-", "-(1)--(2)--(3)--(4)--(5)--(6)-", "-(3)--(1)--(2)--(5)--(4)--(6)-", "-(2)--(1)--(4)--(6)--(5)--(3)-"},
+			{"7 element tree", []prInt{1, 2, 3, 4, 5, 6, 7}, nil, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-", "-(4)--(2)--(1)--(3)--(6)--(5)--(7)-", "-(1)--(3)--(2)--(5)--(7)--(6)--(4)-"},
+			{"8 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8}, nil, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)--(8)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)-", "-(4)--(2)--(1)--(3)--(6)--(5)--(7)--(8)-", "-(1)--(3)--(2)--(5)--(8)--(7)--(6)--(4)-"},
+			{"9 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8, 9}, nil, "-(5)--(2)--(7)--(1)--(3)--(6)--(8)--(4)--(9)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)--(9)-", "-(5)--(2)--(1)--(3)--(4)--(7)--(6)--(8)--(9)-", "-(1)--(4)--(3)--(2)--(6)--(9)--(8)--(7)--(5)-"},
+			{"10 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, nil, "-(5)--(2)--(8)--(1)--(3)--(6)--(9)--(4)--(7)--(10)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)--(9)--(10)-", "-(5)--(2)--(1)--(3)--(4)--(8)--(6)--(7)--(9)--(10)-", "-(1)--(4)--(3)--(2)--(7)--(6)--(10)--(9)--(8)--(5)-"},
+
+			{"3 element tree, reversed input", []prInt{3, 2, 1}, nil, "-(2)--(1)--(3)-", "-(1)--(2)--(3)-", "-(2)--(1)--(3)-", "-(1)--(3)--(2)-"},
+			{"4 element tree, reversed input", []prInt{4, 3, 2, 1}, nil, "-(2)--(1)--(3)--(4)-", "-(1)--(2)--(3)--(4)-", "-(2)--(1)--(3)--(4)-", "-(1)--(4)--(3)--(2)-"},
+			{"5 element tree, reversed input", []prInt{5, 4, 3, 2, 1}, nil, "-(3)--(1)--(4)--(2)--(5)-", "-(1)--(2)--(3)--(4)--(5)-", "-(3)--(1)--(2)--(4)--(5)-", "-(2)--(1)--(5)--(4)--(3)-"},
+			{"6 element tree, reversed input", []prInt{6, 5, 4, 3, 2, 1}, nil, "-(3)--(1)--(5)--(2)--(4)--(6)-", "-(1)--(2)--(3)--(4)--(5)--(6)-", "-(3)--(1)--(2)--(5)--(4)--(6)-", "-(2)--(1)--(4)--(6)--(5)--(3)-"},
+			{"7 element tree, reversed input", []prInt{7, 6, 5, 4, 3, 2, 1}, nil, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)-", "-(4)--(2)--(1)--(3)--(6)--(5)--(7)-", "-(1)--(3)--(2)--(5)--(7)--(6)--(4)-"},
+			{"8 element tree, reversed input", []prInt{8, 7, 6, 5, 4, 3, 2, 1}, nil, "-(4)--(2)--(6)--(1)--(3)--(5)--(7)--(8)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)-", "-(4)--(2)--(1)--(3)--(6)--(5)--(7)--(8)-", "-(1)--(3)--(2)--(5)--(8)--(7)--(6)--(4)-"},
+			{"9 element tree, reversed input", []prInt{9, 8, 7, 6, 5, 4, 3, 2, 1}, nil, "-(5)--(2)--(7)--(1)--(3)--(6)--(8)--(4)--(9)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)--(9)-", "-(5)--(2)--(1)--(3)--(4)--(7)--(6)--(8)--(9)-", "-(1)--(4)--(3)--(2)--(6)--(9)--(8)--(7)--(5)-"},
+			{"10 element tree, reversed input", []prInt{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, nil, "-(5)--(2)--(8)--(1)--(3)--(6)--(9)--(4)--(7)--(10)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)--(9)--(10)-", "-(5)--(2)--(1)--(3)--(4)--(8)--(6)--(7)--(9)--(10)-", "-(1)--(4)--(3)--(2)--(7)--(6)--(10)--(9)--(8)--(5)-"},
+
+			{"15 element tree", []prInt{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}, nil, "-(8)--(4)--(12)--(2)--(6)--(10)--(14)--(1)--(3)--(5)--(7)--(9)--(11)--(13)--(15)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)--(9)--(10)--(11)--(12)--(13)--(14)--(15)-", "-(8)--(4)--(2)--(1)--(3)--(6)--(5)--(7)--(12)--(10)--(9)--(11)--(14)--(13)--(15)-", "-(1)--(3)--(2)--(5)--(7)--(6)--(4)--(9)--(11)--(10)--(13)--(15)--(14)--(12)--(8)-"},
+			{"15 element tree, reversed input", []prInt{15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, nil, "-(8)--(4)--(12)--(2)--(6)--(10)--(14)--(1)--(3)--(5)--(7)--(9)--(11)--(13)--(15)-", "-(1)--(2)--(3)--(4)--(5)--(6)--(7)--(8)--(9)--(10)--(11)--(12)--(13)--(14)--(15)-", "-(8)--(4)--(2)--(1)--(3)--(6)--(5)--(7)--(12)--(10)--(9)--(11)--(14)--(13)--(15)-", "-(1)--(3)--(2)--(5)--(7)--(6)--(4)--(9)--(11)--(10)--(13)--(15)--(14)--(12)--(8)-"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructBalancedTree[prInt](test.input...)
+				if err != nil {
+					if errors.Is(err, test.expError) {
+						fmt.Println(err)
+					} else {
+						t.Fatalf("ConstructBalancedTree() failed with an unexpected error, %v", err)
+					}
+				} else {
+					gotBFS, err2 := bst.TraverseBFS()
+					if err2 != nil {
+						t.Fatalf("TraverseDBFS() failed with an unexpected error, %v", err2)
+					} else if gotBFS != test.expBFSStr {
+						t.Errorf("BFS tree traversal results are incorrect, want: %v, got %v", test.expBFSStr, gotBFS)
+					}
+
+					gotDFSInOrder, err2 := bst.TraverseDFSInOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSInOrder != test.expDFSInOrderStr {
+						t.Errorf("DFS In Order traversal results are incorrect, want: %v, got %v", test.expDFSInOrderStr, gotDFSInOrder)
+					}
+
+					gotDFSPreOrder, err2 := bst.TraverseDFSPreOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPreOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPreOrder != test.expDFSPreOrderStr {
+						t.Errorf("DFS Pre Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPreOrderStr, gotDFSPreOrder)
+					}
+
+					gotDFSPostOrder, err2 := bst.TraverseDFSPostOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPostOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPostOrder != test.expDFSPostOrderStr {
+						t.Errorf("DFS Post Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPostOrderStr, gotDFSPostOrder)
+					}
+				}
+			})
+		}
+	})
+
+	t.Run("ConstructBalancedTree() prFloat", func(t *testing.T) {
+
+		tests := []struct {
+			name               string
+			input              []prFloat
+			expError           error
+			expBFSStr          string
+			expDFSInOrderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
+		}{
+			{"empty test case", []prFloat{}, noValuesError, "", "", "", ""},
+			{"duplicate element error case", []prFloat{0.0001, 0.0001}, duplicateElementError[prFloat]{0.0001}, "", "", "", ""},
+
+			{"basic test case", []prFloat{0.99999, 1.00001, 1}, nil, "-(1)--(0.99999)--(1.00001)-", "-(0.99999)--(1)--(1.00001)-", "-(1)--(0.99999)--(1.00001)-", "-(0.99999)--(1.00001)--(1)-"},
+
+			{"3 elements 0.01, 0.1, 1", []prFloat{0.01, 0.1, 1}, nil, "-(0.1)--(0.01)--(1)-", "-(0.01)--(0.1)--(1)-", "-(0.1)--(0.01)--(1)-", "-(0.01)--(1)--(0.1)-"},
+			{"3 elements 0.01, 1, 0.1", []prFloat{0.01, 1, 0.1}, nil, "-(0.1)--(0.01)--(1)-", "-(0.01)--(0.1)--(1)-", "-(0.1)--(0.01)--(1)-", "-(0.01)--(1)--(0.1)-"},
+			{"3 elements 0.1, 0.01, 1", []prFloat{0.1, 0.01, 1}, nil, "-(0.1)--(0.01)--(1)-", "-(0.01)--(0.1)--(1)-", "-(0.1)--(0.01)--(1)-", "-(0.01)--(1)--(0.1)-"},
+			{"3 elements 0.1, 1, 0.01", []prFloat{0.1, 1, 0.01}, nil, "-(0.1)--(0.01)--(1)-", "-(0.01)--(0.1)--(1)-", "-(0.1)--(0.01)--(1)-", "-(0.01)--(1)--(0.1)-"},
+			{"3 elements 1, 0.01, 0.1", []prFloat{1, 0.01, 0.1}, nil, "-(0.1)--(0.01)--(1)-", "-(0.01)--(0.1)--(1)-", "-(0.1)--(0.01)--(1)-", "-(0.01)--(1)--(0.1)-"},
+			{"3 elements 1, 0.1, 0.01", []prFloat{1, 0.1, 0.01}, nil, "-(0.1)--(0.01)--(1)-", "-(0.01)--(0.1)--(1)-", "-(0.1)--(0.01)--(1)-", "-(0.01)--(1)--(0.1)-"},
+
+			{"3 element tree", []prFloat{0.01, 0.02, 0.03}, nil, "-(0.02)--(0.01)--(0.03)-", "-(0.01)--(0.02)--(0.03)-", "-(0.02)--(0.01)--(0.03)-", "-(0.01)--(0.03)--(0.02)-"},
+			{"4 element tree", []prFloat{0.01, 0.02, 0.03, 0.04}, nil, "-(0.02)--(0.01)--(0.03)--(0.04)-", "-(0.01)--(0.02)--(0.03)--(0.04)-", "-(0.02)--(0.01)--(0.03)--(0.04)-", "-(0.01)--(0.04)--(0.03)--(0.02)-"},
+			{"5 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05}, nil, "-(0.03)--(0.01)--(0.04)--(0.02)--(0.05)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)-", "-(0.03)--(0.01)--(0.02)--(0.04)--(0.05)-", "-(0.02)--(0.01)--(0.05)--(0.04)--(0.03)-"},
+			{"6 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06}, nil, "-(0.03)--(0.01)--(0.05)--(0.02)--(0.04)--(0.06)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)-", "-(0.03)--(0.01)--(0.02)--(0.05)--(0.04)--(0.06)-", "-(0.02)--(0.01)--(0.04)--(0.06)--(0.05)--(0.03)-"},
+			{"7 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07}, nil, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)-", "-(0.04)--(0.02)--(0.01)--(0.03)--(0.06)--(0.05)--(0.07)-", "-(0.01)--(0.03)--(0.02)--(0.05)--(0.07)--(0.06)--(0.04)-"},
+			{"8 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08}, nil, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)--(0.08)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)--(0.08)-", "-(0.04)--(0.02)--(0.01)--(0.03)--(0.06)--(0.05)--(0.07)--(0.08)-", "-(0.01)--(0.03)--(0.02)--(0.05)--(0.08)--(0.07)--(0.06)--(0.04)-"},
+			{"9 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09}, nil, "-(0.05)--(0.02)--(0.07)--(0.01)--(0.03)--(0.06)--(0.08)--(0.04)--(0.09)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)--(0.08)--(0.09)-", "-(0.05)--(0.02)--(0.01)--(0.03)--(0.04)--(0.07)--(0.06)--(0.08)--(0.09)-", "-(0.01)--(0.04)--(0.03)--(0.02)--(0.06)--(0.09)--(0.08)--(0.07)--(0.05)-"},
+			{"10 element tree", []prFloat{0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1}, nil, "-(0.05)--(0.02)--(0.08)--(0.01)--(0.03)--(0.06)--(0.09)--(0.04)--(0.07)--(0.1)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)--(0.08)--(0.09)--(0.1)-", "-(0.05)--(0.02)--(0.01)--(0.03)--(0.04)--(0.08)--(0.06)--(0.07)--(0.09)--(0.1)-", "-(0.01)--(0.04)--(0.03)--(0.02)--(0.07)--(0.06)--(0.1)--(0.09)--(0.08)--(0.05)-"},
+
+			{"3 element tree, reversed input", []prFloat{0.03, 0.02, 0.01}, nil, "-(0.02)--(0.01)--(0.03)-", "-(0.01)--(0.02)--(0.03)-", "-(0.02)--(0.01)--(0.03)-", "-(0.01)--(0.03)--(0.02)-"},
+			{"4 element tree, reversed input", []prFloat{0.04, 0.03, 0.02, 0.01}, nil, "-(0.02)--(0.01)--(0.03)--(0.04)-", "-(0.01)--(0.02)--(0.03)--(0.04)-", "-(0.02)--(0.01)--(0.03)--(0.04)-", "-(0.01)--(0.04)--(0.03)--(0.02)-"},
+			{"5 element tree, reversed input", []prFloat{0.05, 0.04, 0.03, 0.02, 0.01}, nil, "-(0.03)--(0.01)--(0.04)--(0.02)--(0.05)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)-", "-(0.03)--(0.01)--(0.02)--(0.04)--(0.05)-", "-(0.02)--(0.01)--(0.05)--(0.04)--(0.03)-"},
+			{"6 element tree, reversed input", []prFloat{0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, nil, "-(0.03)--(0.01)--(0.05)--(0.02)--(0.04)--(0.06)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)-", "-(0.03)--(0.01)--(0.02)--(0.05)--(0.04)--(0.06)-", "-(0.02)--(0.01)--(0.04)--(0.06)--(0.05)--(0.03)-"},
+			{"7 element tree, reversed input", []prFloat{0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, nil, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)-", "-(0.04)--(0.02)--(0.01)--(0.03)--(0.06)--(0.05)--(0.07)-", "-(0.01)--(0.03)--(0.02)--(0.05)--(0.07)--(0.06)--(0.04)-"},
+			{"8 element tree, reversed input", []prFloat{0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, nil, "-(0.04)--(0.02)--(0.06)--(0.01)--(0.03)--(0.05)--(0.07)--(0.08)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)--(0.08)-", "-(0.04)--(0.02)--(0.01)--(0.03)--(0.06)--(0.05)--(0.07)--(0.08)-", "-(0.01)--(0.03)--(0.02)--(0.05)--(0.08)--(0.07)--(0.06)--(0.04)-"},
+			{"9 element tree, reversed input", []prFloat{0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, nil, "-(0.05)--(0.02)--(0.07)--(0.01)--(0.03)--(0.06)--(0.08)--(0.04)--(0.09)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)--(0.08)--(0.09)-", "-(0.05)--(0.02)--(0.01)--(0.03)--(0.04)--(0.07)--(0.06)--(0.08)--(0.09)-", "-(0.01)--(0.04)--(0.03)--(0.02)--(0.06)--(0.09)--(0.08)--(0.07)--(0.05)-"},
+			{"10 element tree, reversed input", []prFloat{0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01}, nil, "-(0.05)--(0.02)--(0.08)--(0.01)--(0.03)--(0.06)--(0.09)--(0.04)--(0.07)--(0.1)-", "-(0.01)--(0.02)--(0.03)--(0.04)--(0.05)--(0.06)--(0.07)--(0.08)--(0.09)--(0.1)-", "-(0.05)--(0.02)--(0.01)--(0.03)--(0.04)--(0.08)--(0.06)--(0.07)--(0.09)--(0.1)-", "-(0.01)--(0.04)--(0.03)--(0.02)--(0.07)--(0.06)--(0.1)--(0.09)--(0.08)--(0.05)-"},
+
+			{"15 element tree", []prFloat{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5}, nil, "-(0.8)--(0.4)--(1.2)--(0.2)--(0.6)--(1)--(1.4)--(0.1)--(0.3)--(0.5)--(0.7)--(0.9)--(1.1)--(1.3)--(1.5)-", "-(0.1)--(0.2)--(0.3)--(0.4)--(0.5)--(0.6)--(0.7)--(0.8)--(0.9)--(1)--(1.1)--(1.2)--(1.3)--(1.4)--(1.5)-", "-(0.8)--(0.4)--(0.2)--(0.1)--(0.3)--(0.6)--(0.5)--(0.7)--(1.2)--(1)--(0.9)--(1.1)--(1.4)--(1.3)--(1.5)-", "-(0.1)--(0.3)--(0.2)--(0.5)--(0.7)--(0.6)--(0.4)--(0.9)--(1.1)--(1)--(1.3)--(1.5)--(1.4)--(1.2)--(0.8)-"},
+			{"15 element tree, reversed input", []prFloat{1.5, 1.4, 1.3, 1.2, 1.1, 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1}, nil, "-(0.8)--(0.4)--(1.2)--(0.2)--(0.6)--(1)--(1.4)--(0.1)--(0.3)--(0.5)--(0.7)--(0.9)--(1.1)--(1.3)--(1.5)-", "-(0.1)--(0.2)--(0.3)--(0.4)--(0.5)--(0.6)--(0.7)--(0.8)--(0.9)--(1)--(1.1)--(1.2)--(1.3)--(1.4)--(1.5)-", "-(0.8)--(0.4)--(0.2)--(0.1)--(0.3)--(0.6)--(0.5)--(0.7)--(1.2)--(1)--(0.9)--(1.1)--(1.4)--(1.3)--(1.5)-", "-(0.1)--(0.3)--(0.2)--(0.5)--(0.7)--(0.6)--(0.4)--(0.9)--(1.1)--(1)--(1.3)--(1.5)--(1.4)--(1.2)--(0.8)-"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructBalancedTree[prFloat](test.input...)
+				if err != nil {
+					if errors.Is(err, test.expError) {
+						fmt.Println(err)
+					} else {
+						t.Fatalf("ConstructBalancedTree() failed with an unexpected error, %v", err)
+					}
+				} else {
+					gotBFS, err2 := bst.TraverseBFS()
+					if err2 != nil {
+						t.Fatalf("TraverseDBFS() failed with an unexpected error, %v", err2)
+					} else if gotBFS != test.expBFSStr {
+						t.Errorf("BFS tree traversal results are incorrect, want: %v, got %v", test.expBFSStr, gotBFS)
+					}
+
+					gotDFSInOrder, err2 := bst.TraverseDFSInOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSInOrder != test.expDFSInOrderStr {
+						t.Errorf("DFS In Order traversal results are incorrect, want: %v, got %v", test.expDFSInOrderStr, gotDFSInOrder)
+					}
+
+					gotDFSPreOrder, err2 := bst.TraverseDFSPreOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPreOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPreOrder != test.expDFSPreOrderStr {
+						t.Errorf("DFS Pre Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPreOrderStr, gotDFSPreOrder)
+					}
+
+					gotDFSPostOrder, err2 := bst.TraverseDFSPostOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPostOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPostOrder != test.expDFSPostOrderStr {
+						t.Errorf("DFS Post Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPostOrderStr, gotDFSPostOrder)
+					}
+				}
+			})
+		}
+	})
+
+	t.Run("ConstructBalancedTree() prString", func(t *testing.T) {
+
+		tests := []struct {
+			name               string
+			input              []prString
+			expError           error
+			expBFSStr          string
+			expDFSInOrderStr   string
+			expDFSPreOrderStr  string
+			expDFSPostOrderStr string
+		}{
+			{"empty test case", []prString{}, noValuesError, "", "", "", ""},
+			{"duplicate element error case", []prString{"I", "I"}, duplicateElementError[prString]{"I"}, "", "", "", ""},
+
+			{"basic test case", []prString{"a", "b", "c"}, nil, "-(b)--(a)--(c)-", "-(a)--(b)--(c)-", "-(b)--(a)--(c)-", "-(a)--(c)--(b)-"},
+
+			{"3 elements: I, me, myself", []prString{"I", "me", "myself"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+			{"3 elements: I, myself, me", []prString{"I", "myself", "me"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+			{"3 elements: me, I, myself", []prString{"me", "I", "myself"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+			{"3 elements: me, myself, I", []prString{"me", "myself", "I"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+			{"3 elements: myself, I, me", []prString{"myself", "I", "me"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+			{"3 elements: myself, me, I", []prString{"myself", "me", "I"}, nil, "-(me)--(I)--(myself)-", "-(I)--(me)--(myself)-", "-(me)--(I)--(myself)-", "-(I)--(myself)--(me)-"},
+
+			{"3 element tree", []prString{"a", "an", "any"}, nil, "-(an)--(a)--(any)-", "-(a)--(an)--(any)-", "-(an)--(a)--(any)-", "-(a)--(any)--(an)-"},
+			{"4 element tree", []prString{"a", "an", "any", "ain't"}, nil, "-(ain't)--(a)--(an)--(any)-", "-(a)--(ain't)--(an)--(any)-", "-(ain't)--(a)--(an)--(any)-", "-(a)--(any)--(an)--(ain't)-"},
+			{"5 element tree", []prString{"a", "an", "any", "ain't", "aren't"}, nil, "-(an)--(a)--(any)--(ain't)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(aren't)-", "-(an)--(a)--(ain't)--(any)--(aren't)-", "-(ain't)--(a)--(aren't)--(any)--(an)-"},
+			{"6 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not"}, nil, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(are not)--(aren't)-", "-(an)--(a)--(ain't)--(are not)--(any)--(aren't)-", "-(ain't)--(a)--(any)--(aren't)--(are not)--(an)-"},
+			{"7 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least"}, nil, "-(any)--(ain't)--(aren't)--(a)--(an)--(are not)--(at least)-", "-(a)--(ain't)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(any)--(ain't)--(a)--(an)--(aren't)--(are not)--(at least)-", "-(a)--(an)--(ain't)--(are not)--(at least)--(aren't)--(any)-"},
+			{"8 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although"}, nil, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-", "-(a)--(ain't)--(although)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(an)--(ain't)--(a)--(although)--(are not)--(any)--(aren't)--(at least)-", "-(a)--(although)--(ain't)--(any)--(at least)--(aren't)--(are not)--(an)-"},
+			{"9 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although", "along with"}, nil, "-(an)--(ain't)--(are not)--(a)--(along with)--(any)--(aren't)--(although)--(at least)-", "-(a)--(ain't)--(along with)--(although)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(an)--(ain't)--(a)--(along with)--(although)--(are not)--(any)--(aren't)--(at least)-", "-(a)--(although)--(along with)--(ain't)--(any)--(at least)--(aren't)--(are not)--(an)-"},
+			{"10 element tree", []prString{"a", "an", "any", "ain't", "aren't", "are not", "at least", "although", "along with", "altogether"}, nil, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-", "-(a)--(ain't)--(along with)--(although)--(altogether)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(altogether)--(ain't)--(a)--(along with)--(although)--(are not)--(an)--(any)--(aren't)--(at least)-", "-(a)--(although)--(along with)--(ain't)--(any)--(an)--(at least)--(aren't)--(are not)--(altogether)-"},
+
+			{"3 element tree, reversed input", []prString{"any", "an", "a"}, nil, "-(an)--(a)--(any)-", "-(a)--(an)--(any)-", "-(an)--(a)--(any)-", "-(a)--(any)--(an)-"},
+			{"4 element tree, reversed input", []prString{"ain't", "any", "an", "a"}, nil, "-(ain't)--(a)--(an)--(any)-", "-(a)--(ain't)--(an)--(any)-", "-(ain't)--(a)--(an)--(any)-", "-(a)--(any)--(an)--(ain't)-"},
+			{"5 element tree, reversed input", []prString{"aren't", "ain't", "any", "an", "a"}, nil, "-(an)--(a)--(any)--(ain't)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(aren't)-", "-(an)--(a)--(ain't)--(any)--(aren't)-", "-(ain't)--(a)--(aren't)--(any)--(an)-"},
+			{"6 element tree, reversed input", []prString{"are not", "aren't", "ain't", "any", "an", "a"}, nil, "-(an)--(a)--(are not)--(ain't)--(any)--(aren't)-", "-(a)--(ain't)--(an)--(any)--(are not)--(aren't)-", "-(an)--(a)--(ain't)--(are not)--(any)--(aren't)-", "-(ain't)--(a)--(any)--(aren't)--(are not)--(an)-"},
+			{"7 element tree, reversed input", []prString{"at least", "are not", "aren't", "ain't", "any", "an", "a"}, nil, "-(any)--(ain't)--(aren't)--(a)--(an)--(are not)--(at least)-", "-(a)--(ain't)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(any)--(ain't)--(a)--(an)--(aren't)--(are not)--(at least)-", "-(a)--(an)--(ain't)--(are not)--(at least)--(aren't)--(any)-"},
+			{"8 element tree, reversed input", []prString{"although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, nil, "-(an)--(ain't)--(are not)--(a)--(although)--(any)--(aren't)--(at least)-", "-(a)--(ain't)--(although)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(an)--(ain't)--(a)--(although)--(are not)--(any)--(aren't)--(at least)-", "-(a)--(although)--(ain't)--(any)--(at least)--(aren't)--(are not)--(an)-"},
+			{"9 element tree, reversed input", []prString{"along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, nil, "-(an)--(ain't)--(are not)--(a)--(along with)--(any)--(aren't)--(although)--(at least)-", "-(a)--(ain't)--(along with)--(although)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(an)--(ain't)--(a)--(along with)--(although)--(are not)--(any)--(aren't)--(at least)-", "-(a)--(although)--(along with)--(ain't)--(any)--(at least)--(aren't)--(are not)--(an)-"},
+			{"10 element tree, reversed input", []prString{"altogether", "along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, nil, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-", "-(a)--(ain't)--(along with)--(although)--(altogether)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(altogether)--(ain't)--(a)--(along with)--(although)--(are not)--(an)--(any)--(aren't)--(at least)-", "-(a)--(although)--(along with)--(ain't)--(any)--(an)--(at least)--(aren't)--(are not)--(altogether)-"},
+
+			{"15 element tree", []prString{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"}, nil, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)--(h)--(i)--(j)--(k)--(l)--(m)--(n)--(o)-", "-(h)--(d)--(b)--(a)--(c)--(f)--(e)--(g)--(l)--(j)--(i)--(k)--(n)--(m)--(o)-", "-(a)--(c)--(b)--(e)--(g)--(f)--(d)--(i)--(k)--(j)--(m)--(o)--(n)--(l)--(h)-"},
+			{"15 element tree, reversed input", []prString{"o", "n", "m", "l", "k", "j", "i", "h", "g", "f", "e", "d", "c", "b", "a"}, nil, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)--(h)--(i)--(j)--(k)--(l)--(m)--(n)--(o)-", "-(h)--(d)--(b)--(a)--(c)--(f)--(e)--(g)--(l)--(j)--(i)--(k)--(n)--(m)--(o)-", "-(a)--(c)--(b)--(e)--(g)--(f)--(d)--(i)--(k)--(j)--(m)--(o)--(n)--(l)--(h)-"},
+		}
+
+		for _, test := range tests {
+			t.Run(test.name, func(t *testing.T) {
+				bst, err := ConstructBalancedTree[prString](test.input...)
+				if err != nil {
+					if errors.Is(err, test.expError) {
+						fmt.Println(err)
+					} else {
+						t.Fatalf("ConstructBalancedTree() failed with an unexpected error, %v", err)
+					}
+				} else {
+					gotBFS, err2 := bst.TraverseBFS()
+					if err2 != nil {
+						t.Fatalf("TraverseDBFS() failed with an unexpected error, %v", err2)
+					} else if gotBFS != test.expBFSStr {
+						t.Errorf("BFS tree traversal results are incorrect, want: %v, got %v", test.expBFSStr, gotBFS)
+					}
+
+					gotDFSInOrder, err2 := bst.TraverseDFSInOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSInOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSInOrder != test.expDFSInOrderStr {
+						t.Errorf("DFS In Order traversal results are incorrect, want: %v, got %v", test.expDFSInOrderStr, gotDFSInOrder)
+					}
+
+					gotDFSPreOrder, err2 := bst.TraverseDFSPreOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPreOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPreOrder != test.expDFSPreOrderStr {
+						t.Errorf("DFS Pre Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPreOrderStr, gotDFSPreOrder)
+					}
+
+					gotDFSPostOrder, err2 := bst.TraverseDFSPostOrder()
+					if err2 != nil {
+						t.Fatalf("TraverseDFSPostOrder() failed with an unexpected error, %v", err2)
+					} else if gotDFSPostOrder != test.expDFSPostOrderStr {
+						t.Errorf("DFS Post Order tree traversal results are incorrect, want: %v, got %v", test.expDFSPostOrderStr, gotDFSPostOrder)
+					}
+				}
+			})
+		}
+	})
+}

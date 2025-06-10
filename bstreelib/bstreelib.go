@@ -5,6 +5,7 @@ import (
 	"cmp"
 	"fmt"
 	"github.com/pluckynumbat/go-quez/sgquezlib"
+	"slices"
 )
 
 const invalidCount = -1
@@ -12,6 +13,7 @@ const invalidCount = -1
 var nodeNilError = fmt.Errorf("the node is nil")
 var treeNilError = fmt.Errorf("the binary search tree is nil")
 var treeEmptyError = fmt.Errorf("the binary search tree is empty")
+var noValuesError = fmt.Errorf("there are no values in the input")
 
 // duplicateElementError is a custom error raised when an element already present in the tree is attempted to be inserted
 type duplicateElementError[T BinarySearchTreeElement] struct {
@@ -19,7 +21,7 @@ type duplicateElementError[T BinarySearchTreeElement] struct {
 }
 
 // duplicateElementError's implementation of the Error interface
-func (err *duplicateElementError[T]) Error() string {
+func (err duplicateElementError[T]) Error() string {
 	return fmt.Sprintf("the binary search tree already has the value attempting to be inserted: %v", err.value)
 }
 
@@ -120,7 +122,7 @@ func (bst *BinarySearchTree[T]) Insert(value T) error {
 
 	for runner != nil {
 		if runner.data == value { // the value is already present
-			return &duplicateElementError[T]{value}
+			return duplicateElementError[T]{value}
 		}
 
 		if runner.data > value {
@@ -402,4 +404,25 @@ func recurseInsertNode[T BinarySearchTreeElement](bst *BinarySearchTree[T], slic
 	}
 
 	return nil
+}
+
+// ConstructBalancedTree is a helper function to insert all the given values into a binary search tree, in a manner which creates a balanced tree
+func ConstructBalancedTree[T BinarySearchTreeElement](values ...T) (*BinarySearchTree[T], error) {
+
+	cnt := len(values)
+	if cnt == 0 {
+		return nil, noValuesError
+	}
+
+	slices.Sort(values)
+
+	bst := &BinarySearchTree[T]{}
+
+	// recursively insert elements from the input values into the binary search tree
+	insertErr := recurseInsertNode(bst, values, 0, cnt-1)
+	if insertErr != nil {
+		return nil, insertErr
+	}
+
+	return bst, nil
 }
