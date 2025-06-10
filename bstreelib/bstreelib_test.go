@@ -2377,6 +2377,7 @@ func TestConstructBalancedTree(t *testing.T) {
 			{"10 element tree, reversed input", []prString{"altogether", "along with", "although", "at least", "are not", "aren't", "ain't", "any", "an", "a"}, nil, "-(altogether)--(ain't)--(are not)--(a)--(along with)--(an)--(aren't)--(although)--(any)--(at least)-", "-(a)--(ain't)--(along with)--(although)--(altogether)--(an)--(any)--(are not)--(aren't)--(at least)-", "-(altogether)--(ain't)--(a)--(along with)--(although)--(are not)--(an)--(any)--(aren't)--(at least)-", "-(a)--(although)--(along with)--(ain't)--(any)--(an)--(at least)--(aren't)--(are not)--(altogether)-"},
 
 			{"15 element tree", []prString{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"}, nil, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)--(h)--(i)--(j)--(k)--(l)--(m)--(n)--(o)-", "-(h)--(d)--(b)--(a)--(c)--(f)--(e)--(g)--(l)--(j)--(i)--(k)--(n)--(m)--(o)-", "-(a)--(c)--(b)--(e)--(g)--(f)--(d)--(i)--(k)--(j)--(m)--(o)--(n)--(l)--(h)-"},
+			{"15 element tree, reversed input", []prString{"o", "n", "m", "l", "k", "j", "i", "h", "g", "f", "e", "d", "c", "b", "a"}, nil, "-(h)--(d)--(l)--(b)--(f)--(j)--(n)--(a)--(c)--(e)--(g)--(i)--(k)--(m)--(o)-", "-(a)--(b)--(c)--(d)--(e)--(f)--(g)--(h)--(i)--(j)--(k)--(l)--(m)--(n)--(o)-", "-(h)--(d)--(b)--(a)--(c)--(f)--(e)--(g)--(l)--(j)--(i)--(k)--(n)--(m)--(o)-", "-(a)--(c)--(b)--(e)--(g)--(f)--(d)--(i)--(k)--(j)--(m)--(o)--(n)--(l)--(h)-"},
 		}
 
 		for _, test := range tests {
